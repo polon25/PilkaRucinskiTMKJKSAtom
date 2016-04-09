@@ -7,42 +7,22 @@ import javax.swing.JFrame;
 
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Graphics;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Random;
 
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
+
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JSlider;
-import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+
 
 
 
@@ -184,7 +164,7 @@ public class Interface extends JFrame {
 	}
 
 	
-	private static final int CONTROL_PANEL_FILLER = 5;
+	
 	
 	JPanel leftPanel = new JPanel();
 	JPanel rightPanel = new JPanel();
@@ -196,6 +176,7 @@ public class Interface extends JFrame {
 		setSize(800,600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
+		setTitle("Symulator Bomby Atomowej");
 		
 		setJMenuBar(createMenu());
 		
@@ -241,7 +222,10 @@ public class Interface extends JFrame {
 
 class KeyClass extends JPanel implements KeyListener{
 
-    public void keyTyped(KeyEvent e) {
+ 
+	private static final long serialVersionUID = 1L;
+
+	public void keyTyped(KeyEvent e) {
     	if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
         {  
     		System.out.println("System zamknięto!");
