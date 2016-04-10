@@ -2,6 +2,8 @@ package pl.pw.edu.fizyka.pojawa.TMKJKS;
 
 import java.awt.HeadlessException;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -12,6 +14,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class Interface extends JFrame {
 	
@@ -36,11 +39,20 @@ public class Interface extends JFrame {
 		add(BorderLayout.SOUTH, bottomPanel);
 		
 		manePanel.setLayout(new GridLayout(1,2));
-		bottomPanel.setLayout(new FlowLayout());
+		bottomPanel.setLayout(new GridLayout(1, 5));
 		
 		//podziaÅ‚ na kolumny
 		manePanel.add(new Mock("Wykres zmian energii od czasu"));
 		manePanel.add(new Mock("Wykres zmian energii od czasu"));
+		
+		JTextField maxEnergy = new JTextField("");
+		JTextField Energy = new JTextField("");
+		
+		bottomPanel.add(new JLabel("Energia maksymalna[J]:"));
+		bottomPanel.add(maxEnergy);
+		bottomPanel.add(new JLabel());
+		bottomPanel.add(new JLabel("Energia obecnie[J]:"));
+		bottomPanel.add(Energy);
 	}
 	
 	public JMenuBar createMenu(){
@@ -96,9 +108,10 @@ public class Interface extends JFrame {
 					System.out.println("Zmiana jêzyka na polski");  
 					//TODO Make a changing language instruction
 				}
-				else if(e.getSource()==englishLanguageMenuItem){
+				else if(e.getSource()==symulationOptionMenuItem){
 					System.out.println("Uruchomiono okienko opcji symulacji"); 
-					//TODO Make a starting simulation instruction
+					Options opcje = new Options();
+					opcje.setVisible(true);
 				}
 				else if(e.getSource()==startStopMenuItem){
 					System.out.println("uruchomiono okienko opcji symulacji");
