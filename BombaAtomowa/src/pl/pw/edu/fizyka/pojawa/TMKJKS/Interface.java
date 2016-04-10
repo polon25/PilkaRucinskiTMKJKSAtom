@@ -1,163 +1,27 @@
 package pl.pw.edu.fizyka.pojawa.TMKJKS;
 
 import java.awt.HeadlessException;
-
 import javax.swing.JFrame;
-
-
-
 import java.awt.BorderLayout;
-
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Random;
-
-
-
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-
 import javax.swing.JPanel;
-
-
-
 
 public class Interface extends JFrame {
 	
 	private static final long serialVersionUID = 185723979423401295L;
 	Random rand = new Random();
-
-//creating main menu method
-	public JMenuBar createMenu(){
-		
-		JMenuBar menuBar;
-		JMenu menu;
-		JMenu submenu;
-		
-		JMenuItem closeMenuItem;
-		JMenuItem saveMenuItem;
-		
-		JMenuItem polishLanguageMenuItem;
-		JMenuItem englishLanguageMenuItem;
-		
-		JMenuItem symulationOptionMenuItem;
-		JMenuItem startStopMenuItem;
-
-		//creating the menu bar
-		menuBar = new JMenuBar();
-	    
-		//building main menu
-		menu = new JMenu("Plik");
-		menuBar.add(menu);
-
-	
-		saveMenuItem = new JMenuItem("Zapisz");
-		menu.add(saveMenuItem);
-		menu.addSeparator();
-		
-		submenu = new JMenu("Język");
-		
-		polishLanguageMenuItem = new JMenuItem("polski");
-		submenu.add(polishLanguageMenuItem);
-		submenu.addSeparator();	
-		
-		englishLanguageMenuItem= new JMenuItem("angielski");
-		submenu.add(englishLanguageMenuItem);
-		menu.add(submenu);
-		
-		menu.addSeparator();
-		closeMenuItem = new JMenuItem("Zamknij");
-		menu.add(closeMenuItem);
-		
-		menu = new JMenu("Symulacja");
-		
-		startStopMenuItem = new JMenuItem("Start / Stop");
-		menu.add(startStopMenuItem);
-		submenu.addSeparator();
-		
-		symulationOptionMenuItem = new JMenuItem("Opcje Symulacji");
-		menu.add(symulationOptionMenuItem);
-
-		
-
-		menuBar.add(menu);
-		
-		
-//listeners
-		//close button listener
-		closeMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-	            System.out.println("Zamknięto system!");
-	            System.exit(1);
-			}
-		});
-		
-		//save button listener
-		saveMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-	            System.out.println("Plik zapisano");  
-	            //msc na instrukcje do zapisu pliku     
-			}
-		});
-		
-		//polish language button listener
-		polishLanguageMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-	            System.out.println("zmiana jezyka na polski");     
-	            //msc na instrukcje do zmiany jezyka na polski
-	            
-			}
-		});
-		
-		//English language button listener
-		englishLanguageMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-	            System.out.println("zmiana jezyka na angielksi");
-	            
-	            // msc na instrukcje do zmiany jezyka na angielki
-	              
-			}
-		});
-		
-		//symulation option button listener
-		symulationOptionMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-	            System.out.println("uruchomiono okienko opcji symulacji");
-	            
-	            // msc na instrukcje otworzenia okienka symulacji
-	            
-			}
-		});
-		
-		//start stop symulation button listener
-		startStopMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-	            System.out.println("uruchomiono okienko opcji symulacji");
-	            
-	            // msc na instrukcje start stop symulacji
-	            
-	            
-			}
-		});
-		
-		
-		return menuBar;
-	}
-
-	
-	
-	
-	JPanel leftPanel = new JPanel();
-	JPanel rightPanel = new JPanel();
+	static JFrame window = new Interface();
 
 //interface constructor	
 	public Interface() throws HeadlessException {
 		
-		super();
 		setSize(800,600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
@@ -165,73 +29,96 @@ public class Interface extends JFrame {
 		
 		setJMenuBar(createMenu());
 		
-		//podział na kolumny
-		GridLayout gLayout = new GridLayout(1,2); 
-		setLayout(gLayout);
-		add(leftPanel);
-		add(rightPanel);
+		JPanel manePanel = new JPanel();
+		JPanel bottomPanel = new JPanel();
 		
-		//lewa kolumna
-		leftPanel.setLayout(new BorderLayout());
-		leftPanel.add(new Mock("Wykres zmian energii od czasu"), BorderLayout.CENTER);
+		add(BorderLayout.CENTER, manePanel);
+		add(BorderLayout.SOUTH, bottomPanel);
+		
+		manePanel.setLayout(new GridLayout(1,2));
+		bottomPanel.setLayout(new FlowLayout());
+		
+		//podział na kolumny
+		manePanel.add(new Mock("Wykres zmian energii od czasu"));
+		manePanel.add(new Mock("Wykres zmian energii od czasu"));
+	}
+	
+	public JMenuBar createMenu(){
 
-		rightPanel.setLayout(new BorderLayout());
-		rightPanel.add(new Mock("Symulacja ruchu atomów"), BorderLayout.CENTER);
+		JMenuBar menuBar = new JMenuBar();	//building main menu
+		JMenu menu = new JMenu("Plik");
+		menuBar.add(menu);
 
+		JMenuItem saveMenuItem = new JMenuItem("Zapisz");
+		menu.add(saveMenuItem);
+		menu.addSeparator();
+		
+		JMenu submenu = new JMenu("J�zyk");
+		
+		JMenuItem polishLanguageMenuItem = new JMenuItem("polski");
+		submenu.add(polishLanguageMenuItem);
+		submenu.addSeparator();	
+		
+		JMenuItem englishLanguageMenuItem= new JMenuItem("angielski");
+		submenu.add(englishLanguageMenuItem);
+		menu.add(submenu);
+		
+		menu.addSeparator();
+		JMenuItem closeMenuItem = new JMenuItem("Zamknij");
+		menu.add(closeMenuItem);
+		
+		menu = new JMenu("Symulacja");
+		
+		JMenuItem startStopMenuItem = new JMenuItem("Start / Stop");
+		menu.add(startStopMenuItem);
+		submenu.addSeparator();
+		
+		JMenuItem symulationOptionMenuItem = new JMenuItem("Opcje Symulacji");
+		menu.add(symulationOptionMenuItem);
+
+		menuBar.add(menu);
+		
+		ActionListener menuListener=new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				if(e.getSource()==closeMenuItem){
+					System.out.println("Zamkni�to program");
+		            System.exit(1);
+				}
+				else if(e.getSource()==saveMenuItem){
+					System.out.println("Plik zapisano");
+					//TODO Make a saving instruction
+				}
+				else if(e.getSource()==polishLanguageMenuItem){
+					System.out.println("Zmiana j�zyka na polski");  
+					//TODO Make a changing language instruction
+				}
+				else if(e.getSource()==englishLanguageMenuItem){
+					System.out.println("Zmiana j�zyka na polski");  
+					//TODO Make a changing language instruction
+				}
+				else if(e.getSource()==englishLanguageMenuItem){
+					System.out.println("Uruchomiono okienko opcji symulacji"); 
+					//TODO Make a starting simulation instruction
+				}
+				else if(e.getSource()==startStopMenuItem){
+					System.out.println("uruchomiono okienko opcji symulacji");
+					//TODO Make an option window instruction
+				}
+			}
+		};
+		
+		closeMenuItem.addActionListener(menuListener);
+		saveMenuItem.addActionListener(menuListener);
+		polishLanguageMenuItem.addActionListener(menuListener);
+		englishLanguageMenuItem.addActionListener(menuListener);
+		symulationOptionMenuItem.addActionListener(menuListener);
+		startStopMenuItem.addActionListener(menuListener);
+
+		return menuBar;
 	}
 
 	public static void main(String[] args) {
 		JFrame f = new Interface();
 		f.setVisible(true);
-      //dodanie rysowania myszy
-		
-	    KeyClass keyClass=new KeyClass();
-
-	    f.addKeyListener(keyClass);
-	    f.setFocusable(true);
-		
-		
 	}
-	
-	
-
-
-
-}
-
-
-
-
-
-//obsługa klawiatury
-
-class KeyClass extends JPanel implements KeyListener{
-
- 
-	private static final long serialVersionUID = 1L;
-
-	public void keyTyped(KeyEvent e) {
-    	if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-        {  
-    		System.out.println("System zamknięto!");
-            System.exit(1);
-        }
-    }
-    public void keyPressed(KeyEvent e) {
-    	if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-        {  
-    		System.out.println("System zamknięto!");
-            System.exit(1);
-        }
-    }
-	
-    public void keyReleased(KeyEvent e) {
-    	if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-        {  
-    		System.out.println("System zamknięto!");
-            System.exit(1);
-        }
-
-
-    }
 }
