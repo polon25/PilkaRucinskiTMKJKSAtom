@@ -38,7 +38,6 @@ public class Interface extends JFrame {
 		JMenu menu;
 		JMenu submenu;
 		
-		
 		JMenuItem closeMenuItem;
 		JMenuItem saveMenuItem;
 		
@@ -48,9 +47,6 @@ public class Interface extends JFrame {
 		JMenuItem symulationOptionMenuItem;
 		JMenuItem startStopMenuItem;
 
-		
-		
-		
 		//creating the menu bar
 		menuBar = new JMenuBar();
 	    
@@ -88,11 +84,6 @@ public class Interface extends JFrame {
 
 		
 
-		
-		
-
-		
-		
 		menuBar.add(menu);
 		
 		
@@ -108,23 +99,19 @@ public class Interface extends JFrame {
 		//save button listener
 		saveMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-	            System.out.println("Plik zapisano");
-	            
-	            //msc na instrukcje do zapisu pliku
-	            
+	            System.out.println("Plik zapisano");  
+	            //msc na instrukcje do zapisu pliku     
 			}
 		});
 		
 		//polish language button listener
 		polishLanguageMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-	            System.out.println("zmiana jezyka na polski");
-	            
+	            System.out.println("zmiana jezyka na polski");     
 	            //msc na instrukcje do zmiany jezyka na polski
 	            
 			}
 		});
-		
 		
 		//English language button listener
 		englishLanguageMenuItem.addActionListener(new ActionListener() {
@@ -132,8 +119,7 @@ public class Interface extends JFrame {
 	            System.out.println("zmiana jezyka na angielksi");
 	            
 	            // msc na instrukcje do zmiany jezyka na angielki
-	            
-	            
+	              
 			}
 		});
 		
@@ -143,7 +129,6 @@ public class Interface extends JFrame {
 	            System.out.println("uruchomiono okienko opcji symulacji");
 	            
 	            // msc na instrukcje otworzenia okienka symulacji
-	            
 	            
 			}
 		});
