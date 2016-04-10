@@ -6,7 +6,7 @@ import java.awt.*;
 /**
  * Just a panel that shows very big button.
  */
-public class Mock extends JPanel {
+public class Mock extends JPanel { //by Antoni Rucinski
 
     public Mock(String name) {
         super();

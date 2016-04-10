@@ -16,7 +16,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Interface extends JFrame {
+public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 	
 	private static final long serialVersionUID = 185723979423401295L;
 	Random rand = new Random();
