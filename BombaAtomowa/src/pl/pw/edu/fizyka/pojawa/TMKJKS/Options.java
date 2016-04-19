@@ -4,14 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -51,7 +47,7 @@ public class Options extends JFrame { //by Jacek Pilka
 		rightPanelA.setLayout(new GridLayout(4,1));
 		rightPanelA.add(new JLabel());
 		rightPanelA.add(new JLabel("Materia³ otaczaj¹cy"));
-		rightPanelA.add(new JLabel("Masa próbki"));
+		rightPanelA.add(new JLabel("Masa próbki [kg]"));
 		
 		manePanel.add(leftPanelA);
 		manePanel.add(leftPanel);
@@ -106,9 +102,11 @@ public class Options extends JFrame { //by Jacek Pilka
 		    		V=m/densityU;
 		    		if(shapes.getSelectedItem()=="Kula"){
 	    				r=(float) Math.sqrt(V/3.14);
+	    				shape.setText(String.valueOf(r));
 	    			}
 	    			else if(shapes.getSelectedItem()=="Szeœcian"){
 	    				a=(float) Math.cbrt(V);
+	    				shape.setText(String.valueOf(a));
 	    			}
 		    	}
 		    	else if(e.getSource()==shape){
