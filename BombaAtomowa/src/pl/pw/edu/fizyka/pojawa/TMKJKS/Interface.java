@@ -55,6 +55,12 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 		bottomPanel.add(Energy);
 	}
 	
+	/**
+	 * 
+	 * Simply comment
+	 * 
+	 */
+	
 	public JMenuBar createMenu(){
 
 		JMenuBar menuBar = new JMenuBar();	//building main menu
