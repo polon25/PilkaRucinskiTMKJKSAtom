@@ -16,7 +16,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Interface extends JFrame { //by Antoni Ruciñski & Jacek Pi³ka
+public class Interface extends JFrame { //by Antoni RuciÅ„ski & Jacek PiÅ‚ka
 	
 	private static final long serialVersionUID = 185723979423401295L;
 	Random rand = new Random();
@@ -62,31 +62,31 @@ public class Interface extends JFrame { //by Antoni Ruciñski & Jacek Pi³ka
 		JMenu menu = new JMenu("Plik");
 		menuBar.add(menu);
 
-		JMenuItem saveMenuItem = new JMenuItem("Zapisz");
+		final JMenuItem saveMenuItem = new JMenuItem("Zapisz");
 		menu.add(saveMenuItem);
 		menu.addSeparator();
 		
-		JMenu submenu = new JMenu("Jêzyk");
+		JMenu submenu = new JMenu("Jï¿½zyk");
 		
-		JMenuItem polishLanguageMenuItem = new JMenuItem("polski");
+		final JMenuItem polishLanguageMenuItem = new JMenuItem("polski");
 		submenu.add(polishLanguageMenuItem);
 		submenu.addSeparator();	
 		
-		JMenuItem englishLanguageMenuItem= new JMenuItem("angielski");
+		final JMenuItem englishLanguageMenuItem= new JMenuItem("angielski");
 		submenu.add(englishLanguageMenuItem);
 		menu.add(submenu);
 		
 		menu.addSeparator();
-		JMenuItem closeMenuItem = new JMenuItem("Zamknij");
+		final JMenuItem closeMenuItem = new JMenuItem("Zamknij");
 		menu.add(closeMenuItem);
 		
 		menu = new JMenu("Symulacja");
 		
-		JMenuItem startStopMenuItem = new JMenuItem("Start / Stop");
+		final JMenuItem startStopMenuItem = new JMenuItem("Start / Stop");
 		menu.add(startStopMenuItem);
 		submenu.addSeparator();
 		
-		JMenuItem symulationOptionMenuItem = new JMenuItem("Opcje Symulacji");
+		final JMenuItem symulationOptionMenuItem = new JMenuItem("Opcje Symulacji");
 		menu.add(symulationOptionMenuItem);
 
 		menuBar.add(menu);
@@ -94,7 +94,7 @@ public class Interface extends JFrame { //by Antoni Ruciñski & Jacek Pi³ka
 		ActionListener menuListener=new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				if(e.getSource()==closeMenuItem){
-					System.out.println("Zamkniêto program");
+					System.out.println("Zamkniï¿½to program");
 		            System.exit(1);
 				}
 				else if(e.getSource()==saveMenuItem){
@@ -102,11 +102,11 @@ public class Interface extends JFrame { //by Antoni Ruciñski & Jacek Pi³ka
 					//TODO Make a saving instruction
 				}
 				else if(e.getSource()==polishLanguageMenuItem){
-					System.out.println("Zmiana jêzyka na polski");  
+					System.out.println("Zmiana jï¿½zyka na polski");  
 					//TODO Make a changing language instruction
 				}
 				else if(e.getSource()==englishLanguageMenuItem){
-					System.out.println("Zmiana jêzyka na polski");  
+					System.out.println("Zmiana jï¿½zyka na polski");  
 					//TODO Make a changing language instruction
 				}
 				else if(e.getSource()==symulationOptionMenuItem){
@@ -154,7 +154,7 @@ public class Interface extends JFrame { //by Antoni Ruciñski & Jacek Pi³ka
 			//exec.execute(simulation);
 			simulation.simulate();
 			if(simulation.neutrons.size()<1){
-				System.out.println("Brak neutronów!");
+				System.out.println("Brak neutronï¿½w!");
 				break;
 			}
 			Energy.setText(Float.toString(simulation.energy));
