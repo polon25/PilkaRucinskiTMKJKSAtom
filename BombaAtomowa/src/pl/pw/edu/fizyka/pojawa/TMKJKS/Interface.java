@@ -10,6 +10,9 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -133,5 +136,9 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 	public static void main(String[] args) {
 		JFrame f = new Interface();
 		f.setVisible(true);
+		Simulation simulation=new Simulation("Uran", 52, 0.0027296590402, "Kwadrat", 0.13975568);
+		ExecutorService exec = Executors.newFixedThreadPool(1);
+			exec.execute(simulation);
+			exec.shutdown();
 	}
 }
