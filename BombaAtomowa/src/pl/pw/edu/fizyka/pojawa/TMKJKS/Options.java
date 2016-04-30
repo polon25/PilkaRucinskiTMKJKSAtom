@@ -14,13 +14,15 @@ import javax.swing.JTextField;
 public class Options extends JFrame { //by Jacek Pi³ka
 	
 	static JFrame window = new Options();
-	double V=0;
+	public double V=0;
 	double densityU = 19050;
 	double densityP = 19816;
-	double m=0;
-	float r=0;
-	float a=0;
+	public double m=0;
+	public float r=0;
+	public float a=0;
 	String shapeText = "Promieñ [m]";
+	public String materialShape = "Kula";
+	public String element = "Uran";
 	
 	public Options(){
 		setSize(500,300);
@@ -83,7 +85,7 @@ public class Options extends JFrame { //by Jacek Pi³ka
 		ActionListener listener = new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		    	if(e.getSource()==elements){
-		    		
+		    		element=(String) elements.getSelectedItem();
 		    	}
 		    	else if(e.getSource()==shapes){
 		    		if(shapes.getSelectedItem()=="Kula"){
@@ -93,6 +95,7 @@ public class Options extends JFrame { //by Jacek Pi³ka
 	    				shapeText="KrawêdŸ [m]";
 	    			}
 		    		label.setText(shapeText);
+		    		materialShape=(String) shapes.getSelectedItem();
 		    	}
 		    	else if(e.getSource()==materials){
 		    		

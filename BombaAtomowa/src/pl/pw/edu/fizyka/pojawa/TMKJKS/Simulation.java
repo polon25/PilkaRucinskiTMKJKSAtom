@@ -3,23 +3,25 @@ package pl.pw.edu.fizyka.pojawa.TMKJKS;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Simulation /**implements Runnable**/{//by Jacek Pi³ka
+import javax.swing.SwingUtilities;
+
+public class Simulation implements Runnable{//by Jacek Pi³ka
 	volatile public float energy=0;//J
 	volatile public float maxEnergy=0;//J
-	float energyMeV =0;//MeV
-	float maxEnergyMeV=0;//MeV
-	double distance=0;
-	float mol=0;
-	float uranMolMass=238; //g/mol
-	float plutonMolMass=244; //g/mol
-	int numberOfAtoms=0;
-	int numberOfNeutrons=0;
-	int time=0;//us
-	boolean first=true;//Is it first moment?
-	double a=0;
+	volatile float energyMeV =0;//MeV
+	volatile float maxEnergyMeV=0;//MeV
+	volatile double distance=0;
+	volatile float mol=0;
+	volatile float uranMolMass=238; //g/mol
+	volatile float plutonMolMass=244; //g/mol
+	volatile int numberOfAtoms=0;
+	volatile int numberOfNeutrons=0;
+	volatile int time=0;//us
+	volatile boolean first=true;//Is it first moment?
+	volatile double a=0;
 	
-	ArrayList<Particle> atoms = new ArrayList<Particle>();
-	ArrayList<Particle> neutrons = new ArrayList<Particle>();
+	volatile ArrayList<Particle> atoms = new ArrayList<Particle>();
+	volatile ArrayList<Particle> neutrons = new ArrayList<Particle>();
 	
 	public Simulation(String element, double m, double V, String shape, double A){
 		System.out.println("Rozpoczynam tworzenie simulation");
@@ -74,9 +76,14 @@ public class Simulation /**implements Runnable**/{//by Jacek Pi³ka
 		numberOfNeutrons++;
 	}
 
-	public void simulate(){
+	public void run(){
+		synchronized(this){
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					synchronized(this){
 		Random r = new Random();
-		//for(int l=0; l<100; l++){
+		//for(int l=0; l<20; l++){
 			energyMeV=0;
 			energy=0;
 			int nN=numberOfNeutrons;
@@ -188,6 +195,9 @@ public class Simulation /**implements Runnable**/{//by Jacek Pi³ka
 				break;
 			}**/
 			time++;
-		//}
+		}
+				}
+			});
+		}
 	}
 }
