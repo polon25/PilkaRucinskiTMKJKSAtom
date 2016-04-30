@@ -3,7 +3,7 @@ package pl.pw.edu.fizyka.pojawa.TMKJKS;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Simulation /**implements Runnable**/{//by Jacek Pi³ka
+public class Simulation /**implements Runnable**/{//by Jacek PiÅ‚ka
 	volatile public float energy=0;//J
 	volatile public float maxEnergy=0;//J
 	float energyMeV =0;//MeV
@@ -38,14 +38,14 @@ public class Simulation /**implements Runnable**/{//by Jacek Pi³ka
 		mol=(float)(m/1000)/molMass;
 		System.out.println("Liczba moli: "+mol);
 		numberOfAtoms=(int) ((mol*6.02*Math.pow(10.0,8.0)));//must be pow(10.0,23)
-		System.out.println("iloœæ atomów: "+numberOfAtoms);
+		System.out.println("iloÅ›Ä‡ atomÃ³w: "+numberOfAtoms);
 		distance=a/Math.pow(numberOfAtoms, 1.0/3.0);
 		elementMass=(float) (molMass/(6.02*Math.pow(10.0,8.0)));
 		
 		float elementV=(float) ((elementMass/density));
-		System.out.println("Objêtosæ atomu: "+elementV);
+		System.out.println("ObjÄ™tosÄ‡ atomu: "+elementV);
 		//distance=2*(Math.pow(elementV*3/(3.14*4),1.0/3.0));
-		System.out.println("Odleg³oœæ miêdzy atomami: "+distance);
+		System.out.println("OdlegÅ‚oÅ›Ä‡ miÄ™dzy atomami: "+distance);
 		
 		//float x=(float)-a/2; float y=(float)-a/2; float z=(float)-a/2;
 		int nx=0,ny=0,nz=0;
@@ -64,10 +64,10 @@ public class Simulation /**implements Runnable**/{//by Jacek Pi³ka
 		}
 		for(int i=0; i<numberOfAtoms-1; i++){
 			if(atoms.get(i).x==atoms.get(i+1).x){
-				System.out.println("B³¹d!");
+				System.out.println("BÅ‚Ä…d!");
 			}
 		}
-		System.out.println("Szeœcian ma wymiary: "+nx+" "+ny+" "+nz);
+		System.out.println("SzeÅ›cian ma wymiary: "+nx+" "+ny+" "+nz);
 		Random r = new Random();
 		Particle startAtom = atoms.get(r.nextInt(numberOfAtoms));
 		neutrons.add(new Particle(startAtom.x,startAtom.y,startAtom.z,0,true));
@@ -84,7 +84,7 @@ public class Simulation /**implements Runnable**/{//by Jacek Pi³ka
 			ArrayList<Float> atomy = new ArrayList<Float>();
 			ArrayList<Float> atomz = new ArrayList<Float>();
 			int nA=0;//number of used atom, which was removed
-			System.out.println("Iloœæ atomów: "+numberOfAtoms);
+			System.out.println("IloÅ›Ä‡ atomÃ³w: "+numberOfAtoms);
 			for(int i=0; i<nN; i++){//every neutron
 				for (int j=0; j<numberOfAtoms; j++){//searching for neutrons hitting atom
 					neutrons.get(i).interact(atoms.get(j));
@@ -136,7 +136,7 @@ public class Simulation /**implements Runnable**/{//by Jacek Pi³ka
 						numberOfFission++;
 						for(int k=0; k<2;k++){ //add 2 neutrons
 							neutrons.add(new Particle(atomx.get(nA), atomy.get(nA), atomz.get(nA), r.nextInt(6)+1, false));
-							//System.out.println("Doda³em wspó³rzêdne");
+							//System.out.println("Dodaï¿½em wspï¿½rzï¿½dne");
 							//adding new neutron with array of used atom's x,y,z
 							Particle thisNeutron=neutrons.get(neutrons.size()-1);
 							switch(thisNeutron.direction){//direction of new neutron
@@ -167,7 +167,7 @@ public class Simulation /**implements Runnable**/{//by Jacek Pi³ka
 					}
 				}
 			}
-			System.out.println("Liczba neutronów: "+numberOfNeutrons);
+			System.out.println("Liczba neutronÃ³w: "+numberOfNeutrons);
 			for (int i=0; i<neutrons.size(); i++){
 				if(neutrons.get(i).x>a/2||neutrons.get(i).x<-a/2||neutrons.get(i).y>a/2||neutrons.get(i).y<-a/2||
 						neutrons.get(i).z>a/2||neutrons.get(i).z<-a/2){
@@ -176,7 +176,7 @@ public class Simulation /**implements Runnable**/{//by Jacek Pi³ka
 					i--;
 				}
 			}
-			System.out.println("Liczba rozpadów: "+numberOfFission);
+			System.out.println("Liczba rozpadÃ³w: "+numberOfFission);
 			energy=(float) (energyMeV*1.602*Math.pow(10,-13));
 			if(energyMeV>maxEnergyMeV){
 				maxEnergyMeV=energyMeV;
@@ -184,7 +184,7 @@ public class Simulation /**implements Runnable**/{//by Jacek Pi³ka
 			}
 			System.out.println("E("+time+"us): "+energy+"J, "+energyMeV+"MeV");
 			/**if(neutrons.size()<1){
-				System.out.println("Brak neutronów!");
+				System.out.println("Brak neutronÃ³w!");
 				break;
 			}**/
 			time++;

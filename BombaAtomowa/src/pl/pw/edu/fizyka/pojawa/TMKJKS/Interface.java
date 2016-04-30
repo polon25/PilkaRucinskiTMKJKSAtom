@@ -66,7 +66,7 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 		menu.add(saveMenuItem);
 		menu.addSeparator();
 		
-		JMenu submenu = new JMenu("J�zyk");
+		JMenu submenu = new JMenu("Język");
 		
 		final JMenuItem polishLanguageMenuItem = new JMenuItem("polski");
 		submenu.add(polishLanguageMenuItem);
@@ -94,7 +94,7 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 		ActionListener menuListener=new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				if(e.getSource()==closeMenuItem){
-					System.out.println("Zamkni�to program");
+					System.out.println("Zamknięto program");
 		            System.exit(1);
 				}
 				else if(e.getSource()==saveMenuItem){
@@ -102,11 +102,11 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 					//TODO Make a saving instruction
 				}
 				else if(e.getSource()==polishLanguageMenuItem){
-					System.out.println("Zmiana j�zyka na polski");  
+					System.out.println("Zmiana języka na polski");  
 					//TODO Make a changing language instruction
 				}
 				else if(e.getSource()==englishLanguageMenuItem){
-					System.out.println("Zmiana j�zyka na polski");  
+					System.out.println("Zmiana języka na polski");  
 					//TODO Make a changing language instruction
 				}
 				else if(e.getSource()==symulationOptionMenuItem){
@@ -154,7 +154,7 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 			//exec.execute(simulation);
 			simulation.simulate();
 			if(simulation.neutrons.size()<1){
-				System.out.println("Brak neutron�w!");
+				System.out.println("Brak neutronów!");
 				break;
 			}
 			Energy.setText(Float.toString(simulation.energy));
