@@ -2,7 +2,7 @@ package pl.pw.edu.fizyka.pojawa.TMKJKS;
 
 import java.util.Random;
 
-public class Particle {//by Jacek Pi≥ka
+public class Particle {//by Jacek Pi≈Çka
 	public float x;
 	public float y;
 	public float z;

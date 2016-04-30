@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Options extends JFrame { //by Jacek Pi≥ka
+public class Options extends JFrame { //by Jacek Pi≈Çka
 	
 	static JFrame window = new Options();
 	double V=0;
@@ -20,7 +20,7 @@ public class Options extends JFrame { //by Jacek Pi≥ka
 	double m=0;
 	float r=0;
 	float a=0;
-	String shapeText = "PromieÒ [m]";
+	String shapeText = "Promie≈Ñ [m]";
 	
 	public Options(){
 		setSize(500,300);
@@ -41,13 +41,13 @@ public class Options extends JFrame { //by Jacek Pi≥ka
 		leftPanelA.setLayout(new GridLayout(4,1));
 		leftPanelA.add(new JLabel());
 		leftPanelA.add(new JLabel("Pierwiastek"));
-		leftPanelA.add(new JLabel("Kszta≥t prÛbki"));
+		leftPanelA.add(new JLabel("Kszta≈Çt pr√≥bki"));
 		leftPanelA.add(new JLabel());
 		
 		rightPanelA.setLayout(new GridLayout(4,1));
 		rightPanelA.add(new JLabel());
-		rightPanelA.add(new JLabel("Materia≥ otaczajπcy"));
-		rightPanelA.add(new JLabel("Masa prÛbki [kg]"));
+		rightPanelA.add(new JLabel("Materia≈Ç otaczajƒÖcy"));
+		rightPanelA.add(new JLabel("Masa pr√≥bki [kg]"));
 		
 		manePanel.add(leftPanelA);
 		manePanel.add(leftPanel);
@@ -59,12 +59,12 @@ public class Options extends JFrame { //by Jacek Pi≥ka
 		
 		String stringElements[]={"Uran", "Pluton"};
 		final JComboBox elements = new JComboBox(stringElements);
-		String stringShapes[]={"Kula", "Szeúcian"};
+		String stringShapes[]={"Kula", "Sze≈õcian"};
 		final JComboBox shapes = new JComboBox(stringShapes);
-		String stringmaterials[]={"PrÛønia", "Woda"};
+		String stringmaterials[]={"Pr√≥nia", "Woda"};
 		final JComboBox materials = new JComboBox(stringmaterials);
 		
-		final JTextField mass = new JTextField("Podaj masÍ prÛbki");
+		final JTextField mass = new JTextField("Podaj masa pr√≥bki");
 		final JButton dimensions = new JButton("Wymiary");
 		final JTextField shape = new JTextField("");
 		final JLabel label = new JLabel (shapeText);
@@ -87,10 +87,10 @@ public class Options extends JFrame { //by Jacek Pi≥ka
 		    	}
 		    	else if(e.getSource()==shapes){
 		    		if(shapes.getSelectedItem()=="Kula"){
-	    				shapeText="PromieÒ [m]";
+	    				shapeText="Promie≈Ñ [m]";
 	    			}
-	    			else if(shapes.getSelectedItem()=="Szeúcian"){
-	    				shapeText="KrawÍdü [m]";
+	    			else if(shapes.getSelectedItem()=="Sze≈õcian"){
+	    				shapeText="Krawƒôd≈∫ [m]";
 	    			}
 		    		label.setText(shapeText);
 		    	}
@@ -104,7 +104,7 @@ public class Options extends JFrame { //by Jacek Pi≥ka
 	    				r=(float) Math.sqrt(V/3.14);
 	    				shape.setText(String.valueOf(r));
 	    			}
-	    			else if(shapes.getSelectedItem()=="Szeúcian"){
+	    			else if(shapes.getSelectedItem()=="Sze≈õcian"){
 	    				a=(float) Math.cbrt(V);
 	    				shape.setText(String.valueOf(a));
 	    			}
@@ -115,7 +115,7 @@ public class Options extends JFrame { //by Jacek Pi≥ka
 		    			V=3.14*r*r;
 		    			System.out.println(V);
 		    		}
-		    		else if(shapes.getSelectedItem()=="Szeúcian"){
+		    		else if(shapes.getSelectedItem()=="Sze≈õcian"){
 		    			a = Float.parseFloat(shape.getText());
 		    			V=a*a*a;
 		    			System.out.println(V);
