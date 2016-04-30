@@ -5,13 +5,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -19,7 +16,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
+public class Interface extends JFrame { //by Antoni Ruciñski & Jacek Pi³ka
 	
 	private static final long serialVersionUID = 185723979423401295L;
 	Random rand = new Random();
@@ -36,26 +33,27 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 		setJMenuBar(createMenu());
 		
 		JPanel manePanel = new JPanel();
-		JPanel bottomPanel = new JPanel();
+		//JPanel bottomPanel = new JPanel();
 		
 		add(BorderLayout.CENTER, manePanel);
-		add(BorderLayout.SOUTH, bottomPanel);
+		//add(BorderLayout.SOUTH, bottomPanel);
 		
 		manePanel.setLayout(new GridLayout(1,2));
-		bottomPanel.setLayout(new GridLayout(1, 5));
+		//bottomPanel.setLayout(new GridLayout(1, 5));
 		
 		//podziaÅ‚ na kolumny
 		manePanel.add(new Mock("Wykres zmian energii od czasu"));
 		manePanel.add(new Mock("Wykres zmian energii od czasu"));
 		
-		JTextField maxEnergy = new JTextField("");
-		JTextField Energy = new JTextField("");
+		//JTextField maxEnergy = new JTextField("");
+		//JTextField Energy = new JTextField("");
 		
-		bottomPanel.add(new JLabel("Energia maksymalna[J]:"));
+		/**bottomPanel.add(new JLabel("Energia maksymalna[J]:"));
 		bottomPanel.add(maxEnergy);
 		bottomPanel.add(new JLabel());
 		bottomPanel.add(new JLabel("Energia obecnie[J]:"));
-		bottomPanel.add(Energy);
+		bottomPanel.add(Energy);**/
+		
 	}
 	
 	public JMenuBar createMenu(){
@@ -135,10 +133,35 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 
 	public static void main(String[] args) {
 		JFrame f = new Interface();
+		
+		JPanel bottomPanel = new JPanel();
+		f.add(BorderLayout.SOUTH, bottomPanel);
+		bottomPanel.setLayout(new GridLayout(1, 5));
+		
+		JTextField maxEnergy = new JTextField("");
+		JTextField Energy = new JTextField("");
+		
+		bottomPanel.add(new JLabel("Energia maksymalna[J]:"));
+		bottomPanel.add(maxEnergy);
+		bottomPanel.add(new JLabel());
+		bottomPanel.add(new JLabel("Energia obecnie[J]:"));
+		bottomPanel.add(Energy);
+		
 		f.setVisible(true);
 		Simulation simulation=new Simulation("Uran", 52, 0.0027296590402, "Kwadrat", 0.13975568);
-		ExecutorService exec = Executors.newFixedThreadPool(1);
-			exec.execute(simulation);
-			exec.shutdown();
+		//ExecutorService exec = Executors.newFixedThreadPool(1);
+		for(int i=0; i<40; i++){
+			//exec.execute(simulation);
+			simulation.simulate();
+			if(simulation.neutrons.size()<1){
+				System.out.println("Brak neutronów!");
+				break;
+			}
+			Energy.setText(Float.toString(simulation.energy));
+			maxEnergy.setText(Float.toString(simulation.maxEnergy));
+		}
+		//exec.shutdown();
+		System.out.println("Koniec symulacji!");
+		System.out.println("Energia maksymalna: "+simulation.maxEnergy+"J "+simulation.maxEnergy*Math.pow(4.184, -1)*Math.pow(10, -9));
 	}
 }

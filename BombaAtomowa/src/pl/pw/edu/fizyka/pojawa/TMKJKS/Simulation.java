@@ -3,9 +3,9 @@ package pl.pw.edu.fizyka.pojawa.TMKJKS;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Simulation implements Runnable{
-	public float energy=0;//J
-	public float maxEnergy=0;//J
+public class Simulation /**implements Runnable**/{//by Jacek Pi³ka
+	volatile public float energy=0;//J
+	volatile public float maxEnergy=0;//J
 	float energyMeV =0;//MeV
 	float maxEnergyMeV=0;//MeV
 	double distance=0;
@@ -37,43 +37,46 @@ public class Simulation implements Runnable{
 		}
 		mol=(float)(m/1000)/molMass;
 		System.out.println("Liczba moli: "+mol);
-		numberOfAtoms=(int) ((mol*6.02*Math.pow(10.0,9.0)));//must be pow(10.0,23)
+		numberOfAtoms=(int) ((mol*6.02*Math.pow(10.0,8.0)));//must be pow(10.0,23)
 		System.out.println("iloœæ atomów: "+numberOfAtoms);
-		elementMass=(float) (molMass/(6.02*Math.pow(10.0,9.0)));
+		distance=a/Math.pow(numberOfAtoms, 1.0/3.0);
+		elementMass=(float) (molMass/(6.02*Math.pow(10.0,8.0)));
 		
 		float elementV=(float) ((elementMass/density));
 		System.out.println("Objêtosæ atomu: "+elementV);
-		distance=2*(Math.pow(elementV*3/(3.14*4),1.0/3.0));
+		//distance=2*(Math.pow(elementV*3/(3.14*4),1.0/3.0));
 		System.out.println("Odleg³oœæ miêdzy atomami: "+distance);
 		
-		float x=(float)-a/2; float y=(float)-a/2; float z=(float)-a/2;
-		for(int i=0; i<numberOfAtoms; i++){
-			atoms.add(new Particle(x,y,z,0,false));
-			if(x>=a/2&&y>=a/2){
-				x=0;
-				y=0;
-				z+=distance;
-				//System.out.println("Nowy z");
-			}
-			else if(x>=a/2){
-				x=0;
-				y+=distance;
-				//System.out.println("Nowy y");
-			}
-			else{
-				x+=distance;
-				//System.out.println("Nowy x");
+		//float x=(float)-a/2; float y=(float)-a/2; float z=(float)-a/2;
+		int nx=0,ny=0,nz=0;
+		for(float z=(float) (-a/2); z<a/2; z+=distance){
+			nz++;
+			nx=0;
+			ny=0;
+			for(float y=(float) (-a/2); y<a/2; y+=distance){
+				ny++;
+				nx=0;
+				for(float x=(float) (-a/2); x<a/2; x+=distance){
+					nx++;
+					atoms.add(new Particle(x,y,z,0,false));
+				}
 			}
 		}
+		for(int i=0; i<numberOfAtoms-1; i++){
+			if(atoms.get(i).x==atoms.get(i+1).x){
+				System.out.println("B³¹d!");
+			}
+		}
+		System.out.println("Szeœcian ma wymiary: "+nx+" "+ny+" "+nz);
 		Random r = new Random();
 		Particle startAtom = atoms.get(r.nextInt(numberOfAtoms));
 		neutrons.add(new Particle(startAtom.x,startAtom.y,startAtom.z,0,true));
 		numberOfNeutrons++;
 	}
 
-	public void run(){
+	public void simulate(){
 		Random r = new Random();
-		for(int l=0; l<100; l++){
+		//for(int l=0; l<100; l++){
 			energyMeV=0;
 			energy=0;
 			int nN=numberOfNeutrons;
@@ -129,7 +132,7 @@ public class Simulation implements Runnable{
 					numberOfNeutrons--;
 					if(fission){
 						first=false;
-						energyMeV+=200*Math.pow(10, 14);
+						energyMeV+=200*Math.pow(10, 15);
 						numberOfFission++;
 						for(int k=0; k<2;k++){ //add 2 neutrons
 							neutrons.add(new Particle(atomx.get(nA), atomy.get(nA), atomz.get(nA), r.nextInt(6)+1, false));
@@ -180,12 +183,11 @@ public class Simulation implements Runnable{
 				maxEnergy=(float) (maxEnergyMeV*1.602*Math.pow(10,-13));
 			}
 			System.out.println("E("+time+"us): "+energy+"J, "+energyMeV+"MeV");
-			if(neutrons.size()<1){
+			/**if(neutrons.size()<1){
 				System.out.println("Brak neutronów!");
-				System.out.println("Energia maksymalna: "+maxEnergy+"J");
 				break;
-			}
+			}**/
 			time++;
-		}
+		//}
 	}
 }

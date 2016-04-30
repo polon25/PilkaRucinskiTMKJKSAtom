@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Options extends JFrame { //by Jacek Pilka
+public class Options extends JFrame { //by Jacek Pi³ka
 	
 	static JFrame window = new Options();
 	double V=0;
