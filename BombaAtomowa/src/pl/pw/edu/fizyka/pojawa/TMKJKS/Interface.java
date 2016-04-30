@@ -6,13 +6,10 @@ import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.util.Random;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -22,7 +19,7 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 	Random rand = new Random();
 	static JFrame window = new Interface();
 
-//interface constructor	
+//interface constructor: creating main frame with a menu
 	public Interface() throws HeadlessException {
 		
 		setSize(800,600);
@@ -30,7 +27,11 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 		setLayout(new BorderLayout());
 		setTitle("Symulator Bomby Atomowej");
 		
-		setJMenuBar(createMenu());
+		//create a menu
+		MenuPanel menuPanel = new MenuPanel();
+		setJMenuBar(menuPanel.createMenu());
+		
+		
 		
 		JPanel manePanel = new JPanel();
 		//JPanel bottomPanel = new JPanel();
@@ -56,83 +57,11 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 		
 	}
 	
-	public JMenuBar createMenu(){
-
-		JMenuBar menuBar = new JMenuBar();	//building main menu
-		JMenu menu = new JMenu("Plik");
-		menuBar.add(menu);
-
-		final JMenuItem saveMenuItem = new JMenuItem("Zapisz");
-		menu.add(saveMenuItem);
-		menu.addSeparator();
-		
-		JMenu submenu = new JMenu("Język");
-		
-		final JMenuItem polishLanguageMenuItem = new JMenuItem("polski");
-		submenu.add(polishLanguageMenuItem);
-		submenu.addSeparator();	
-		
-		final JMenuItem englishLanguageMenuItem= new JMenuItem("angielski");
-		submenu.add(englishLanguageMenuItem);
-		menu.add(submenu);
-		
-		menu.addSeparator();
-		final JMenuItem closeMenuItem = new JMenuItem("Zamknij");
-		menu.add(closeMenuItem);
-		
-		menu = new JMenu("Symulacja");
-		
-		final JMenuItem startStopMenuItem = new JMenuItem("Start / Stop");
-		menu.add(startStopMenuItem);
-		submenu.addSeparator();
-		
-		final JMenuItem symulationOptionMenuItem = new JMenuItem("Opcje Symulacji");
-		menu.add(symulationOptionMenuItem);
-
-		menuBar.add(menu);
-		
-		ActionListener menuListener=new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				if(e.getSource()==closeMenuItem){
-					System.out.println("Zamknięto program");
-		            System.exit(1);
-				}
-				else if(e.getSource()==saveMenuItem){
-					System.out.println("Plik zapisano");
-					//TODO Make a saving instruction
-				}
-				else if(e.getSource()==polishLanguageMenuItem){
-					System.out.println("Zmiana języka na polski");  
-					//TODO Make a changing language instruction
-				}
-				else if(e.getSource()==englishLanguageMenuItem){
-					System.out.println("Zmiana języka na polski");  
-					//TODO Make a changing language instruction
-				}
-				else if(e.getSource()==symulationOptionMenuItem){
-					System.out.println("Uruchomiono okienko opcji symulacji"); 
-					Options opcje = new Options();
-					opcje.setVisible(true);
-				}
-				else if(e.getSource()==startStopMenuItem){
-					System.out.println("uruchomiono okienko opcji symulacji");
-					//TODO Make an option window instruction
-				}
-			}
-		};
-		
-		closeMenuItem.addActionListener(menuListener);
-		saveMenuItem.addActionListener(menuListener);
-		polishLanguageMenuItem.addActionListener(menuListener);
-		englishLanguageMenuItem.addActionListener(menuListener);
-		symulationOptionMenuItem.addActionListener(menuListener);
-		startStopMenuItem.addActionListener(menuListener);
-
-		return menuBar;
-	}
 
 	public static void main(String[] args) {
 		JFrame f = new Interface();
+		
+		
 		
 		JPanel bottomPanel = new JPanel();
 		f.add(BorderLayout.SOUTH, bottomPanel);
@@ -148,6 +77,7 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 		bottomPanel.add(Energy);
 		
 		f.setVisible(true);
+		
 		Simulation simulation=new Simulation("Uran", 52, 0.0027296590402, "Kwadrat", 0.13975568);
 		//ExecutorService exec = Executors.newFixedThreadPool(1);
 		for(int i=0; i<40; i++){
