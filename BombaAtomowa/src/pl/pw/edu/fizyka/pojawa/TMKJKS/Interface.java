@@ -80,7 +80,7 @@ public class Interface extends JFrame { //by Antoni Ruciñski & Jacek Pi³ka
 		
 		menuPanel.startStopMenuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				ExecutorService exec = Executors.newFixedThreadPool(1);
+				ExecutorService exec = Executors.newFixedThreadPool(1);//Multithreading
 				Simulation simulation=new Simulation(menuPanel.options.element, menuPanel.options.m, 
 					menuPanel.options.V, menuPanel.options.materialShape, menuPanel.options.a);
 				for(int i=0; i<20; i++){
