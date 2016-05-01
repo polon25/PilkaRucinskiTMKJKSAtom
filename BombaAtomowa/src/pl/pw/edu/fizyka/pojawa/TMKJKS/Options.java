@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -11,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Options extends JFrame { //by Jacek Pi³ka
+public class Options extends JFrame { //by Jacek Pilka
 	
 	static JFrame window = new Options();
 	public double V=0;
@@ -20,14 +23,17 @@ public class Options extends JFrame { //by Jacek Pi³ka
 	public double m=0;
 	public float r=0;
 	public float a=0;
-	String shapeText = "Promieñ [m]";
+	String shapeText = "Promien";
 	public String materialShape = "Kula";
 	public String element = "Uran";
 	public boolean reflectMaterial = false;
 	
+	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
+			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
+	
 	public Options(){
 		setSize(500,300);
-		setTitle("Opcje symulacji");
+		setTitle(resourceBundle.getString("options.title"));
 		setLayout(new BorderLayout());
 		
 		JPanel manePanel = new JPanel();
@@ -43,14 +49,14 @@ public class Options extends JFrame { //by Jacek Pi³ka
 		
 		leftPanelA.setLayout(new GridLayout(4,1));
 		leftPanelA.add(new JLabel());
-		leftPanelA.add(new JLabel("Pierwiastek"));
-		leftPanelA.add(new JLabel("Kszta³t próbki"));
+		leftPanelA.add(new JLabel(resourceBundle.getString("options.element")));
+		leftPanelA.add(new JLabel(resourceBundle.getString("options.shape")));
 		leftPanelA.add(new JLabel());
 		
 		rightPanelA.setLayout(new GridLayout(4,1));
 		rightPanelA.add(new JLabel());
-		rightPanelA.add(new JLabel("Materia³ otaczaj¹cy"));
-		rightPanelA.add(new JLabel("Masa próbki [kg]"));
+		rightPanelA.add(new JLabel(resourceBundle.getString("options.surroundingMaterial")));
+		rightPanelA.add(new JLabel(resourceBundle.getString("options.weight")));
 		
 		manePanel.add(leftPanelA);
 		manePanel.add(leftPanel);
@@ -60,17 +66,17 @@ public class Options extends JFrame { //by Jacek Pi³ka
 		leftPanel.setLayout(new GridLayout(4,1));
 		rightPanel.setLayout(new GridLayout(4,1));
 		
-		String stringElements[]={"Uran", "Pluton"};
+		String stringElements[]={resourceBundle.getString("options.name1"), resourceBundle.getString("options.name2")};
 		final JComboBox elements = new JComboBox(stringElements);
-		String stringShapes[]={"Kula", "Szeœcian"};
+		String stringShapes[]={resourceBundle.getString("options.shape1"), resourceBundle.getString("options.shape2")};
 		final JComboBox shapes = new JComboBox(stringShapes);
-		String stringmaterials[]={"Nie", "Tak"};
+		String stringmaterials[]={resourceBundle.getString("options.yes"), resourceBundle.getString("options.no")};
 		final JComboBox materials = new JComboBox(stringmaterials);
 		
-		final JTextField mass = new JTextField("Podaj masê próbki");
-		final JButton dimensions = new JButton("Wymiary");
+		final JTextField mass = new JTextField(resourceBundle.getString("options.giveMass"));
+		final JButton dimensions = new JButton(resourceBundle.getString("options.dimension"));
 		final JTextField shape = new JTextField("");
-		final JLabel label = new JLabel (shapeText);
+		final JLabel label = new JLabel (resourceBundle.getString("options.radius"));
 		
 		leftPanel.add(new JLabel());
 		leftPanel.add(elements);
@@ -89,53 +95,53 @@ public class Options extends JFrame { //by Jacek Pi³ka
 		    		element=(String) elements.getSelectedItem();
 		    	}
 		    	else if(e.getSource()==shapes){
-		    		if(shapes.getSelectedItem()=="Kula"){
-	    				shapeText="Promieñ [m]";
+		    		if(shapes.getSelectedItem()==resourceBundle.getString("options.shape1")){
+	    				shapeText=resourceBundle.getString("options.radius");
 	    			}
-	    			else if(shapes.getSelectedItem()=="Szeœcian"){
-	    				shapeText="KrawêdŸ [m]";
+	    			else if(shapes.getSelectedItem()==resourceBundle.getString("options.shape2")){
+	    				shapeText=resourceBundle.getString("options.edge");
 	    			}
 		    		label.setText(shapeText);
 		    		materialShape=(String) shapes.getSelectedItem();
 		    	}
 		    	else if(e.getSource()==materials){
-		    		if(materials.getSelectedItem()=="Nie"){
+		    		if(materials.getSelectedItem()==resourceBundle.getString("options.no")){
 		    			reflectMaterial=false;
 		    		}
-		    		else if(materials.getSelectedItem()=="tak"){
+		    		else if(materials.getSelectedItem()==resourceBundle.getString("options.yes")){
 		    			reflectMaterial=true;
 		    		}
 		    	}
 		    	else if(e.getSource()==mass){
 		    		m=Float.parseFloat(mass.getText());
-		    		if(elements.getSelectedItem()=="Uran")
+		    		if(elements.getSelectedItem()==resourceBundle.getString("options.name1"))
 		    			V=m/densityU;
-		    		else if(elements.getSelectedItem()=="Pluton")
+		    		else if(elements.getSelectedItem()==resourceBundle.getString("options.name2"))
 		    			V=m/densityP;
-		    		if(shapes.getSelectedItem()=="Kula"){
+		    		if(shapes.getSelectedItem()==resourceBundle.getString("options.name2")){
 	    				r=(float) Math.sqrt(V/3.14);
 	    				shape.setText(String.valueOf(r));
 	    			}
-	    			else if(shapes.getSelectedItem()=="Szeœcian"){
+	    			else if(shapes.getSelectedItem()==resourceBundle.getString("options.shape2")){
 	    				a=(float) Math.cbrt(V);
 	    				shape.setText(String.valueOf(a));
 	    			}
 		    	}
 		    	else if(e.getSource()==shape){
-		    		if(shapes.getSelectedItem()=="Kula"){
+		    		if(shapes.getSelectedItem()==resourceBundle.getString("options.shape1")){
 		    			r = Float.parseFloat(shape.getText());
 		    			V=3.14*r*r;
 		    			System.out.println(V);
 		    		}
-		    		else if(shapes.getSelectedItem()=="Szeœcian"){
+		    		else if(shapes.getSelectedItem()==resourceBundle.getString("options.shape2")){
 		    			a = Float.parseFloat(shape.getText());
 		    			V=a*a*a;
 		    			System.out.println(V);
 		    		}
-		    		if(elements.getSelectedItem()=="Uran"){
+		    		if(elements.getSelectedItem()==resourceBundle.getString("options.name1")){
 	    				m=V*densityU;
 	    			}
-	    			else if(elements.getSelectedItem()=="Pluton"){
+	    			else if(elements.getSelectedItem()==resourceBundle.getString("options.name2")){
 	    				m=V*densityP;
 	    			}
 		    		mass.setText(String.valueOf(m));
