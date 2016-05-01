@@ -29,6 +29,7 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 	volatile double a=0;
 	volatile double r=0;
 	volatile String shape = "Ball";
+	volatile boolean reflectMaterial = false;
 	
 	volatile ArrayList<Particle> atoms = new ArrayList<Particle>();
 	volatile ArrayList<Particle> neutrons = new ArrayList<Particle>();
@@ -48,6 +49,7 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 		else if(options.materialShape.equals("Szeœcian")){
 			shape="Cube";
 		}
+		
 		if(options.element.equals("Uran")){
 			molMass=uranMolMass;
 			density=19050;
@@ -56,6 +58,7 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 			molMass=plutonMolMass;
 			density=19816;
 		}
+		reflectMaterial=options.reflectMaterial;
 		mol=(float)(options.m/1000)/molMass;
 		System.out.println("Liczba moli: "+mol);
 		numberOfAtoms=(int) ((mol*6.02*Math.pow(10.0,8.0)));//must be pow(10.0,23)
@@ -250,31 +253,39 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 						}
 						System.out.println("Liczba neutronów: "+numberOfNeutrons);
 						for (int i=0; i<neutrons.size(); i++){
-							if(shape.equals("Cube")){
-								if(neutrons.get(i).x>a/2||neutrons.get(i).x<-a/2||neutrons.get(i).y>a/2
-										||neutrons.get(i).y<-a/2||neutrons.get(i).z>a/2||neutrons.get(i).z<-a/2){
-									neutrons.remove(i);
-									numberOfNeutrons--;
-									i--;
-								}
+							if(reflectMaterial){
+								if(neutrons.get(i).direction%2==0)
+									neutrons.get(i).direction-=1;
+								else
+									neutrons.get(i).direction+=1;
 							}
-							else if(shape.equals("Ball")){
-								if(neutrons.get(i).x>this.r||neutrons.get(i).x<-this.r){
-									neutrons.remove(i);
-									numberOfNeutrons--;
-									i--;
+							else{
+								if(shape.equals("Cube")){
+									if(neutrons.get(i).x>a/2||neutrons.get(i).x<-a/2||neutrons.get(i).y>a/2
+											||neutrons.get(i).y<-a/2||neutrons.get(i).z>a/2||neutrons.get(i).z<-a/2){
+										neutrons.remove(i);
+										numberOfNeutrons--;
+										i--;
+									}
 								}
-								else if(neutrons.get(i).y>2.0*3.14){
-									neutrons.get(i).y=0;
-								}
-								else if(neutrons.get(i).y<0){
-									neutrons.get(i).y=(float) (2*3.14);
-								}
-								else if(neutrons.get(i).z>3.14){
-									neutrons.get(i).z=0;
-								}
-								else if(neutrons.get(i).z<0){
-									neutrons.get(i).z=(float) 3.14;
+								else if(shape.equals("Ball")){
+									if(neutrons.get(i).x>this.r||neutrons.get(i).x<-this.r){
+										neutrons.remove(i);
+										numberOfNeutrons--;
+										i--;
+									}
+									else if(neutrons.get(i).y>2.0*3.14){
+										neutrons.get(i).y=0;
+									}
+									else if(neutrons.get(i).y<0){
+										neutrons.get(i).y=(float) (2*3.14);
+									}
+									else if(neutrons.get(i).z>3.14){
+										neutrons.get(i).z=0;
+									}
+									else if(neutrons.get(i).z<0){
+										neutrons.get(i).z=(float) 3.14;
+									}
 								}
 							}
 						}

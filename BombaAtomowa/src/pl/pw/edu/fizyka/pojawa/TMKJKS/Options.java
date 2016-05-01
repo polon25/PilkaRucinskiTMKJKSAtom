@@ -23,6 +23,7 @@ public class Options extends JFrame { //by Jacek Pi³ka
 	String shapeText = "Promieñ [m]";
 	public String materialShape = "Kula";
 	public String element = "Uran";
+	public boolean reflectMaterial = false;
 	
 	public Options(){
 		setSize(500,300);
@@ -63,7 +64,7 @@ public class Options extends JFrame { //by Jacek Pi³ka
 		final JComboBox elements = new JComboBox(stringElements);
 		String stringShapes[]={"Kula", "Szeœcian"};
 		final JComboBox shapes = new JComboBox(stringShapes);
-		String stringmaterials[]={"Pró¿nia", "Woda"};
+		String stringmaterials[]={"Nie", "Tak"};
 		final JComboBox materials = new JComboBox(stringmaterials);
 		
 		final JTextField mass = new JTextField("Podaj masê próbki");
@@ -98,7 +99,12 @@ public class Options extends JFrame { //by Jacek Pi³ka
 		    		materialShape=(String) shapes.getSelectedItem();
 		    	}
 		    	else if(e.getSource()==materials){
-		    		
+		    		if(materials.getSelectedItem()=="Nie"){
+		    			reflectMaterial=false;
+		    		}
+		    		else if(materials.getSelectedItem()=="tak"){
+		    			reflectMaterial=true;
+		    		}
 		    	}
 		    	else if(e.getSource()==mass){
 		    		m=Float.parseFloat(mass.getText());

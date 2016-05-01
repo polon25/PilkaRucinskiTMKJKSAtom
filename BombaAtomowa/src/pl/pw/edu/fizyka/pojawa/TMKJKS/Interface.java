@@ -81,7 +81,6 @@ public class Interface extends JFrame { //by Antoni Ruciñski & Jacek Pi³ka
 		});
 	}
 	
-
 	public static void main(String[] args) {
 		JFrame f = new Interface();
 		f.setVisible(true);
