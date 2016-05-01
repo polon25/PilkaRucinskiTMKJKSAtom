@@ -27,21 +27,32 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 	volatile int time=0;//us
 	volatile boolean first=true;//Is it first moment?
 	volatile double a=0;
+	volatile double r=0;
+	volatile String shape = "Ball";
 	
 	volatile ArrayList<Particle> atoms = new ArrayList<Particle>();
 	volatile ArrayList<Particle> neutrons = new ArrayList<Particle>();
 	
-	public Simulation(Options options/**String element, double m, double V, String shape, double A*/){
+	public Simulation(Options options){
 		System.out.println("Rozpoczynam tworzenie simulation");
 		float molMass=0;
 		float elementMass=0;
 		float density=0;
 		a=options.a;
+		r=options.r;
+		System.out.println("Wartoœæ a: "+a);
+		System.out.println("Wartoœæ r: "+r);
+		if(options.materialShape.equals("Kula")){
+			shape="Ball";
+		}
+		else if(options.materialShape.equals("Szeœcian")){
+			shape="Cube";
+		}
 		if(options.element.equals("Uran")){
 			molMass=uranMolMass;
 			density=19050;
 		}
-		else if(options.element.equals("Uran")){
+		else if(options.element.equals("Pluton")){
 			molMass=plutonMolMass;
 			density=19816;
 		}
@@ -49,15 +60,38 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 		System.out.println("Liczba moli: "+mol);
 		numberOfAtoms=(int) ((mol*6.02*Math.pow(10.0,8.0)));//must be pow(10.0,23)
 		System.out.println("iloœæ atomów: "+numberOfAtoms);
-		distance=a/Math.pow(numberOfAtoms, 1.0/3.0);
 		elementMass=(float) (molMass/(6.02*Math.pow(10.0,8.0)));
 		
 		float elementV=(float) ((elementMass/density));
 		System.out.println("Objêtosæ atomu: "+elementV);
-		//distance=2*(Math.pow(elementV*3/(3.14*4),1.0/3.0)); <- It should work, but it doesn't
-		System.out.println("Odleg³oœæ miêdzy atomami: "+distance);
 		
 		//Adding atomic net
+		if (shape.equals("Cube")){
+			System.out.println("Wybrano szeœcian");
+			distance=a/Math.pow(numberOfAtoms, 1.0/3.0);
+			//distance=2*(Math.pow(elementV*3/(3.14*4),1.0/3.0)); <- It should work, but it doesn't
+			makeCube();
+		}
+		else if (shape.equals("Ball")){
+			System.out.println("Wybrano kulê");
+			distance=r/(numberOfAtoms/(2*3.14*3.14));
+			//distance=2*(Math.pow(elementV*3/(3.14*4),1.0/3.0)); <- It should work, but it doesn't
+			makeBall();
+		}
+		System.out.println("Odleg³oœæ miêdzy atomami: "+distance);
+		for(int i=0; i<numberOfAtoms-1; i++){
+			if(atoms.get(i).x==atoms.get(i+1).x){
+				System.out.println("B³¹d!");
+			}
+		}
+		Random r = new Random();
+		Particle startAtom = atoms.get(r.nextInt(numberOfAtoms));
+		neutrons.add(new Particle(startAtom.x,startAtom.y,startAtom.z,0,true));
+		numberOfNeutrons++;
+		System.out.println("Stworzy³em neutron");
+	}
+	
+	void makeCube(){
 		int nx=0,ny=0,nz=0;
 		for(float z=(float) (-a/2); z<a/2; z+=distance){
 			nz++;
@@ -72,85 +106,95 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 				}
 			}
 		}
-		for(int i=0; i<numberOfAtoms-1; i++){
-			if(atoms.get(i).x==atoms.get(i+1).x){
-				System.out.println("B³¹d!");
+		System.out.println("Szeœcian ma wymiary: "+nx+" "+ny+" "+nz);
+	}
+	
+	void makeBall(){//In spherical coordinates
+		int nx=0,ny=0,nz=0;
+		for(float theta=0; theta<=3.14; theta+=3.14/3.0){
+			nz++;
+			nx=0;
+			ny=0;
+			for(float phi=0; phi<=2*3.14; phi+=3.14/3.0){//Co Pi/3
+				ny++;
+				nx=0;
+				for(float r=0; r<this.r; r+=distance){
+					nx++;
+					atoms.add(new Particle(r,phi,theta,0,false));
+				}
 			}
 		}
-		System.out.println("Szeœcian ma wymiary: "+nx+" "+ny+" "+nz);
-		Random r = new Random();
-		Particle startAtom = atoms.get(r.nextInt(numberOfAtoms));
-		neutrons.add(new Particle(startAtom.x,startAtom.y,startAtom.z,0,true));
-		numberOfNeutrons++;
+		System.out.println("Kula ma wymiary: "+nx+" "+ny+" "+nz);
 	}
 
 	public void run(){
 		//synchronized(this){
 			//SwingUtilities.invokeLater(new Runnable() {
-					//public void run() {
-						//synchronized(this){
-							Random r = new Random();
-							energyMeV=0;
-							energy=0;
-							int nN=numberOfNeutrons;
-							ArrayList<Float> atomx = new ArrayList<Float>();
-							ArrayList<Float> atomy = new ArrayList<Float>();
-							ArrayList<Float> atomz = new ArrayList<Float>();
-							int nA=0;//number of used atom, which was removed
-							System.out.println("Iloœæ atomów: "+numberOfAtoms);
-							for(int i=0; i<nN; i++){//every neutron
-								for (int j=0; j<numberOfAtoms; j++){//searching for neutrons hitting atom
-									neutrons.get(i).interact(atoms.get(j));
-									if(neutrons.get(i).change==1){
-										atomx.add(atoms.get(j).x);
-										atomy.add(atoms.get(j).y);
-										atomz.add(atoms.get(j).z);
-										atoms.remove(j);//remove atom
-										numberOfAtoms--;
-										break;
-									}
-								}
-								switch(neutrons.get(i).direction){//direction of neutron
-									case 1:
-										neutrons.get(i).x+=distance;
-										break;
-									case 2:
-										neutrons.get(i).x-=distance;
-										break;
-									case 3:
-										neutrons.get(i).y+=distance;
-										break;
-									case 4:
-										neutrons.get(i).y-=distance;
-										break;
-									case 5:
-										neutrons.get(i).z+=distance;
-										break;
-									case 6:
-										neutrons.get(i).z-=distance;
-										break;
-									default:
-										break;
+				//public void run() {
+					//synchronized(this){
+						Random r = new Random();
+						energyMeV=0;
+						energy=0;
+						int nN=numberOfNeutrons;
+						ArrayList<Float> atomx = new ArrayList<Float>();
+						ArrayList<Float> atomy = new ArrayList<Float>();
+						ArrayList<Float> atomz = new ArrayList<Float>();
+						int nA=0;//number of used atom, which was removed
+						System.out.println("Iloœæ atomów: "+numberOfAtoms);
+						for(int i=0; i<nN; i++){//every neutron
+							for (int j=0; j<numberOfAtoms; j++){//searching for neutrons hitting atom
+								neutrons.get(i).interact(atoms.get(j));
+								if(neutrons.get(i).change==1){
+									atomx.add(atoms.get(j).x);
+									atomy.add(atoms.get(j).y);
+									atomz.add(atoms.get(j).z);
+									atoms.remove(j);//remove atom
+									numberOfAtoms--;
+									break;
 								}
 							}
-							int numberOfFission=0;
-							for (int i=0; i<nN; i++){//second for = removing "used" neutrons
-								if (neutrons.get(i).change==1||neutrons.get(i).change==2){//when neutron hit atom
-									boolean fission=false;
-								if(neutrons.get(i).change==1)
-									fission=true;
-								neutrons.remove(i); //remove neutron
-								i--;
-								nN--;
-								numberOfNeutrons--;
-								if(fission){
-										first=false;
-										energyMeV+=200*Math.pow(10, 15);
-										numberOfFission++;
-										for(int k=0; k<2;k++){ //add 2 neutrons
-											neutrons.add(new Particle(atomx.get(nA), atomy.get(nA), atomz.get(nA), r.nextInt(6)+1, false));
-											//adding new neutron with array of used atom's x,y,z
-											Particle thisNeutron=neutrons.get(neutrons.size()-1);
+							switch(neutrons.get(i).direction){//direction of neutron
+								case 1:
+									neutrons.get(i).x+=distance;
+									break;
+								case 2:
+									neutrons.get(i).x-=distance;
+									break;
+								case 3:
+									neutrons.get(i).y+=distance;
+									break;
+								case 4:
+									neutrons.get(i).y-=distance;
+									break;
+								case 5:
+									neutrons.get(i).z+=distance;
+									break;
+								case 6:
+									neutrons.get(i).z-=distance;
+									break;
+								default:
+									break;
+							}
+						}
+						int numberOfFission=0;
+						for (int i=0; i<nN; i++){//second for = removing "used" neutrons
+							if (neutrons.get(i).change==1||neutrons.get(i).change==2){//when neutron hit atom
+								boolean fission=false;
+							if(neutrons.get(i).change==1)
+								fission=true;
+							neutrons.remove(i); //remove neutron
+							i--;
+							nN--;
+							numberOfNeutrons--;
+							if(fission){
+									first=false;
+									energyMeV+=200*Math.pow(10, 15);
+									numberOfFission++;
+									for(int k=0; k<2;k++){ //add 2 neutrons
+										neutrons.add(new Particle(atomx.get(nA), atomy.get(nA), atomz.get(nA), r.nextInt(6)+1, false));
+										//adding new neutron with array of used atom's x,y,z
+										Particle thisNeutron=neutrons.get(neutrons.size()-1);
+										if(shape.equals("Cube")){
 											switch(thisNeutron.direction){//direction of new neutron
 												case 1:
 													thisNeutron.x+=distance;
@@ -173,19 +217,65 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 												default:
 													break;
 											}
-											numberOfNeutrons++;
 										}
-										nA++;
+										else if(shape.equals("Ball")){
+											switch(thisNeutron.direction){//direction of new neutron
+												case 1:
+													thisNeutron.x+=distance;
+													break;
+												case 2:
+													thisNeutron.x-=distance;
+													break;
+												case 3:
+													thisNeutron.y+=3.14/3.0;
+													break;
+												case 4:
+													thisNeutron.y-=3.14/3.0;
+													break;
+												case 5:
+													thisNeutron.z+=3.14/3.0;
+													break;
+												case 6:
+													thisNeutron.z-=3.14/3.0;
+													break;
+												default:
+													break;
+											}
+										}
+										numberOfNeutrons++;
 									}
+									nA++;
 								}
 							}
-							System.out.println("Liczba neutronów: "+numberOfNeutrons);
-							for (int i=0; i<neutrons.size(); i++){
+						}
+						System.out.println("Liczba neutronów: "+numberOfNeutrons);
+						for (int i=0; i<neutrons.size(); i++){
+							if(shape.equals("Cube")){
 								if(neutrons.get(i).x>a/2||neutrons.get(i).x<-a/2||neutrons.get(i).y>a/2
 										||neutrons.get(i).y<-a/2||neutrons.get(i).z>a/2||neutrons.get(i).z<-a/2){
-								neutrons.remove(i);
-								numberOfNeutrons--;
-								i--;
+									neutrons.remove(i);
+									numberOfNeutrons--;
+									i--;
+								}
+							}
+							else if(shape.equals("Ball")){
+								if(neutrons.get(i).x>this.r||neutrons.get(i).x<-this.r){
+									neutrons.remove(i);
+									numberOfNeutrons--;
+									i--;
+								}
+								else if(neutrons.get(i).y>2.0*3.14){
+									neutrons.get(i).y=0;
+								}
+								else if(neutrons.get(i).y<0){
+									neutrons.get(i).y=(float) (2*3.14);
+								}
+								else if(neutrons.get(i).z>3.14){
+									neutrons.get(i).z=0;
+								}
+								else if(neutrons.get(i).z<0){
+									neutrons.get(i).z=(float) 3.14;
+								}
 							}
 						}
 						System.out.println("Liczba rozpadów: "+numberOfFission);

@@ -102,7 +102,10 @@ public class Options extends JFrame { //by Jacek Pi³ka
 		    	}
 		    	else if(e.getSource()==mass){
 		    		m=Float.parseFloat(mass.getText());
-		    		V=m/densityU;
+		    		if(elements.getSelectedItem()=="Uran")
+		    			V=m/densityU;
+		    		else if(elements.getSelectedItem()=="Pluton")
+		    			V=m/densityP;
 		    		if(shapes.getSelectedItem()=="Kula"){
 	    				r=(float) Math.sqrt(V/3.14);
 	    				shape.setText(String.valueOf(r));
