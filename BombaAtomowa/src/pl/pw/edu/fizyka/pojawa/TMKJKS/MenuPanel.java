@@ -75,9 +75,6 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski
 					//Options opcje = new Options();
 					options.setVisible(true);
 				}
-				else if(e.getSource()==startStopMenuItem){
-					System.out.println("uruchomiono symulację");
-				}
 			}
 		};
 		

@@ -35,7 +35,7 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 	volatile ArrayList<Particle> neutrons = new ArrayList<Particle>();
 	
 	public Simulation(Options options){
-		System.out.println("Rozpoczynam tworzenie simulation");
+		System.out.println("Simulation start");
 		float molMass=0;
 		float elementMass=0;
 		float density=0;
@@ -43,13 +43,8 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 		r=options.r;
 		System.out.println("Wartoœæ a: "+a);
 		System.out.println("Wartoœæ r: "+r);
-		if(options.materialShape.equals("Kula")){
-			shape="Ball";
-		}
-		else if(options.materialShape.equals("Szeœcian")){
-			shape="Cube";
-		}
 		
+		//Setting element
 		if(options.element.equals("Uran")){
 			molMass=uranMolMass;
 			density=19050;
@@ -58,7 +53,18 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 			molMass=plutonMolMass;
 			density=19816;
 		}
+		
+		//Setting shape
+		if(options.materialShape.equals("Kula")){
+			shape="Ball";
+		}
+		else if(options.materialShape.equals("Szeœcian")){
+			shape="Cube";
+		}
+		
 		reflectMaterial=options.reflectMaterial;
+		
+		//Setting number of Atoms
 		mol=(float)(options.m/1000)/molMass;
 		System.out.println("Liczba moli: "+mol);
 		numberOfAtoms=(int) ((mol*6.02*Math.pow(10.0,8.0)));//must be pow(10.0,23)
@@ -70,18 +76,18 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 		
 		//Adding atomic net
 		if (shape.equals("Cube")){
-			System.out.println("Wybrano szeœcian");
+			System.out.println("Simulate cube");
 			distance=a/Math.pow(numberOfAtoms, 1.0/3.0);
 			//distance=2*(Math.pow(elementV*3/(3.14*4),1.0/3.0)); <- It should work, but it doesn't
 			makeCube();
 		}
 		else if (shape.equals("Ball")){
-			System.out.println("Wybrano kulê");
+			System.out.println("Simulate ball");
 			distance=r/(numberOfAtoms/(2*3.14*3.14));
 			//distance=2*(Math.pow(elementV*3/(3.14*4),1.0/3.0)); <- It should work, but it doesn't
 			makeBall();
 		}
-		System.out.println("Odleg³oœæ miêdzy atomami: "+distance);
+		System.out.println("Distance between atoms: "+distance);
 		for(int i=0; i<numberOfAtoms-1; i++){
 			if(atoms.get(i).x==atoms.get(i+1).x){
 				System.out.println("B³¹d!");
@@ -93,6 +99,8 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 		numberOfNeutrons++;
 		System.out.println("Stworzy³em neutron");
 	}
+	
+	//Making net functions
 	
 	void makeCube(){
 		int nx=0,ny=0,nz=0;
@@ -143,7 +151,8 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 						ArrayList<Float> atomy = new ArrayList<Float>();
 						ArrayList<Float> atomz = new ArrayList<Float>();
 						int nA=0;//number of used atom, which was removed
-						System.out.println("Iloœæ atomów: "+numberOfAtoms);
+						System.out.println("Number of atoms: "+numberOfAtoms);
+						System.out.println("Number of neutrons: "+numberOfNeutrons);
 						for(int i=0; i<nN; i++){//every neutron
 							for (int j=0; j<numberOfAtoms; j++){//searching for neutrons hitting atom
 								neutrons.get(i).interact(atoms.get(j));
@@ -180,7 +189,9 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 							}
 						}
 						int numberOfFission=0;
-						for (int i=0; i<nN; i++){//second for = removing "used" neutrons
+						
+						//Second for = removing "used" neutrons
+						for (int i=0; i<nN; i++){
 							if (neutrons.get(i).change==1||neutrons.get(i).change==2){//when neutron hit atom
 								boolean fission=false;
 							if(neutrons.get(i).change==1)
@@ -189,7 +200,8 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 							i--;
 							nN--;
 							numberOfNeutrons--;
-							if(fission){
+							
+							if(fission){//add 2 neutrons + energy
 									first=false;
 									energyMeV+=200*Math.pow(10, 15);
 									numberOfFission++;
@@ -251,7 +263,8 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 								}
 							}
 						}
-						System.out.println("Liczba neutronów: "+numberOfNeutrons);
+						
+						//Boundary problem
 						for (int i=0; i<neutrons.size(); i++){
 							if(reflectMaterial){
 								if(neutrons.get(i).direction%2==0)
@@ -289,7 +302,9 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 								}
 							}
 						}
-						System.out.println("Liczba rozpadów: "+numberOfFission);
+						System.out.println("Number of fission: "+numberOfFission);
+						
+						//Energy
 						energy=(float) (energyMeV*1.602*Math.pow(10,-13));
 						if(energyMeV>maxEnergyMeV){
 							maxEnergyMeV=energyMeV;

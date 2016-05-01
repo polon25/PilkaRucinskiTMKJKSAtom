@@ -22,7 +22,6 @@ public class Interface extends JFrame { //by Antoni Ruciñski & Jacek Pi³ka
 	private static final long serialVersionUID = 185723979423401295L;
 	Random rand = new Random();
 	static JFrame window = new Interface();
-	static boolean startSimulation=false;
 
 //interface constructor: creating main frame with a menu
 	public Interface() throws HeadlessException {
@@ -58,9 +57,8 @@ public class Interface extends JFrame { //by Antoni Ruciñski & Jacek Pi³ka
 		MenuPanel menuPanel = new MenuPanel();
 		setJMenuBar(menuPanel.createMenu());
 		
-		menuPanel.startStopMenuItem.addActionListener(new ActionListener(){
+		menuPanel.startStopMenuItem.addActionListener(new ActionListener(){//Start simulation
 			public void actionPerformed(ActionEvent e) {
-				startSimulation=true;
 				ExecutorService exec = Executors.newFixedThreadPool(1);//Multithreading
 				Simulation simulation=new Simulation(menuPanel.options);
 				for(int i=0; i<20; i++){
