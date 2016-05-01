@@ -34,42 +34,20 @@ public class Interface extends JFrame { //by Antoni Ruciñski & Jacek Pi³ka
 		
 		
 		JPanel manePanel = new JPanel();
-		//JPanel bottomPanel = new JPanel();
+		JPanel bottomPanel = new JPanel();
 		
 		add(BorderLayout.CENTER, manePanel);
-		//add(BorderLayout.SOUTH, bottomPanel);
+		add(BorderLayout.SOUTH, bottomPanel);
 		
 		manePanel.setLayout(new GridLayout(1,2));
-		//bottomPanel.setLayout(new GridLayout(1, 5));
+		bottomPanel.setLayout(new GridLayout(1, 5));
 		
 		//podzia³ na kolumny
 		manePanel.add(new Mock("Wykres zmian energii od czasu"));
 		manePanel.add(new Mock("Wykres zmian energii od czasu"));
 		
-		//JTextField maxEnergy = new JTextField("");
-		//JTextField Energy = new JTextField("");
-		
-		/**bottomPanel.add(new JLabel("Energia maksymalna[J]:"));
-		bottomPanel.add(maxEnergy);
-		bottomPanel.add(new JLabel());
-		bottomPanel.add(new JLabel("Energia obecnie[J]:"));
-		bottomPanel.add(Energy);**/
-		
-	}
-	
-
-	public static void main(String[] args) {
-		JFrame f = new Interface();
-		
-		MenuPanel menuPanel = new MenuPanel();
-		f.setJMenuBar(menuPanel.createMenu());
-		
-		JPanel bottomPanel = new JPanel();
-		f.add(BorderLayout.SOUTH, bottomPanel);
-		bottomPanel.setLayout(new GridLayout(1, 5));
-		
-		final JTextField maxEnergy = new JTextField("");
-		final JTextField Energy = new JTextField("");
+		JTextField maxEnergy = new JTextField("");
+		JTextField Energy = new JTextField("");
 		
 		bottomPanel.add(new JLabel("Energia maksymalna[J]:"));
 		bottomPanel.add(maxEnergy);
@@ -77,7 +55,8 @@ public class Interface extends JFrame { //by Antoni Ruciñski & Jacek Pi³ka
 		bottomPanel.add(new JLabel("Energia obecnie[J]:"));
 		bottomPanel.add(Energy);
 		
-		f.setVisible(true);
+		MenuPanel menuPanel = new MenuPanel();
+		setJMenuBar(menuPanel.createMenu());
 		
 		menuPanel.startStopMenuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -100,5 +79,11 @@ public class Interface extends JFrame { //by Antoni Ruciñski & Jacek Pi³ka
 					+simulation.maxEnergy*Math.pow(4.184, -1)*Math.pow(10, -9));
 			}
 		});
+	}
+	
+
+	public static void main(String[] args) {
+		JFrame f = new Interface();
+		f.setVisible(true);
 	}
 }
