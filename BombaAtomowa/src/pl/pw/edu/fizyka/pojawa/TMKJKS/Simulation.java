@@ -5,7 +5,7 @@ import java.util.Random;
 
 import javax.swing.SwingUtilities;
 
-public class Simulation implements Runnable{//by Jacek Pi³ka
+public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 	
 	/*****************************************************
 	 *                                                   *
@@ -31,21 +31,21 @@ public class Simulation implements Runnable{//by Jacek Pi³ka
 	volatile ArrayList<Particle> atoms = new ArrayList<Particle>();
 	volatile ArrayList<Particle> neutrons = new ArrayList<Particle>();
 	
-	public Simulation(String element, double m, double V, String shape, double A){
+	public Simulation(Options options/**String element, double m, double V, String shape, double A*/){
 		System.out.println("Rozpoczynam tworzenie simulation");
 		float molMass=0;
 		float elementMass=0;
 		float density=0;
-		a=A;
-		if(element.equals("Uran")){
+		a=options.a;
+		if(options.element.equals("Uran")){
 			molMass=uranMolMass;
 			density=19050;
 		}
-		else if(element.equals("Uran")){
+		else if(options.element.equals("Uran")){
 			molMass=plutonMolMass;
 			density=19816;
 		}
-		mol=(float)(m/1000)/molMass;
+		mol=(float)(options.m/1000)/molMass;
 		System.out.println("Liczba moli: "+mol);
 		numberOfAtoms=(int) ((mol*6.02*Math.pow(10.0,8.0)));//must be pow(10.0,23)
 		System.out.println("iloœæ atomów: "+numberOfAtoms);
@@ -85,10 +85,10 @@ public class Simulation implements Runnable{//by Jacek Pi³ka
 	}
 
 	public void run(){
-		synchronized(this){
-			SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						synchronized(this){
+		//synchronized(this){
+			//SwingUtilities.invokeLater(new Runnable() {
+					//public void run() {
+						//synchronized(this){
 							Random r = new Random();
 							energyMeV=0;
 							energy=0;
@@ -200,9 +200,9 @@ public class Simulation implements Runnable{//by Jacek Pi³ka
 						break;
 						}**/
 						time++;
-					}
-				}
-			});
-		}
+					//}
+				//}
+			//});
+		//}
 	}
 }

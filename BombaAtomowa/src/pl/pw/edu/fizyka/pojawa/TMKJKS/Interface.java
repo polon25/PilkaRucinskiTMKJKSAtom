@@ -22,6 +22,7 @@ public class Interface extends JFrame { //by Antoni Ruciñski & Jacek Pi³ka
 	private static final long serialVersionUID = 185723979423401295L;
 	Random rand = new Random();
 	static JFrame window = new Interface();
+	static boolean startSimulation=false;
 
 //interface constructor: creating main frame with a menu
 	public Interface() throws HeadlessException {
@@ -67,8 +68,8 @@ public class Interface extends JFrame { //by Antoni Ruciñski & Jacek Pi³ka
 		f.add(BorderLayout.SOUTH, bottomPanel);
 		bottomPanel.setLayout(new GridLayout(1, 5));
 		
-		JTextField maxEnergy = new JTextField("");
-		JTextField Energy = new JTextField("");
+		final JTextField maxEnergy = new JTextField("");
+		final JTextField Energy = new JTextField("");
 		
 		bottomPanel.add(new JLabel("Energia maksymalna[J]:"));
 		bottomPanel.add(maxEnergy);
@@ -80,11 +81,12 @@ public class Interface extends JFrame { //by Antoni Ruciñski & Jacek Pi³ka
 		
 		menuPanel.startStopMenuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
+				startSimulation=true;
 				ExecutorService exec = Executors.newFixedThreadPool(1);//Multithreading
-				Simulation simulation=new Simulation(menuPanel.options.element, menuPanel.options.m, 
-					menuPanel.options.V, menuPanel.options.materialShape, menuPanel.options.a);
+				Simulation simulation=new Simulation(menuPanel.options);
 				for(int i=0; i<20; i++){
-					exec.execute(simulation);
+					//exec.execute(simulation);
+					simulation.run();
 					if(simulation.neutrons.size()<1){
 						System.out.println("Brak neutronów!");
 						break;
