@@ -1,11 +1,11 @@
 package pl.pw.edu.fizyka.pojawa.TMKJKS;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
+import java.util.ResourceBundle;
 
-import javax.swing.SwingUtilities;
-
-public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
+public class Simulation /**implements Runnable*/{//by Jacek Pilka
 	
 	/*****************************************************
 	 *                                                   *
@@ -34,6 +34,9 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 	volatile ArrayList<Particle> atoms = new ArrayList<Particle>();
 	volatile ArrayList<Particle> neutrons = new ArrayList<Particle>();
 	
+	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
+			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
+	
 	public Simulation(Options options){
 		System.out.println("Simulation start");
 		float molMass=0;
@@ -41,24 +44,24 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 		float density=0;
 		a=options.a;
 		r=options.r;
-		System.out.println("Wartoœæ a: "+a);
-		System.out.println("Wartoœæ r: "+r);
+		System.out.println("Wartosc a: "+a);
+		System.out.println("Wartosc r: "+r);
 		
 		//Setting element
-		if(options.element.equals("Uran")){
+		if(options.element.equals(resourceBundle.getString("options.name1"))){
 			molMass=uranMolMass;
 			density=19050;
 		}
-		else if(options.element.equals("Pluton")){
+		else if(options.element.equals(resourceBundle.getString("options.name2"))){
 			molMass=plutonMolMass;
 			density=19816;
 		}
 		
 		//Setting shape
-		if(options.materialShape.equals("Kula")){
+		if(options.materialShape.equals(resourceBundle.getString("options.shape1"))){
 			shape="Ball";
 		}
-		else if(options.materialShape.equals("Szeœcian")){
+		else if(options.materialShape.equals(resourceBundle.getString("options.shape2"))){
 			shape="Cube";
 		}
 		
@@ -68,11 +71,11 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 		mol=(float)(options.m/1000)/molMass;
 		System.out.println("Liczba moli: "+mol);
 		numberOfAtoms=(int) ((mol*6.02*Math.pow(10.0,8.0)));//must be pow(10.0,23)
-		System.out.println("iloœæ atomów: "+numberOfAtoms);
+		System.out.println("iloÅ“Ã¦ atomÃ³w: "+numberOfAtoms);
 		elementMass=(float) (molMass/(6.02*Math.pow(10.0,8.0)));
 		
 		float elementV=(float) ((elementMass/density));
-		System.out.println("Objêtosæ atomu: "+elementV);
+		System.out.println("ObjÃªtosÃ¦ atomu: "+elementV);
 		
 		//Adding atomic net
 		if (shape.equals("Cube")){
@@ -90,14 +93,14 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 		System.out.println("Distance between atoms: "+distance);
 		for(int i=0; i<numberOfAtoms-1; i++){
 			if(atoms.get(i).x==atoms.get(i+1).x){
-				System.out.println("B³¹d!");
+				System.out.println("BÂ³Â¹d!");
 			}
 		}
 		Random r = new Random();
 		Particle startAtom = atoms.get(r.nextInt(numberOfAtoms));
 		neutrons.add(new Particle(startAtom.x,startAtom.y,startAtom.z,0,true));
 		numberOfNeutrons++;
-		System.out.println("Stworzy³em neutron");
+		System.out.println("Stworzylem neutron");
 	}
 	
 	//Making net functions
@@ -117,7 +120,7 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 				}
 			}
 		}
-		System.out.println("Szeœcian ma wymiary: "+nx+" "+ny+" "+nz);
+		System.out.println("Szsccian ma wymiary: "+nx+" "+ny+" "+nz);
 	}
 	
 	void makeBall(){//In spherical coordinates
@@ -312,7 +315,7 @@ public class Simulation /**implements Runnable*/{//by Jacek Pi³ka
 						}
 						System.out.println("E("+time+"us): "+energy+"J, "+energyMeV+"MeV");
 						/**if(neutrons.size()<1){
-						System.out.println("Brak neutronów!");
+						System.out.println("Brak neutronÃ³w!");
 						break;
 						}**/
 						time++;
