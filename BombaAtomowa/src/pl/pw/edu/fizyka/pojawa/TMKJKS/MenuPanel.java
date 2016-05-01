@@ -45,7 +45,7 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski
 		menu = new JMenu(resourceBundle.getString("menu.simulationMenu"));
 		
 		//start stop menu item
-		final JMenuItem startStopMenuItem = new JMenuItem(resourceBundle.getString("menu.startStopMenuItem"));
+		//final JMenuItem startStopMenuItem = new JMenuItem(resourceBundle.getString("menu.startStopMenuItem"));
 		menu.add(startStopMenuItem);
 		menu.addSeparator();
 	
@@ -73,10 +73,7 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski
 					Options opcje = new Options();
 					opcje.setVisible(true);
 				}
-				else if(e.getSource()==startStopMenuItem){
-					System.out.println("uruchomiono okienko opcji symulacji");
-					//TODO Make an option window instruction
-				}
+
 			}
 		};
 		
