@@ -71,7 +71,7 @@ public class Simulation /**implements Runnable*/{//by Jacek Pilka
 		mol=(float)(options.m/1000)/molMass;
 		System.out.println("Liczba moli: "+mol);
 		numberOfAtoms=(int) ((mol*6.02*Math.pow(10.0,8.0)));//must be pow(10.0,23)
-		System.out.println("iloœæ atomów: "+numberOfAtoms);
+		System.out.println("ilosc� atomow: "+numberOfAtoms);
 		elementMass=(float) (molMass/(6.02*Math.pow(10.0,8.0)));
 		
 		float elementV=(float) ((elementMass/density));

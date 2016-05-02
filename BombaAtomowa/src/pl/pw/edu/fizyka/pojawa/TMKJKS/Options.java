@@ -118,7 +118,7 @@ public class Options extends JFrame { //by Jacek Pilka
 		    			V=m/densityU;
 		    		else if(elements.getSelectedItem()==resourceBundle.getString("options.name2"))
 		    			V=m/densityP;
-		    		if(shapes.getSelectedItem()==resourceBundle.getString("options.name2")){
+		    		if(shapes.getSelectedItem()==resourceBundle.getString("options.shape1")){
 	    				r=(float) Math.sqrt(V/3.14);
 	    				shape.setText(String.valueOf(r));
 	    			}

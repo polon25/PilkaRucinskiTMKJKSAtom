@@ -70,10 +70,8 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski
 
 				else if(e.getSource()==symulationOptionMenuItem){
 					System.out.println("Uruchomiono okienko opcji symulacji"); 
-					Options opcje = new Options();
-					opcje.setVisible(true);
+					options.setVisible(true);
 				}
-
 			}
 		};
 		
@@ -81,7 +79,7 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski
 		saveMenuItem.addActionListener(menuListener);
 	
 		symulationOptionMenuItem.addActionListener(menuListener);
-		startStopMenuItem.addActionListener(menuListener);
+		//startStopMenuItem.addActionListener(menuListener);
 
 		return menuBar;
 	}
