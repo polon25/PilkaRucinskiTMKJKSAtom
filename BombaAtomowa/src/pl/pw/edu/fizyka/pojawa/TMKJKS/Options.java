@@ -26,7 +26,7 @@ public class Options extends JFrame { //by Jacek Pilka
 	String shapeText = "Promien";
 	public String materialShape = "Kula";
 	public String element = "Uran";
-	public boolean reflectMaterial = false;
+	public boolean reflectMaterial = true;
 	
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
 			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));

@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.concurrent.Callable;
 
-public class Simulation implements Runnable{//by Jacek Pilka
+import javax.swing.SwingUtilities;
+
+public class Simulation implements Callable<Float[]>{//by Jacek Pilka
 	
 	/*****************************************************
 	 *                                                   *
@@ -141,12 +144,12 @@ public class Simulation implements Runnable{//by Jacek Pilka
 		System.out.println("Kula ma wymiary: "+nx+" "+ny+" "+nz);
 	}
 
-	public void run(){
+	public Float[] call(){
 		synchronized(this){
 			//SwingUtilities.invokeLater(new Runnable() {
 				//public void run() {
 					//synchronized(this){
-						Random r = new Random();
+						Random rand = new Random();
 						energyMeV=0;
 						energy=0;
 						int nN=numberOfNeutrons;
@@ -209,7 +212,7 @@ public class Simulation implements Runnable{//by Jacek Pilka
 									energyMeV+=200*Math.pow(10, 15);
 									numberOfFission++;
 									for(int k=0; k<2;k++){ //add 2 neutrons
-										neutrons.add(new Particle(atomx.get(nA), atomy.get(nA), atomz.get(nA), r.nextInt(6)+1, false));
+										neutrons.add(new Particle(atomx.get(nA), atomy.get(nA), atomz.get(nA), rand.nextInt(6)+1, false));
 										//adding new neutron with array of used atom's x,y,z
 										Particle thisNeutron=neutrons.get(neutrons.size()-1);
 										if(shape.equals("Cube")){
@@ -269,39 +272,46 @@ public class Simulation implements Runnable{//by Jacek Pilka
 						
 						//Boundary problem
 						for (int i=0; i<neutrons.size(); i++){
-							if(reflectMaterial){
-								if(neutrons.get(i).direction%2==0)
-									neutrons.get(i).direction-=1;
-								else
-									neutrons.get(i).direction+=1;
-							}
-							else{
-								if(shape.equals("Cube")){
-									if(neutrons.get(i).x>a/2||neutrons.get(i).x<-a/2||neutrons.get(i).y>a/2
-											||neutrons.get(i).y<-a/2||neutrons.get(i).z>a/2||neutrons.get(i).z<-a/2){
+							if(shape.equals("Cube")){
+								if(neutrons.get(i).x>a/2||neutrons.get(i).x<-a/2||neutrons.get(i).y>a/2
+										||neutrons.get(i).y<-a/2||neutrons.get(i).z>a/2||neutrons.get(i).z<-a/2)
+									if(reflectMaterial){
+										if(neutrons.get(i).direction%2==0)
+											neutrons.get(i).direction-=1;
+										else
+											neutrons.get(i).direction+=1;
+									}
+									else{
 										neutrons.remove(i);
 										numberOfNeutrons--;
 										i--;
+									}
+							}
+							else if(shape.equals("Ball")){
+								if(neutrons.get(i).x>r||neutrons.get(i).x<-r){
+									if(reflectMaterial){
+										if(neutrons.get(i).direction%2==0)
+											neutrons.get(i).direction-=1;
+										else
+											neutrons.get(i).direction+=1;
+									}
+									else{
+									neutrons.remove(i);
+									numberOfNeutrons--;
+									i--;
 									}
 								}
-								else if(shape.equals("Ball")){
-									if(neutrons.get(i).x>this.r||neutrons.get(i).x<-this.r){
-										neutrons.remove(i);
-										numberOfNeutrons--;
-										i--;
-									}
-									else if(neutrons.get(i).y>2.0*3.14){
-										neutrons.get(i).y=0;
-									}
-									else if(neutrons.get(i).y<0){
-										neutrons.get(i).y=(float) (2*3.14);
-									}
-									else if(neutrons.get(i).z>3.14){
-										neutrons.get(i).z=0;
-									}
-									else if(neutrons.get(i).z<0){
-										neutrons.get(i).z=(float) 3.14;
-									}
+								else if(neutrons.get(i).y>2.0*3.14){
+									neutrons.get(i).y=0;
+								}
+								else if(neutrons.get(i).y<0){
+									neutrons.get(i).y=(float) (2*3.14);
+								}
+								else if(neutrons.get(i).z>3.14){
+									neutrons.get(i).z=0;
+								}
+								else if(neutrons.get(i).z<0){
+									neutrons.get(i).z=(float) 3.14;
 								}
 							}
 						}
@@ -319,9 +329,17 @@ public class Simulation implements Runnable{//by Jacek Pilka
 						break;
 						}**/
 						time++;
-					//}
+					}
 				//}
 			//});
-		}
+		//}
+		Float[] energies=new Float[2];
+		energies[0]=energy;
+		energies[1]=maxEnergy;
+		return energies;
+	}
+	
+	public float getEnergy(){
+		return energy;
 	}
 }
