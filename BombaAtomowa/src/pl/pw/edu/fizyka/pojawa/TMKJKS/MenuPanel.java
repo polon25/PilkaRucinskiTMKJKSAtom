@@ -45,7 +45,6 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski
 		menu = new JMenu(resourceBundle.getString("menu.simulationMenu"));
 		
 		//start stop menu item
-		//final JMenuItem startStopMenuItem = new JMenuItem(resourceBundle.getString("menu.startStopMenuItem"));
 		menu.add(startStopMenuItem);
 		menu.addSeparator();
 	

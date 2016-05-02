@@ -18,6 +18,7 @@ import java.util.concurrent.Executors;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 	
@@ -63,11 +64,13 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 		
 		menuPanel.startStopMenuItem.addActionListener(new ActionListener(){//Start simulation
 			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
 				ExecutorService exec = Executors.newFixedThreadPool(1);//Multithreading
 				Simulation simulation=new Simulation(menuPanel.options);
 				for(int i=0; i<20; i++){
-					//exec.execute(simulation);
-					simulation.run();
+					exec.execute(simulation);
+					//simulation.run();
 					if(simulation.neutrons.size()<1){
 						System.out.println("Brak neutronów!");
 						break;
@@ -75,10 +78,13 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 					Energy.setText(Float.toString(simulation.energy));
 					maxEnergy.setText(Float.toString(simulation.maxEnergy));
 				}
+				
 				exec.shutdown();
 				System.out.println("Koniec symulacji!");
 				System.out.println("Energia maksymalna: "+simulation.maxEnergy+"J "
 					+simulation.maxEnergy*Math.pow(4.184, -1)*Math.pow(10, -9));
+					}
+				});
 			}
 		});
 	}

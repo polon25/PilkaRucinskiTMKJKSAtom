@@ -5,7 +5,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-public class Simulation /**implements Runnable*/{//by Jacek Pilka
+public class Simulation implements Runnable{//by Jacek Pilka
 	
 	/*****************************************************
 	 *                                                   *
@@ -142,7 +142,7 @@ public class Simulation /**implements Runnable*/{//by Jacek Pilka
 	}
 
 	public void run(){
-		//synchronized(this){
+		synchronized(this){
 			//SwingUtilities.invokeLater(new Runnable() {
 				//public void run() {
 					//synchronized(this){
@@ -322,6 +322,6 @@ public class Simulation /**implements Runnable*/{//by Jacek Pilka
 					//}
 				//}
 			//});
-		//}
+		}
 	}
 }
