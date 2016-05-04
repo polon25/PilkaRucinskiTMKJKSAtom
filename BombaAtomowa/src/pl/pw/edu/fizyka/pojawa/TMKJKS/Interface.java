@@ -26,7 +26,7 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 	
 	private static final long serialVersionUID = 185723979423401295L;
 	Random rand = new Random();
-	static JFrame window = new Interface();
+	static Interface window = new Interface();
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
 			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
 
@@ -53,13 +53,13 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 		manePanel.add(new Mock("Wykres zmian energii od czasu"));
 		
 		final JTextField maxEnergy = new JTextField("");
-		final JTextField Energy = new JTextField("");
+		final JTextField energy = new JTextField("");
 		
 		bottomPanel.add(new JLabel(resourceBundle.getString("interface.maxEnergy")));
 		bottomPanel.add(maxEnergy);
 		bottomPanel.add(new JLabel());
 		bottomPanel.add(new JLabel(resourceBundle.getString("interface.currentEnergy")));
-		bottomPanel.add(Energy);
+		bottomPanel.add(energy);
 		
 		final MenuPanel menuPanel = new MenuPanel();
 		setJMenuBar(menuPanel.createMenu());
@@ -79,7 +79,7 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 								//break;
 							//}
 							try {
-								Energy.setText(Float.toString(e.get()[0]));
+								energy.setText(Float.toString(e.get()[0]));
 								maxEnergy.setText(Float.toString(e.get()[1]));
 								System.out.println("Energia maksymalna: "+e.get()[1]+"J "
 										+e.get()[1]*Math.pow(4.184, -1)*Math.pow(10, -9));
