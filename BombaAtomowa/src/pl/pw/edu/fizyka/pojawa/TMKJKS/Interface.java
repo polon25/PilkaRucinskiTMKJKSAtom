@@ -75,9 +75,10 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 				else
 					simulationStart=false;
 				if (simulationStart){
+					System.out.println("Simulation start");
 					Simulation simulation=new Simulation(menuPanel.options);
 					exec=Executors.newScheduledThreadPool(1);
-					exec.scheduleAtFixedRate(simulation, 0, 10, TimeUnit.MILLISECONDS);
+					exec.scheduleAtFixedRate(simulation, 0, 1, TimeUnit.MILLISECONDS);
 				}
 				/**SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
@@ -107,8 +108,10 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 								+simulation.maxEnergy*Math.pow(4.184, -1)*Math.pow(10, -9));
 					}
 				});**/
-				else
+				else{
 					exec.shutdown();
+					System.out.println("Simulation end");
+				}
 			}
 		});
 	}

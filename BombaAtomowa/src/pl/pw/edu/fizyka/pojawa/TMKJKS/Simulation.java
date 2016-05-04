@@ -41,7 +41,6 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
 	
 	public Simulation(Options options){
-		System.out.println("Simulation start");
 		float molMass=0;
 		float elementMass=0;
 		float density=0;
@@ -329,17 +328,13 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 						break;
 						}**/
 						time++;
-					}
+					//}
 				//}
 			//});
-		//}
+		}
 		/**Float[] energies=new Float[2];
 		energies[0]=energy;
 		energies[1]=maxEnergy;
 		return energies;**/
-	}
-	
-	public float getEnergy(){
-		return energy;
 	}
 }
