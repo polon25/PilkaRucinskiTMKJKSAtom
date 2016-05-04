@@ -8,7 +8,7 @@ import java.util.concurrent.Callable;
 
 import javax.swing.SwingUtilities;
 
-public class Simulation implements Callable<Float[]>{//by Jacek Pilka
+public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pilka
 	
 	/*****************************************************
 	 *                                                   *
@@ -144,7 +144,7 @@ public class Simulation implements Callable<Float[]>{//by Jacek Pilka
 		System.out.println("Kula ma wymiary: "+nx+" "+ny+" "+nz);
 	}
 
-	public Float[] call(){
+	public void run/**Float[] call**/(){
 		synchronized(this){
 			//SwingUtilities.invokeLater(new Runnable() {
 				//public void run() {
@@ -333,10 +333,10 @@ public class Simulation implements Callable<Float[]>{//by Jacek Pilka
 				//}
 			//});
 		//}
-		Float[] energies=new Float[2];
+		/**Float[] energies=new Float[2];
 		energies[0]=energy;
 		energies[1]=maxEnergy;
-		return energies;
+		return energies;**/
 	}
 	
 	public float getEnergy(){

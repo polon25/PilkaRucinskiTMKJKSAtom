@@ -17,6 +17,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -29,6 +31,8 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 	static Interface window = new Interface();
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
 			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
+	ScheduledExecutorService exec;
+	boolean simulationStart=false;
 
 //interface constructor: creating main frame with a menu
 	public Interface() throws HeadlessException {
@@ -66,7 +70,16 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 		
 		menuPanel.startStopMenuItem.addActionListener(new ActionListener(){//Start simulation
 			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(new Runnable() {
+				if (!simulationStart)
+					simulationStart=true;
+				else
+					simulationStart=false;
+				if (simulationStart){
+					Simulation simulation=new Simulation(menuPanel.options);
+					exec=Executors.newScheduledThreadPool(1);
+					exec.scheduleAtFixedRate(simulation, 0, 10, TimeUnit.MILLISECONDS);
+				}
+				/**SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						ExecutorService exec = Executors.newFixedThreadPool(1);//Multithreading
 						Simulation simulation=new Simulation(menuPanel.options);
@@ -93,7 +106,9 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 						System.out.println("Energia maksymalna: "+simulation.maxEnergy+"J "
 								+simulation.maxEnergy*Math.pow(4.184, -1)*Math.pow(10, -9));
 					}
-				});
+				});**/
+				else
+					exec.shutdown();
 			}
 		});
 	}
