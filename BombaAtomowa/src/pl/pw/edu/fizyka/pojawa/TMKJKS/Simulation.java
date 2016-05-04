@@ -109,20 +109,20 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 	
 	void makeCube(){
 		int nx=0,ny=0,nz=0;
-		for(float z=(float) (-a/2); z<a/2; z+=distance){
+		for(float z=(float) (-a/2); z<=a/2; z+=distance){
 			nz++;
 			nx=0;
 			ny=0;
-			for(float y=(float) (-a/2); y<a/2; y+=distance){
+			for(float y=(float) (-a/2); y<=a/2; y+=distance){
 				ny++;
 				nx=0;
-				for(float x=(float) (-a/2); x<a/2; x+=distance){
+				for(float x=(float) (-a/2); x<=a/2; x+=distance){
 					nx++;
 					atoms.add(new Particle(x,y,z,0,false));
 				}
 			}
 		}
-		System.out.println("Szsccian ma wymiary: "+nx+" "+ny+" "+nz);
+		System.out.println("Szescian ma wymiary: "+nx+" "+ny+" "+nz);
 	}
 	
 	void makeBall(){//In spherical coordinates
@@ -158,8 +158,9 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 						int nA=0;//number of used atom, which was removed
 						System.out.println("Number of atoms: "+numberOfAtoms);
 						System.out.println("Number of neutrons: "+numberOfNeutrons);
+						int numberOfCollisions=0;
 						for(int i=0; i<nN; i++){//every neutron
-							for (int j=0; j<numberOfAtoms; j++){//searching for neutrons hitting atom
+							for (int j=0; j<atoms.size(); j++){//searching for neutrons hitting atom
 								neutrons.get(i).interact(atoms.get(j));
 								if(neutrons.get(i).change==1){
 									atomx.add(atoms.get(j).x);
@@ -167,6 +168,11 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 									atomz.add(atoms.get(j).z);
 									atoms.remove(j);//remove atom
 									numberOfAtoms--;
+									numberOfCollisions++;
+									break;
+								}
+								else if(neutrons.get(i).change==2){
+									numberOfCollisions++;
 									break;
 								}
 							}
@@ -190,6 +196,7 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 									neutrons.get(i).z-=distance;
 									break;
 								default:
+									System.out.println("Neutron direction ERROR: "+neutrons.get(i).direction);
 									break;
 							}
 						}
@@ -235,6 +242,7 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 													thisNeutron.z-=distance;
 													break;
 												default:
+													System.out.println("New neutron direction ERROR");
 													break;
 											}
 										}
@@ -259,6 +267,7 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 													thisNeutron.z-=3.14/3.0;
 													break;
 												default:
+													System.out.println("New neutron direction ERROR");
 													break;
 											}
 										}
@@ -268,7 +277,6 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 								}
 							}
 						}
-						
 						//Boundary problem
 						for (int i=0; i<neutrons.size(); i++){
 							if(shape.equals("Cube")){
@@ -295,9 +303,9 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 											neutrons.get(i).direction+=1;
 									}
 									else{
-									neutrons.remove(i);
-									numberOfNeutrons--;
-									i--;
+										neutrons.remove(i);
+										numberOfNeutrons--;
+										i--;
 									}
 								}
 								else if(neutrons.get(i).y>2.0*3.14){
@@ -314,7 +322,8 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 								}
 							}
 						}
-						System.out.println("Number of fission: "+numberOfFission);
+						System.out.println("Number of collisions: "+numberOfCollisions);
+						System.out.println("Number of fissions: "+numberOfFission);
 						
 						//Energy
 						energy=(float) (energyMeV*1.602*Math.pow(10,-13));
@@ -322,7 +331,7 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 							maxEnergyMeV=energyMeV;
 							maxEnergy=(float) (maxEnergyMeV*1.602*Math.pow(10,-13));
 						}
-						System.out.println("E("+time+"us): "+energy+"J, "+energyMeV+"MeV");
+						System.out.println("E("+time+"us): "+energy+"J, "+energyMeV+"MeV, Maximum: "+maxEnergy+"J");
 						/**if(neutrons.size()<1){
 						System.out.println("Brak neutronów!");
 						break;

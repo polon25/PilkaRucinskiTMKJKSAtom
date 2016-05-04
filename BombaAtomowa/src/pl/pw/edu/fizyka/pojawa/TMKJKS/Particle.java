@@ -19,7 +19,7 @@ public class Particle {//by Jacek Pi³ka
 	public void interact(Particle particle){//0-nothing, 1-fission of atom, 2-atom takes neutron
 		if (this.x==particle.x&&this.y==particle.y&&this.z==particle.z){
 			Random r=new Random();
-			if(r.nextInt(100)<100||first)
+			if(r.nextInt(100)<85||first)
 				change=1;
 			else
 				change=2;
