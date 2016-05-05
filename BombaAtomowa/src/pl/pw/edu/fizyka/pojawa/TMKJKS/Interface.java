@@ -80,34 +80,6 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 					exec=Executors.newScheduledThreadPool(1);
 					exec.scheduleAtFixedRate(simulation, 0, 1, TimeUnit.MILLISECONDS);
 				}
-				/**SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						ExecutorService exec = Executors.newFixedThreadPool(1);//Multithreading
-						Simulation simulation=new Simulation(menuPanel.options);
-						for(int i=0; i<20; i++){
-							Future<Float[]> e = exec.submit(simulation);
-							//exec.execute(simulation);
-							//simulation.run();
-							//if(simulation.neutrons.size()<1){
-								//System.out.println("Brak neutronów!");
-								//break;
-							//}
-							try {
-								energy.setText(Float.toString(e.get()[0]));
-								maxEnergy.setText(Float.toString(e.get()[1]));
-								System.out.println("Energia maksymalna: "+e.get()[1]+"J "
-										+e.get()[1]*Math.pow(4.184, -1)*Math.pow(10, -9));
-							} catch (InterruptedException | ExecutionException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-						}
-						exec.shutdown();
-						System.out.println("Koniec symulacji!");
-						System.out.println("Energia maksymalna: "+simulation.maxEnergy+"J "
-								+simulation.maxEnergy*Math.pow(4.184, -1)*Math.pow(10, -9));
-					}
-				});**/
 				else{
 					exec.shutdown();
 					System.out.println("Simulation end");
