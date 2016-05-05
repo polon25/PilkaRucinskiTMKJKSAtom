@@ -33,6 +33,10 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 	double r=0;
 	String shape = "Ball";
 	boolean reflectMaterial = false;
+	int numberOfCollisions=0;
+	int numberOfFission=0;
+	
+	double atomsFactor=1;//atoms in real=k*atoms in simulation
 	
 	ArrayList<Particle> atoms = new ArrayList<Particle>();
 	ArrayList<Particle> neutrons = new ArrayList<Particle>();
@@ -73,6 +77,9 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 		mol=(float)(options.m/1000)/molMass;
 		System.out.println("Liczba moli: "+mol);
 		numberOfAtoms=(int) ((mol*6.02*Math.pow(10.0,8.0)));//must be pow(10.0,23)
+		double trueNumberOfAtoms=mol*6.02*Math.pow(10.0,23.0);//How many atoms are in real?
+		atomsFactor=trueNumberOfAtoms/numberOfAtoms;
+		System.out.println("AtomsFactor = "+atomsFactor);
 		System.out.println("ilosc¦ atomow: "+numberOfAtoms);
 		elementMass=(float) (molMass/(6.02*Math.pow(10.0,8.0)));
 		
@@ -176,12 +183,6 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 		}
 	}
 	
-	void fission(Random rand, Particle atom){
-		energyMeV+=200*Math.pow(10, 15);
-		for(int k=0; k<2;k++)//Add 2 neutrons
-			neutrons.add(new Particle(atom.x, atom.y, atom.z, rand.nextInt(6)+1, false));
-	}
-	
 	boolean boundaryProblemCube(Particle neutron){
 		if(neutron.x>a/2||neutron.x<-a/2||neutron.y>a/2
 				||neutron.y<-a/2||neutron.z>a/2||neutron.z<-a/2){
@@ -224,14 +225,54 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 		}
 		return false;
 	}
-
-	public void run/**Float[] call**/(){
+	
+	void calculateEnergy(){
+		energy=(float) (energyMeV*1.602*Math.pow(10,-13));
+		if(energyMeV>maxEnergyMeV){
+			maxEnergyMeV=energyMeV;
+			maxEnergy=(float) (maxEnergyMeV*1.602*Math.pow(10,-13));
+		}
+		System.out.println("E("+time+"us): "+energy+"J, "+energyMeV+"MeV, Maximum: "+maxEnergy+"J");
+	}
+	
+	void fission(Random rand, int i, int j){
+		energyMeV+=200*atomsFactor;
+		for(int k=0; k<2;k++)//Add 2 neutrons
+			neutrons.add(new Particle(atoms.get(j).x, atoms.get(j).y, atoms.get(j).z, rand.nextInt(6)+1, false));
+		atoms.remove(j);//remove atom
+		neutrons.remove(i);
+	}
+	
+	void collisionAtom(int i, Random rand, boolean change){
+		for (int j=0; j<atoms.size(); j++){
+			neutrons.get(i).interact(atoms.get(j), rand.nextInt(100));
+			if(neutrons.get(i).change==1){
+				fission(rand, i, j);
+				numberOfAtoms--;
+				numberOfCollisions++;
+				numberOfFission++;
+				numberOfNeutrons--;
+				i--;
+				break;
+			}
+			else if(neutrons.get(i).change==2){
+				neutrons.remove(i);
+				numberOfCollisions++;
+				numberOfNeutrons--;
+				i--;
+				break;
+			}
+		}
+	}
+	
+	public void run(){
 		Random rand = new Random();
 		energyMeV=0;
 		energy=0;
-		int numberOfCollisions=0;
-		int numberOfFission=0;
+		numberOfCollisions=0;
+		numberOfFission=0;
 		numberOfNeutrons=neutrons.size();
+		boolean change=false;
 		
 		System.out.println("Number of atoms: "+numberOfAtoms);
 		System.out.println("Number of neutrons: "+numberOfNeutrons);
@@ -241,32 +282,6 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 		for(int i=0; i<numberOfNeutrons; i++){//every neutron
 			
 			moveNeutron(neutrons.get(i));//Moving neutron
-			
-			//Searching for neutrons hitting atom
-			
-			for (int j=0; j<atoms.size(); j++){
-				neutrons.get(i).interact(atoms.get(j), rand);
-				if(neutrons.get(i).change==1){
-					fission(rand, atoms.get(j));
-					atoms.remove(j);//remove atom
-					neutrons.remove(i);
-					numberOfCollisions++;
-					numberOfFission++;
-					break;
-				}
-				else if(neutrons.get(i).change==2){
-					numberOfCollisions++;
-					neutrons.remove(i);
-					break;
-				}
-			}
-			
-			//Removing "used" neutron
-			
-			if(neutrons.get(i).change!=0){
-				neutrons.remove(i);
-				break;
-			}
 			
 			//Boundary Problem
 			
@@ -282,18 +297,18 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 					break;
 				}
 			}
+			
+			//Searching for neutrons hitting atom
+			
+			collisionAtom(i, rand, change);
+			
 		}
 		
 		System.out.println("Number of collisions: "+numberOfCollisions);
 		System.out.println("Number of fissions: "+numberOfFission);
 						
 		//Energy
-		energy=(float) (energyMeV*1.602*Math.pow(10,-13));
-		if(energyMeV>maxEnergyMeV){
-			maxEnergyMeV=energyMeV;
-			maxEnergy=(float) (maxEnergyMeV*1.602*Math.pow(10,-13));
-		}
-		System.out.println("E("+time+"us): "+energy+"J, "+energyMeV+"MeV, Maximum: "+maxEnergy+"J");
+		calculateEnergy();
 		/**if(neutrons.size()<1){
 			System.out.println("Brak neutronÃ³w!");
 			break;
