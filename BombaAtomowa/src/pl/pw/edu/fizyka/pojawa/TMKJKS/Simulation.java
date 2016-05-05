@@ -242,7 +242,7 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 		neutrons.remove(i);
 	}
 	
-	void collisionAtom(int i, Random rand, boolean change){
+	void collisionAtom(int i, Random rand){
 		for (int j=0; j<atoms.size(); j++){
 			neutrons.get(i).interact(atoms.get(j), rand.nextInt(100));
 			if(neutrons.get(i).change==1){
@@ -266,54 +266,52 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 	
 	public Void doInBackground(){
 		while(!isCancelled()){
-		Random rand = new Random();
-		energyMeV=0;
-		energy=0;
-		numberOfCollisions=0;
-		numberOfFission=0;
-		numberOfNeutrons=neutrons.size();
-		boolean change=false;
+			Random rand = new Random();
+			energyMeV=0;
+			energy=0;
+			numberOfCollisions=0;
+			numberOfFission=0;
+			numberOfNeutrons=neutrons.size();
 		
-		System.out.println("Number of atoms: "+numberOfAtoms);
-		System.out.println("Number of neutrons: "+numberOfNeutrons);
+			System.out.println("Number of atoms: "+numberOfAtoms);
+			System.out.println("Number of neutrons: "+numberOfNeutrons);
 		
-		//For every neutron
+			//For every neutron
 		
-		for(int i=0; i<numberOfNeutrons; i++){//every neutron
+			for(int i=0; i<numberOfNeutrons; i++){//every neutron
 			
-			moveNeutron(neutrons.get(i));//Moving neutron
+				moveNeutron(neutrons.get(i));//Moving neutron
 			
-			//Boundary Problem
+				//Boundary Problem
 			
-			if(shape.equals("Cube")){
-				if(boundaryProblemCube(neutrons.get(i))){
+				if(shape.equals("Cube")){
+					if(boundaryProblemCube(neutrons.get(i))){
 						neutrons.remove(i);
 						break;
+					}
 				}
-			}
-			else if(shape.equals("Ball")){
-				if(boundaryProblemBall(neutrons.get(i))){
-					neutrons.remove(i);
-					break;
+				else if(shape.equals("Ball")){
+					if(boundaryProblemBall(neutrons.get(i))){
+						neutrons.remove(i);
+						break;
+					}
 				}
+			
+				//Searching for neutrons hitting atom
+			
+				collisionAtom(i, rand);
 			}
-			
-			//Searching for neutrons hitting atom
-			
-			collisionAtom(i, rand, change);
-			
-		}
 		
-		System.out.println("Number of collisions: "+numberOfCollisions);
-		System.out.println("Number of fissions: "+numberOfFission);
-						
-		//Energy
-		calculateEnergy();
-		/**if(neutrons.size()<1){
-			System.out.println("Brak neutronÃ³w!");
-			break;
-		}**/
-		time++;	
+			System.out.println("Number of collisions: "+numberOfCollisions);
+			System.out.println("Number of fissions: "+numberOfFission);
+			
+			//Energy
+			calculateEnergy();
+			if(neutrons.size()<1){
+				System.out.println("Brak neutronów!");
+				this.cancel(true);
+			}
+			time++;	
 		}
 		return null;
 	}
