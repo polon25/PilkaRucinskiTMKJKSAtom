@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.concurrent.Callable;
 
-import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
-public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pilka
+public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 	
 	/*****************************************************
 	 *                                                   *
@@ -265,7 +264,8 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 		}
 	}
 	
-	public void run(){
+	public Void doInBackground(){
+		while(!isCancelled()){
 		Random rand = new Random();
 		energyMeV=0;
 		energy=0;
@@ -314,5 +314,7 @@ public class Simulation implements Runnable/**Callable<Float[]>**/{//by Jacek Pi
 			break;
 		}**/
 		time++;	
+		}
+		return null;
 	}
 }

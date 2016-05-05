@@ -13,16 +13,9 @@ import java.awt.GridLayout;
 import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 	
@@ -33,6 +26,7 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
 	ScheduledExecutorService exec;
 	boolean simulationStart=false;
+	Simulation simulation;
 
 //interface constructor: creating main frame with a menu
 	public Interface() throws HeadlessException {
@@ -76,12 +70,11 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 					simulationStart=false;
 				if (simulationStart){
 					System.out.println("Simulation start");
-					Simulation simulation=new Simulation(menuPanel.options);
-					exec=Executors.newScheduledThreadPool(1);
-					exec.scheduleAtFixedRate(simulation, 0, 1, TimeUnit.MILLISECONDS);
+					simulation=new Simulation(menuPanel.options);
+					simulation.execute();
 				}
 				else{
-					exec.shutdown();
+					simulation.cancel(true);
 					System.out.println("Simulation end");
 				}
 			}
