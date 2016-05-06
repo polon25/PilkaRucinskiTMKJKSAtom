@@ -62,6 +62,13 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 		final MenuPanel menuPanel = new MenuPanel();
 		setJMenuBar(menuPanel.createMenu());
 		
+		menuPanel.saveMenuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				Save save=new Save(simulation, menuPanel.options);
+				save.save();
+			}
+		});
+		
 		menuPanel.startStopMenuItem.addActionListener(new ActionListener(){//Start simulation
 			public void actionPerformed(ActionEvent e) {
 				if (!simulationStart)

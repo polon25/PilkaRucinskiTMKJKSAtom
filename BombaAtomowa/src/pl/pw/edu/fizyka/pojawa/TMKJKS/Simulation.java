@@ -38,6 +38,8 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 	double atomsFactor=1;//atoms in real=k*atoms in simulation
 	double neutronsFactor=1;
 	
+	ArrayList<String> data = new ArrayList<String>();
+	
 	ArrayList<Particle> atoms = new ArrayList<Particle>();
 	ArrayList<Particle> neutrons = new ArrayList<Particle>();
 	
@@ -319,6 +321,8 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 				this.cancel(true);
 			}
 			time++;	
+			
+			data.add(time+"\t"+energy);
 		}
 		return null;
 	}

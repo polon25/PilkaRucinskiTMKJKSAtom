@@ -15,16 +15,13 @@ import javax.swing.JMenuItem;
 
 public class MenuPanel extends JFrame { //by Antoni Rucinski
 
+	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
+			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
 	
 	private static final long serialVersionUID = 1L;
 	public Options options = new Options();
-	public boolean boolSimulate=false;
-	boolean yesNoSimulation=true;
 	JMenuItem startStopMenuItem = new JMenuItem("Start / Stop");
-
-	
-	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
-			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
+	JMenuItem saveMenuItem = new JMenuItem(resourceBundle.getString("menu.saveMenuItem"));
 
 	public JMenuBar createMenu(){
 			
@@ -33,7 +30,6 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski
 		menuBar.add(menu);
 
 		//save menu Item
-		final JMenuItem saveMenuItem = new JMenuItem(resourceBundle.getString("menu.saveMenuItem"));
 		menu.add(saveMenuItem);
 		menu.addSeparator();
 		
