@@ -24,7 +24,7 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 	float mol=0;
 	float uranMolMass=238; //g/mol
 	float plutonMolMass=244; //g/mol
-	int numberOfAtoms=0;
+	double numberOfAtoms=0;
 	int numberOfNeutrons=0;
 	int time=0;//us
 	boolean first=true;//Is it first moment?
@@ -36,6 +36,7 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 	int numberOfFission=0;
 	
 	double atomsFactor=1;//atoms in real=k*atoms in simulation
+	double neutronsFactor=1;
 	
 	ArrayList<Particle> atoms = new ArrayList<Particle>();
 	ArrayList<Particle> neutrons = new ArrayList<Particle>();
@@ -73,23 +74,23 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 		reflectMaterial=options.reflectMaterial;
 		
 		//Setting number of Atoms
-		mol=(float)(options.m/1000)/molMass;
+		mol=(float)(options.m*1000)/molMass;
 		System.out.println("Liczba moli: "+mol);
-		numberOfAtoms=(int) ((mol*6.02*Math.pow(10.0,8.0)));//must be pow(10.0,23)
+		numberOfAtoms=(mol*6.02*Math.pow(10.0,5.0));//<- Simplification
 		double trueNumberOfAtoms=mol*6.02*Math.pow(10.0,23.0);//How many atoms are in real?
 		atomsFactor=trueNumberOfAtoms/numberOfAtoms;
-		System.out.println("AtomsFactor = "+atomsFactor);
-		System.out.println("ilosc� atomow: "+numberOfAtoms);
-		elementMass=(float) (molMass/(6.02*Math.pow(10.0,8.0)));
+		neutronsFactor=atomsFactor;
+		System.out.println("Number of atoms: "+numberOfAtoms);
+		elementMass=(float) (molMass/(6.02*Math.pow(10.0,23.0)));
 		
-		float elementV=(float) ((elementMass/density));
+		float elementV=(float) ((elementMass/density)*atomsFactor);
 		System.out.println("Objêtosæ atomu: "+elementV);
 		
 		//Adding atomic net
 		if (shape.equals("Cube")){
 			System.out.println("Simulate cube");
-			distance=a/Math.pow(numberOfAtoms, 1.0/3.0);
-			//distance=2*(Math.pow(elementV*3/(3.14*4),1.0/3.0)); <- It should work, but it doesn't
+			//distance=a/Math.pow(numberOfAtoms, 1.0/3.0);
+			distance=2*(Math.pow(elementV*3/(3.14*4),1.0/3.0)); //<- It should work, but it doesn't
 			makeCube();
 		}
 		else if (shape.equals("Ball")){
@@ -99,13 +100,14 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 			makeBall();
 		}
 		System.out.println("Distance between atoms: "+distance);
-		for(int i=0; i<numberOfAtoms-1; i++){
+		for(int i=0; i<atoms.size()-1; i++){
 			if(atoms.get(i).x==atoms.get(i+1).x){
 				System.out.println("B³¹d!");
 			}
 		}
+		atomsFactor=trueNumberOfAtoms/atoms.size();
 		Random r = new Random();
-		Particle startAtom = atoms.get(r.nextInt(numberOfAtoms));
+		Particle startAtom = atoms.get(r.nextInt(atoms.size()));
 		neutrons.add(new Particle(startAtom.x,startAtom.y,startAtom.z,0,true));
 		numberOfNeutrons++;
 		System.out.println("Stworzylem neutron");
@@ -244,6 +246,7 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 	
 	void collisionAtom(int i, Random rand){
 		for (int j=0; j<atoms.size(); j++){
+			//int j=rand.nextInt(atoms.size()-1);//<- Simplification - every neutron collides with atom
 			neutrons.get(i).interact(atoms.get(j), rand.nextInt(100));
 			if(neutrons.get(i).change==1){
 				fission(rand, i, j);
@@ -273,8 +276,8 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 			numberOfFission=0;
 			numberOfNeutrons=neutrons.size();
 		
-			System.out.println("Number of atoms: "+numberOfAtoms);
-			System.out.println("Number of neutrons: "+numberOfNeutrons);
+			System.out.println("Number of atoms: "+atoms.size()*atomsFactor);
+			System.out.println("Number of neutrons: "+numberOfNeutrons*neutronsFactor);
 		
 			//For every neutron
 		
@@ -302,13 +305,17 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 				collisionAtom(i, rand);
 			}
 		
-			System.out.println("Number of collisions: "+numberOfCollisions);
-			System.out.println("Number of fissions: "+numberOfFission);
+			System.out.println("Number of collisions: "+numberOfCollisions*neutronsFactor);
+			System.out.println("Number of fissions: "+numberOfFission*neutronsFactor);
 			
 			//Energy
 			calculateEnergy();
 			if(neutrons.size()<1){
-				System.out.println("Brak neutron�w!");
+				System.out.println("Lack of neutrons!");
+				this.cancel(true);
+			}
+			if(neutrons.size()>atoms.size()){
+				System.out.println("End of atoms!");
 				this.cancel(true);
 			}
 			time++;	
