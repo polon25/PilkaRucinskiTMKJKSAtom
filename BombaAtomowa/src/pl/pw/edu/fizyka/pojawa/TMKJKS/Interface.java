@@ -3,13 +3,10 @@ package pl.pw.edu.fizyka.pojawa.TMKJKS;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-
 import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
-
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
@@ -334,7 +332,7 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 			
 			data.add(time+"\t"+energy);
 		}
-		Interface.energy.repaint();
+		Interface.energy.validate();
 		return null;
 	}
 }
