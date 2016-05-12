@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
@@ -35,6 +36,8 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 	int numberOfCollisions=0;
 	int numberOfFission=0;
 	
+	Interface Interface;
+	
 	double atomsFactor=1;//atoms in real=k*atoms in simulation
 	double neutronsFactor=1;
 	
@@ -46,7 +49,9 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
 			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
 	
-	public Simulation(Options options){
+	public Simulation(Options options, Interface Interface){
+		this.Interface=Interface;
+		
 		float molMass=0;
 		float elementMass=0;
 		float density=0;
@@ -322,8 +327,14 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 			}
 			time++;	
 			
+			Interface.energy.setText(Float.toString(this.energy));
+			Interface.maxEnergy.setText(Float.toString(this.maxEnergy));
+			
+			//Interface.setVisible(true); <- Makes possible to show data in window, but creates new window
+			
 			data.add(time+"\t"+energy);
 		}
+		Interface.energy.repaint();
 		return null;
 	}
 }

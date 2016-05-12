@@ -27,6 +27,9 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 	ScheduledExecutorService exec;
 	boolean simulationStart=false;
 	Simulation simulation;
+	
+	JTextField maxEnergy = new JTextField("");
+	JTextField energy = new JTextField("");
 
 //interface constructor: creating main frame with a menu
 	public Interface() throws HeadlessException {
@@ -50,8 +53,8 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 		manePanel.add(new Mock("Wykres zmian energii od czasu"));
 		manePanel.add(new Mock("Wykres zmian energii od czasu"));
 		
-		final JTextField maxEnergy = new JTextField("");
-		final JTextField energy = new JTextField("");
+		//final JTextField maxEnergy = new JTextField("");
+		//final JTextField energy = new JTextField("");
 		
 		bottomPanel.add(new JLabel(resourceBundle.getString("interface.maxEnergy")));
 		bottomPanel.add(maxEnergy);
@@ -77,7 +80,7 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 					simulationStart=false;
 				if (simulationStart){
 					System.out.println("Simulation start");
-					simulation=new Simulation(menuPanel.options);
+					simulation=new Simulation(menuPanel.options, window);
 					simulation.execute();
 				}
 				else{
