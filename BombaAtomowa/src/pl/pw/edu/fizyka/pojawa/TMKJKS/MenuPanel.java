@@ -17,9 +17,9 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski
 
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
 			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
-	
+
 	private static final long serialVersionUID = 1L;
-	public Options options = new Options();
+	public static  Options options = new Options();
 	JMenuItem startStopMenuItem = new JMenuItem("Start / Stop");
 	JMenuItem saveMenuItem = new JMenuItem(resourceBundle.getString("menu.saveMenuItem"));
 
