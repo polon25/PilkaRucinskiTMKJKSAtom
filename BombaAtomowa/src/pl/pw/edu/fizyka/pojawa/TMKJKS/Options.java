@@ -1,9 +1,15 @@
 package pl.pw.edu.fizyka.pojawa.TMKJKS;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -14,8 +20,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Options extends JFrame { //by Jacek Pilka
-	
+public class Options extends JFrame implements FocusListener { // by Jacek Piłka & Antoni Ruciński 
+
+	private static final long serialVersionUID = 1L;
+
 	static JFrame window = new Options();
 	public double V=0;
 	double densityU = 19050;
@@ -27,14 +35,37 @@ public class Options extends JFrame { //by Jacek Pilka
 	public String materialShape = "Kula";
 	public String element = "Uran";
 	public boolean reflectMaterial = true;
+	public static boolean correctOrNoCorrect=false;
 	
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
 			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
 	
+	JLabel elementLabel= new JLabel(resourceBundle.getString("options.element"));
+	JLabel shapeLabel=new JLabel(resourceBundle.getString("options.shape"));
+	JLabel sMaterialLabel=new JLabel(resourceBundle.getString("options.surroundingMaterial"));
+	JLabel weightLabel=new JLabel(resourceBundle.getString("options.weight"));
+	final JLabel radiusLabel = new JLabel (resourceBundle.getString("options.radius"));
+	
+	final JTextField mass = new JTextField(resourceBundle.getString("options.giveMass"));
+	final JTextField shape = new JTextField(resourceBundle.getString("options.giveRadius"));
+	
+	String stringElements[]={resourceBundle.getString("options.name1"), resourceBundle.getString("options.name2")};
+	final JComboBox elements = new JComboBox(stringElements);
+	String stringShapes[]={resourceBundle.getString("options.shape1"), resourceBundle.getString("options.shape2")};
+	final JComboBox shapes = new JComboBox(stringShapes);
+	String stringmaterials[]={resourceBundle.getString("options.yes"), resourceBundle.getString("options.no")};
+	final JComboBox materials = new JComboBox(stringmaterials);
+	
+	
 	public Options(){
+		
 		setSize(500,300);
 		setTitle(resourceBundle.getString("options.title"));
 		setLayout(new BorderLayout());
+		
+		
+		
+		
 		
 		JPanel manePanel = new JPanel();
 		
@@ -49,14 +80,18 @@ public class Options extends JFrame { //by Jacek Pilka
 		
 		leftPanelA.setLayout(new GridLayout(4,1));
 		leftPanelA.add(new JLabel());
-		leftPanelA.add(new JLabel(resourceBundle.getString("options.element")));
-		leftPanelA.add(new JLabel(resourceBundle.getString("options.shape")));
+		leftPanelA.add(elementLabel);
+		leftPanelA.add(shapeLabel);
 		leftPanelA.add(new JLabel());
 		
 		rightPanelA.setLayout(new GridLayout(4,1));
 		rightPanelA.add(new JLabel());
-		rightPanelA.add(new JLabel(resourceBundle.getString("options.surroundingMaterial")));
-		rightPanelA.add(new JLabel(resourceBundle.getString("options.weight")));
+		rightPanelA.add(sMaterialLabel);
+		rightPanelA.add(weightLabel);
+		
+		weightLabel.setForeground(Color.RED);
+		radiusLabel.setForeground(Color.RED);
+		
 		
 		manePanel.add(leftPanelA);
 		manePanel.add(leftPanel);
@@ -66,22 +101,24 @@ public class Options extends JFrame { //by Jacek Pilka
 		leftPanel.setLayout(new GridLayout(4,1));
 		rightPanel.setLayout(new GridLayout(4,1));
 		
-		String stringElements[]={resourceBundle.getString("options.name1"), resourceBundle.getString("options.name2")};
-		final JComboBox elements = new JComboBox(stringElements);
-		String stringShapes[]={resourceBundle.getString("options.shape1"), resourceBundle.getString("options.shape2")};
-		final JComboBox shapes = new JComboBox(stringShapes);
-		String stringmaterials[]={resourceBundle.getString("options.yes"), resourceBundle.getString("options.no")};
-		final JComboBox materials = new JComboBox(stringmaterials);
+		//String stringElements[]={resourceBundle.getString("options.name1"), resourceBundle.getString("options.name2")};
+		//final JComboBox elements = new JComboBox(stringElements);
 		
-		final JTextField mass = new JTextField(resourceBundle.getString("options.giveMass"));
+		
+		//String stringShapes[]={resourceBundle.getString("options.shape1"), resourceBundle.getString("options.shape2")};
+		//final JComboBox shapes = new JComboBox(stringShapes);
+		//String stringmaterials[]={resourceBundle.getString("options.yes"), resourceBundle.getString("options.no")};
+		//final JComboBox materials = new JComboBox(stringmaterials);
+		
+		//final JTextField mass = new JTextField(resourceBundle.getString("options.giveMass"));
 		final JButton dimensions = new JButton(resourceBundle.getString("options.dimension"));
-		final JTextField shape = new JTextField("");
-		final JLabel label = new JLabel (resourceBundle.getString("options.radius"));
+		//final JTextField shape = new JTextField("");
+		//final JLabel radiusLabel = new JLabel (resourceBundle.getString("options.radius"));
 		
 		leftPanel.add(new JLabel());
 		leftPanel.add(elements);
 		leftPanel.add(shapes);
-		leftPanel.add(label);
+		leftPanel.add(radiusLabel);
 		rightPanel.add(new JLabel());
 		rightPanel.add(materials);
 		rightPanel.add(mass);
@@ -89,30 +126,54 @@ public class Options extends JFrame { //by Jacek Pilka
 		rightPanel.add(new JLabel());
 		add(BorderLayout.SOUTH, new JPanel());
 		
-		ActionListener listener = new ActionListener() {
+//Listeners
+		//elementsListener
+		ActionListener elementsListener = new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		    	if(e.getSource()==elements){
 		    		element=(String) elements.getSelectedItem();
 		    	}
-		    	else if(e.getSource()==shapes){
+		    }
+		};
+	
+		//shapesListener
+		ActionListener shapesListener = new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	if(e.getSource()==shapes){
 		    		if(shapes.getSelectedItem()==resourceBundle.getString("options.shape1")){
 	    				shapeText=resourceBundle.getString("options.radius");
 	    			}
 	    			else if(shapes.getSelectedItem()==resourceBundle.getString("options.shape2")){
 	    				shapeText=resourceBundle.getString("options.edge");
 	    			}
-		    		label.setText(shapeText);
+		    		radiusLabel.setText(shapeText);
 		    		materialShape=(String) shapes.getSelectedItem();
 		    	}
-		    	else if(e.getSource()==materials){
+		    	
+		    }
+		};
+
+
+		//materialListener
+		ActionListener materialListener = new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	if(e.getSource()==materials){
 		    		if(materials.getSelectedItem()==resourceBundle.getString("options.no")){
 		    			reflectMaterial=false;
+		    			System.out.print("\n Materiał otaczający: nie");
 		    		}
 		    		else if(materials.getSelectedItem()==resourceBundle.getString("options.yes")){
 		    			reflectMaterial=true;
+		    			System.out.print("\n Materiał otaczający: tak");
 		    		}
 		    	}
-		    	else if(e.getSource()==mass){
+		    }
+		};
+		    	
+		//massListener	
+		ActionListener massListener = new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	if(e.getSource()==mass){
 		    		m=Float.parseFloat(mass.getText());
 		    		if(elements.getSelectedItem()==resourceBundle.getString("options.name1"))
 		    			V=m/densityU;
@@ -127,7 +188,14 @@ public class Options extends JFrame { //by Jacek Pilka
 	    				shape.setText(String.valueOf(a));
 	    			}
 		    	}
-		    	else if(e.getSource()==shape){
+		    }
+		};
+		    	
+		    
+		//shapeListener
+		ActionListener shapeListener = new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	if(e.getSource()==shape){
 		    		if(shapes.getSelectedItem()==resourceBundle.getString("options.shape1")){
 		    			r = Float.parseFloat(shape.getText());
 		    			V=3.14*r*r;
@@ -149,10 +217,65 @@ public class Options extends JFrame { //by Jacek Pilka
 		    }
 		};
 		
-		elements.addActionListener(listener);
-		shapes.addActionListener(listener);
-		materials.addActionListener(listener);
-		mass.addActionListener(listener);
-		shape.addActionListener(listener);
+		elements.addActionListener(elementsListener);
+		shapes.addActionListener(shapesListener);
+		materials.addActionListener(materialListener);
+		mass.addActionListener(massListener);
+		shape.addActionListener(shapeListener);
+		
+		elements.addFocusListener(this);
+		mass.addFocusListener(this);
+		shape.addFocusListener(this);
+		shapes.addFocusListener(this);
+		materials.addFocusListener(this);
+		
+		
+	
+	    addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+            	if(correctOrNoCorrect==true){
+                    System.out.println("Closed");
+                    e.getWindow().dispose();
+            	}
+            	else if(correctOrNoCorrect==false){
+            		ClosingWarning.ClosingWarning();
+            		
+            	}
+            }
+        });
+	
+	
 	}
+
+	
+	
+	@Override
+	public void focusGained(FocusEvent fe) {
+		if(fe.getSource()==mass || fe.getSource()==shape){
+		weightLabel.setForeground(Color.GREEN);
+		radiusLabel.setForeground(Color.GREEN);
+		mass.setText("");
+		shape.setText("");
+		correctOrNoCorrect=true;
+		}
+		else if(fe.getSource()==elements || fe.getSource()==shapes || fe.getSource()==materials){
+			weightLabel.setForeground(Color.RED); 
+			radiusLabel.setForeground(Color.RED);
+			mass.setText(resourceBundle.getString("options.giveMass"));
+			shape.setText(resourceBundle.getString("options.giveRadius"));
+			correctOrNoCorrect=false;
+			
+		}
+	
+	}
+
+	@Override
+	public void focusLost(FocusEvent fe) {
+	
+	}
+	
+
 }
