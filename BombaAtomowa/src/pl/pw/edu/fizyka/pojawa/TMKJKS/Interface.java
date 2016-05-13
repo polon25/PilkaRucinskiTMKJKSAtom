@@ -71,18 +71,24 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 		
 		menuPanel.startStopMenuItem.addActionListener(new ActionListener(){//Start simulation
 			public void actionPerformed(ActionEvent e) {
-				if (!simulationStart)
-					simulationStart=true;
-				else
-					simulationStart=false;
-				if (simulationStart){
-					System.out.println("Simulation start");
-					simulation=new Simulation(menuPanel.options, window);
-					simulation.execute();
+				
+				if(Options.correctOrNoCorrect==true){
+					if (!simulationStart)
+						simulationStart=true;
+					else
+						simulationStart=false;
+					if (simulationStart){
+						System.out.println("Simulation start");
+						simulation=new Simulation(menuPanel.options, window);
+						simulation.execute();
+					}
+					else{
+						simulation.cancel(true);
+						System.out.println("Simulation end");
+					}
 				}
-				else{
-					simulation.cancel(true);
-					System.out.println("Simulation end");
+				else if(Options.correctOrNoCorrect==false){
+					ClosingWarning.ClosingWarning();
 				}
 			}
 		});
