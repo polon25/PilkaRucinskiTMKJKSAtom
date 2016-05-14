@@ -274,7 +274,11 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 
 	@Override
 	public void focusLost(FocusEvent fe) {
-	
+		if(fe.getSource()==mass){
+			m=Double.parseDouble(mass.getText());
+			mass.setText(Double.toString(m));
+			System.out.println("Masa: "+m);
+		}
 	}
 	
 
