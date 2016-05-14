@@ -237,7 +237,7 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
             public void windowClosing(WindowEvent e)
             {
             	if(correctOrNoCorrect==true){
-                    System.out.println("Closed");
+                    System.out.println("Options: okienko opcji zamknięto poprawnie");
                     e.getWindow().dispose();
             	}
             	else if(correctOrNoCorrect==false){

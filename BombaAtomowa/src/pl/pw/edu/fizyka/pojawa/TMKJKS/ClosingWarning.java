@@ -3,6 +3,7 @@ import java.awt.HeadlessException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class ClosingWarning { //by Antoni Rucinski
@@ -35,9 +36,7 @@ public class ClosingWarning { //by Antoni Rucinski
 			  System.out.println("ClosingWarning: Ponowne uzupełnienie opcji");
 				System.out.println("Uruchomiono okienko opcji symulacji"); 
 				MenuPanel.options.setVisible(true);
-				
-				
-			
+				MenuPanel.options.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		  }
 	}
 	
