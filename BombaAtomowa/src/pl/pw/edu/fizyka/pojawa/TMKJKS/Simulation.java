@@ -100,8 +100,8 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 		}
 		else if (shape.equals("Ball")){
 			System.out.println("Simulate ball");
-			distance=r/(numberOfAtoms/(2*3.14*3.14));
-			//distance=2*(Math.pow(elementV*3/(3.14*4),1.0/3.0)); <- It should work, but it doesn't
+			//distance=r/(numberOfAtoms/(2*3.14*3.14));
+			distance=2*(Math.pow(elementV*3/(3.14*4),1.0/3.0)); //<- It should work, but it doesn't
 			makeBall();
 		}
 		System.out.println("Distance between atoms: "+distance);
