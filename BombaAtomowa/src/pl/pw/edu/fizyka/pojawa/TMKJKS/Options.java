@@ -36,6 +36,7 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 	public String element = "Uran";
 	public boolean reflectMaterial = true;
 	public static boolean correctOrNoCorrect=false;
+	private boolean firstClick=true;
 	
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
 			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
@@ -126,18 +127,16 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 		rightPanel.add(new JLabel());
 		add(BorderLayout.SOUTH, new JPanel());
 		
-//Listeners
+		//Listeners
 		//elementsListener
-		ActionListener elementsListener = new ActionListener() {
+		elements.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		    	if(e.getSource()==elements){
-		    		element=(String) elements.getSelectedItem();
-		    	}
+		    	element=(String) elements.getSelectedItem();
 		    }
-		};
+		});
 	
 		//shapesListener
-		ActionListener shapesListener = new ActionListener() {
+		shapes.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		    	if(e.getSource()==shapes){
 		    		if(shapes.getSelectedItem()==resourceBundle.getString("options.shape1")){
@@ -151,78 +150,68 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 		    	}
 		    	
 		    }
-		};
+		});
 
 
 		//materialListener
-		ActionListener materialListener = new ActionListener() {
+		materials.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		    	if(e.getSource()==materials){
-		    		if(materials.getSelectedItem()==resourceBundle.getString("options.no")){
-		    			reflectMaterial=false;
-		    			System.out.print("\n Materiał otaczający: nie");
-		    		}
-		    		else if(materials.getSelectedItem()==resourceBundle.getString("options.yes")){
-		    			reflectMaterial=true;
-		    			System.out.print("\n Materiał otaczający: tak");
-		    		}
+		    	if(materials.getSelectedItem()==resourceBundle.getString("options.no")){
+		    		reflectMaterial=false;
+		    		System.out.print("\n Materiał otaczający: nie");
+		    	}
+		    	else if(materials.getSelectedItem()==resourceBundle.getString("options.yes")){
+		    		reflectMaterial=true;
+		    		System.out.print("\n Materiał otaczający: tak");
 		    	}
 		    }
-		};
+		});
 		    	
 		//massListener	
-		ActionListener massListener = new ActionListener() {
+		mass.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		    	if(e.getSource()==mass){
-		    		m=Float.parseFloat(mass.getText());
-		    		if(elements.getSelectedItem()==resourceBundle.getString("options.name1"))
-		    			V=m/densityU;
-		    		else if(elements.getSelectedItem()==resourceBundle.getString("options.name2"))
-		    			V=m/densityP;
-		    		if(shapes.getSelectedItem()==resourceBundle.getString("options.shape1")){
-	    				r=(float) Math.sqrt(V/3.14);
-	    				shape.setText(String.valueOf(r));
-	    			}
-	    			else if(shapes.getSelectedItem()==resourceBundle.getString("options.shape2")){
-	    				a=(float) Math.cbrt(V);
-	    				shape.setText(String.valueOf(a));
-	    			}
-		    	}
+		    	m=Float.parseFloat(mass.getText());
+		    	if(elements.getSelectedItem()==resourceBundle.getString("options.name1"))
+		    		V=m/densityU;
+		    	else if(elements.getSelectedItem()==resourceBundle.getString("options.name2"))
+		    		V=m/densityP;
+		    	if(shapes.getSelectedItem()==resourceBundle.getString("options.shape1")){
+	    			r=(float) Math.sqrt(V/3.14);
+	    			shape.setText(String.valueOf(r));
+	    		}
+	    		else if(shapes.getSelectedItem()==resourceBundle.getString("options.shape2")){
+	    			a=(float) Math.cbrt(V);
+	    			shape.setText(String.valueOf(a));
+	    		}
 		    }
-		};
+		});
 		    	
 		    
 		//shapeListener
-		ActionListener shapeListener = new ActionListener() {
+		shape.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		    	if(e.getSource()==shape){
-		    		if(shapes.getSelectedItem()==resourceBundle.getString("options.shape1")){
-		    			r = Float.parseFloat(shape.getText());
-		    			V=3.14*r*r;
-		    			System.out.println(V);
-		    		}
-		    		else if(shapes.getSelectedItem()==resourceBundle.getString("options.shape2")){
-		    			a = Float.parseFloat(shape.getText());
-		    			V=a*a*a;
-		    			System.out.println(V);
-		    		}
-		    		if(elements.getSelectedItem()==resourceBundle.getString("options.name1")){
-	    				m=V*densityU;
-	    			}
-	    			else if(elements.getSelectedItem()==resourceBundle.getString("options.name2")){
-	    				m=V*densityP;
-	    			}
-		    		mass.setText(String.valueOf(m));
+		    	if(shapes.getSelectedItem()==resourceBundle.getString("options.shape1")){
+		    		r = Float.parseFloat(shape.getText());
+		    		V=3.14*r*r;
+		    		System.out.println(V);
 		    	}
+		    	else if(shapes.getSelectedItem()==resourceBundle.getString("options.shape2")){
+		    		a = Float.parseFloat(shape.getText());
+		    		V=a*a*a;
+		    		System.out.println(V);
+		    	}
+		    	if(elements.getSelectedItem()==resourceBundle.getString("options.name1")){
+	    			m=V*densityU;
+	    			mass.setText(String.valueOf(m));
+	    		}
+	    		else if(elements.getSelectedItem()==resourceBundle.getString("options.name2")){
+	    			m=V*densityP;
+	    			mass.setText(String.valueOf(m));
+	    		}
+		    	mass.setText(String.valueOf(m));
 		    }
-		};
-		
-		elements.addActionListener(elementsListener);
-		shapes.addActionListener(shapesListener);
-		materials.addActionListener(materialListener);
-		mass.addActionListener(massListener);
-		shape.addActionListener(shapeListener);
-		
+		});
+
 		elements.addFocusListener(this);
 		mass.addFocusListener(this);
 		shape.addFocusListener(this);
@@ -257,18 +246,20 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 		if(fe.getSource()==mass || fe.getSource()==shape){
 		weightLabel.setForeground(Color.GREEN);
 		radiusLabel.setForeground(Color.GREEN);
-		mass.setText("");
-		shape.setText("");
+		if(fe.getSource()==mass)
+			mass.setText("");
+		else
+			shape.setText("");
 		correctOrNoCorrect=true;
 		}
-		else if(fe.getSource()==elements || fe.getSource()==shapes || fe.getSource()==materials){
+		/**else if(fe.getSource()==elements || fe.getSource()==shapes || fe.getSource()==materials){
 			weightLabel.setForeground(Color.RED); 
 			radiusLabel.setForeground(Color.RED);
 			mass.setText(resourceBundle.getString("options.giveMass"));
 			shape.setText(resourceBundle.getString("options.giveRadius"));
 			correctOrNoCorrect=false;
 			
-		}
+		}**/
 	
 	}
 
@@ -276,9 +267,41 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 	public void focusLost(FocusEvent fe) {
 		if(fe.getSource()==mass){
 			m=Double.parseDouble(mass.getText());
-			mass.setText(Double.toString(m));
-			System.out.println("Masa: "+m);
+			if(elements.getSelectedItem()==resourceBundle.getString("options.name1"))
+    			V=m/densityU;
+    		else if(elements.getSelectedItem()==resourceBundle.getString("options.name2"))
+    			V=m/densityP;
+    		if(shapes.getSelectedItem()==resourceBundle.getString("options.shape1")){
+				r=(float) Math.sqrt(V/3.14);
+				shape.setText(String.valueOf(r));
+			}
+			else if(shapes.getSelectedItem()==resourceBundle.getString("options.shape2")){
+				a=(float) Math.cbrt(V);
+				shape.setText(String.valueOf(a));
+			}
+    		correctOrNoCorrect=true;
 		}
+		if(fe.getSource()==shape){
+    		if(shapes.getSelectedItem()==resourceBundle.getString("options.shape1")){
+    			r = Float.parseFloat(shape.getText());
+    			V=3.14*r*r;
+    			System.out.println(V);
+    		}
+    		else if(shapes.getSelectedItem()==resourceBundle.getString("options.shape2")){
+    			a = Float.parseFloat(shape.getText());
+    			V=a*a*a;
+    			System.out.println(V);
+    		}
+    		if(elements.getSelectedItem()==resourceBundle.getString("options.name1")){
+				m=V*densityU;
+				mass.setText(String.valueOf(m));
+			}
+			else if(elements.getSelectedItem()==resourceBundle.getString("options.name2")){
+				m=V*densityP;
+				mass.setText(String.valueOf(m));
+			}
+    		mass.setText(String.valueOf(m));
+    	}
 	}
 	
 
