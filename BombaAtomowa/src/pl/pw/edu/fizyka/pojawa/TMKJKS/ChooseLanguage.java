@@ -14,7 +14,7 @@ public class ChooseLanguage { //by Antoni Rucinski
 	static int l;
 	public static String local="pl";
 	
-	public static void ChooseLanguage() throws HeadlessException {
+	public ChooseLanguage() throws HeadlessException {
 	
 		  Object[] options = { "Polski", "English" };
 		  

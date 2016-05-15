@@ -21,6 +21,9 @@ import javax.swing.JTextField;
 public class Options extends JFrame implements FocusListener { // by Jacek Piłka & Antoni Ruciński 
 
 	private static final long serialVersionUID = 1L;
+	
+	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
+			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
 
 	static JFrame window = new Options();
 	public double V=0;
@@ -29,14 +32,11 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 	public double m=0;
 	public float r=0;
 	public float a=0;
-	String shapeText = "Promien";
-	public String materialShape = "Kula";
-	public String element = "Uran";
+	String shapeText = resourceBundle.getString("options.radius");
+	public String materialShape = resourceBundle.getString("options.shape1");
+	public String element = resourceBundle.getString("options.name1");
 	public boolean reflectMaterial = true;
 	public static boolean correctOrNoCorrect=false;
-	
-	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
-			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
 	
 	JLabel elementLabel= new JLabel(resourceBundle.getString("options.element"));
 	JLabel shapeLabel=new JLabel(resourceBundle.getString("options.shape"));

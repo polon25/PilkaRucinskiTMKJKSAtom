@@ -53,11 +53,13 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
 		
 		//Setting element
 		if(options.element.equals(resourceBundle.getString("options.name1"))){
+			System.out.println("Wybrano Uran");
 			molMass=uranMolMass;
 			density=19050;
 		}
 		else if(options.element.equals(resourceBundle.getString("options.name2"))){
 			molMass=plutonMolMass;
+			System.out.println("Wybrano Pluton");
 			density=19816;
 		}
 		

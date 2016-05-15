@@ -139,7 +139,7 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 	}
 
 	public static void main(String[] args) {
-		ChooseLanguage.ChooseLanguage();
+		new ChooseLanguage();
 		JFrame f = new Interface();
 		f.setVisible(true);
 	}
