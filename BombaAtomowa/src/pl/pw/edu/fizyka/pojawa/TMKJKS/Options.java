@@ -2,7 +2,6 @@ package pl.pw.edu.fizyka.pojawa.TMKJKS;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +12,6 @@ import java.awt.event.WindowEvent;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,7 +34,6 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 	public String element = "Uran";
 	public boolean reflectMaterial = true;
 	public static boolean correctOrNoCorrect=false;
-	private boolean firstClick=true;
 	
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
 			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
@@ -64,10 +61,6 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 		setTitle(resourceBundle.getString("options.title"));
 		setLayout(new BorderLayout());
 		
-		
-		
-		
-		
 		JPanel manePanel = new JPanel();
 		
 		add(BorderLayout.CENTER, manePanel);
@@ -93,7 +86,6 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 		weightLabel.setForeground(Color.RED);
 		radiusLabel.setForeground(Color.RED);
 		
-		
 		manePanel.add(leftPanelA);
 		manePanel.add(leftPanel);
 		manePanel.add(rightPanelA);
@@ -101,20 +93,6 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 		
 		leftPanel.setLayout(new GridLayout(4,1));
 		rightPanel.setLayout(new GridLayout(4,1));
-		
-		//String stringElements[]={resourceBundle.getString("options.name1"), resourceBundle.getString("options.name2")};
-		//final JComboBox elements = new JComboBox(stringElements);
-		
-		
-		//String stringShapes[]={resourceBundle.getString("options.shape1"), resourceBundle.getString("options.shape2")};
-		//final JComboBox shapes = new JComboBox(stringShapes);
-		//String stringmaterials[]={resourceBundle.getString("options.yes"), resourceBundle.getString("options.no")};
-		//final JComboBox materials = new JComboBox(stringmaterials);
-		
-		//final JTextField mass = new JTextField(resourceBundle.getString("options.giveMass"));
-		final JButton dimensions = new JButton(resourceBundle.getString("options.dimension"));
-		//final JTextField shape = new JTextField("");
-		//final JLabel radiusLabel = new JLabel (resourceBundle.getString("options.radius"));
 		
 		leftPanel.add(new JLabel());
 		leftPanel.add(elements);
@@ -127,15 +105,30 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 		rightPanel.add(new JLabel());
 		add(BorderLayout.SOUTH, new JPanel());
 		
-		//Listeners
-		//elementsListener
+		/**
+		 * 
+		 * Listeners
+		 * 
+		 */
+		
 		elements.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		    	element=(String) elements.getSelectedItem();
+		    	if(elements.getSelectedItem()==resourceBundle.getString("options.name1"))
+		    		V=m/densityU;
+		    	else if(elements.getSelectedItem()==resourceBundle.getString("options.name2"))
+		    		V=m/densityP;
+		    	if(shapes.getSelectedItem()==resourceBundle.getString("options.shape1")){
+					r=(float) Math.sqrt(V/3.14);
+					shape.setText(String.valueOf(r));
+				}
+				else if(shapes.getSelectedItem()==resourceBundle.getString("options.shape2")){
+					a=(float) Math.cbrt(V);
+					shape.setText(String.valueOf(a));
+				}
 		    }
 		});
 	
-		//shapesListener
 		shapes.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		    	if(e.getSource()==shapes){
@@ -145,6 +138,14 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 	    			else if(shapes.getSelectedItem()==resourceBundle.getString("options.shape2")){
 	    				shapeText=resourceBundle.getString("options.edge");
 	    			}
+		    		if(shapes.getSelectedItem()==resourceBundle.getString("options.shape1")){
+						r=(float) Math.sqrt(V/3.14);
+						shape.setText(String.valueOf(r));
+					}
+					else if(shapes.getSelectedItem()==resourceBundle.getString("options.shape2")){
+						a=(float) Math.cbrt(V);
+						shape.setText(String.valueOf(a));
+					}
 		    		radiusLabel.setText(shapeText);
 		    		materialShape=(String) shapes.getSelectedItem();
 		    	}
@@ -152,8 +153,6 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 		    }
 		});
 
-
-		//materialListener
 		materials.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		    	if(materials.getSelectedItem()==resourceBundle.getString("options.no")){
@@ -167,7 +166,6 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 		    }
 		});
 		    	
-		//massListener	
 		mass.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		    	m=Float.parseFloat(mass.getText());
@@ -186,8 +184,6 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 		    }
 		});
 		    	
-		    
-		//shapeListener
 		shape.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		    	if(shapes.getSelectedItem()==resourceBundle.getString("options.shape1")){
@@ -218,8 +214,6 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 		shapes.addFocusListener(this);
 		materials.addFocusListener(this);
 		
-		
-	
 	    addWindowListener(new WindowAdapter()
         {
             @Override
@@ -238,8 +232,6 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 	
 	
 	}
-
-	
 	
 	@Override
 	public void focusGained(FocusEvent fe) {
@@ -252,15 +244,6 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 			shape.setText("");
 		correctOrNoCorrect=true;
 		}
-		/**else if(fe.getSource()==elements || fe.getSource()==shapes || fe.getSource()==materials){
-			weightLabel.setForeground(Color.RED); 
-			radiusLabel.setForeground(Color.RED);
-			mass.setText(resourceBundle.getString("options.giveMass"));
-			shape.setText(resourceBundle.getString("options.giveRadius"));
-			correctOrNoCorrect=false;
-			
-		}**/
-	
 	}
 
 	@Override

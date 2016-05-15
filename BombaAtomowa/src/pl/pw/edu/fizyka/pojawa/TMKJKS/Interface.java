@@ -50,9 +50,6 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 		manePanel.add(new Mock("Wykres zmian energii od czasu"));
 		manePanel.add(new Mock("Wykres zmian energii od czasu"));
 		
-		//final JTextField maxEnergy = new JTextField("");
-		//final JTextField energy = new JTextField("");
-		
 		bottomPanel.add(new JLabel(resourceBundle.getString("interface.maxEnergy")));
 		bottomPanel.add(maxEnergy);
 		bottomPanel.add(new JLabel());
@@ -62,16 +59,23 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 		final MenuPanel menuPanel = new MenuPanel();
 		setJMenuBar(menuPanel.createMenu());
 		
+		menuPanel.startStopMenuItem.setEnabled(false);
+		
 		menuPanel.saveMenuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				Save save=new Save(simulation, menuPanel.options);
+				Save save=new Save(simulation, MenuPanel.options);
 				save.save();
+			}
+		});
+		
+		menuPanel.symulationOptionMenuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				menuPanel.startStopMenuItem.setEnabled(true);
 			}
 		});
 		
 		menuPanel.startStopMenuItem.addActionListener(new ActionListener(){//Start simulation
 			public void actionPerformed(ActionEvent e) {
-				
 				if(Options.correctOrNoCorrect==true){
 					if (!simulationStart)
 						simulationStart=true;
@@ -79,7 +83,7 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 						simulationStart=false;
 					if (simulationStart){
 						System.out.println("Simulation start");
-						simulation=new Simulation(menuPanel.options, window);
+						simulation=new Simulation(MenuPanel.options, window);
 						simulation.execute();
 					}
 					else{

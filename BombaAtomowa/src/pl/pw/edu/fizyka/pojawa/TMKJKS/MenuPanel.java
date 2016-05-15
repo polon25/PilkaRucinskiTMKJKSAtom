@@ -11,8 +11,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-
-
 public class MenuPanel extends JFrame { //by Antoni Rucinski
 
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
@@ -22,6 +20,8 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski
 	public static  Options options = new Options();
 	JMenuItem startStopMenuItem = new JMenuItem("Start / Stop");
 	JMenuItem saveMenuItem = new JMenuItem(resourceBundle.getString("menu.saveMenuItem"));
+	JMenuItem symulationOptionMenuItem = 
+			new JMenuItem(resourceBundle.getString("menu.symulationOptionsMenuItem"));
 
 	public JMenuBar createMenu(){
 			
@@ -45,7 +45,6 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski
 		menu.addSeparator();
 	
 		//simulation options menu item
-		final JMenuItem symulationOptionMenuItem = new JMenuItem(resourceBundle.getString("menu.symulationOptionsMenuItem"));
 		menu.add(symulationOptionMenuItem);
 
 		menuBar.add(menu);
@@ -55,26 +54,18 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski
 			
 			public void actionPerformed(ActionEvent e){
 				if(e.getSource()==closeMenuItem){
-					System.out.println("Zamknięto program");
+					System.out.println("Closing Program");
 		            System.exit(1);
 				}
-				else if(e.getSource()==saveMenuItem){
-					System.out.println("Plik zapisano");
-					//TODO Make a saving instruction
-				}
-
 				else if(e.getSource()==symulationOptionMenuItem){
-					System.out.println("Uruchomiono okienko opcji symulacji"); 
 					options.setVisible(true);
 				}
 			}
 		};
 		
 		closeMenuItem.addActionListener(menuListener);
-		saveMenuItem.addActionListener(menuListener);
 	
 		symulationOptionMenuItem.addActionListener(menuListener);
-		//startStopMenuItem.addActionListener(menuListener);
 
 		return menuBar;
 	}
