@@ -6,13 +6,18 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.concurrent.ScheduledExecutorService;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.Timer;
+
+import org.jfree.chart.ChartPanel;
 
 public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 	
@@ -27,6 +32,13 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 	
 	JTextField maxEnergy = new JTextField("");
 	JTextField energy = new JTextField("");
+	
+	ChartPanel chart;
+	
+	boolean isChart=false;
+	
+	JPanel chartPanel = new JPanel(new FlowLayout());
+	JPanel tablePanel = new JPanel(new FlowLayout());
 
 //interface constructor: creating main frame with a menu
 	public Interface() throws HeadlessException {
@@ -40,15 +52,21 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 		JPanel manePanel = new JPanel();
 		JPanel bottomPanel = new JPanel();
 		
-		add(BorderLayout.CENTER, manePanel);
+		JTabbedPane tabbedPane = new JTabbedPane();
+		
+		tabbedPane.addTab("Wykres", chartPanel);
+		tabbedPane.addTab("Tabela", tablePanel);
+		
+		//add(BorderLayout.CENTER, manePanel);
+		add(BorderLayout.CENTER, tabbedPane);
 		add(BorderLayout.SOUTH, bottomPanel);
 		
-		manePanel.setLayout(new GridLayout(1,2));
+		manePanel.setLayout(new GridLayout(1,1));
 		bottomPanel.setLayout(new GridLayout(1, 5));
 		
 		//podzial na kolumny
 		manePanel.add(new Mock("Wykres zmian energii od czasu"));
-		manePanel.add(new Mock("Wykres zmian energii od czasu"));
+		//manePanel.add(new Mock("Wykres zmian energii od czasu"));
 		
 		bottomPanel.add(new JLabel(resourceBundle.getString("interface.maxEnergy")));
 		bottomPanel.add(maxEnergy);
@@ -85,6 +103,22 @@ public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
 						System.out.println("Simulation start");
 						simulation=new Simulation(MenuPanel.options, window);
 						simulation.execute();
+						if(isChart)
+							chartPanel.remove(chart);
+						chart=new Chart(simulation).chartPanel;
+						chartPanel.add(chart);
+						isChart=true;
+						new Timer(100, new ActionListener() {
+							 @Override
+							 public void actionPerformed(ActionEvent e) {
+								 energy.setText(Double.toString(simulation.energy));
+								 maxEnergy.setText(Double.toString(simulation.energy));
+								 if(simulation.isCancelled())
+							    	((Timer)e.getSource()).stop();
+							 }
+						 }).start();
+						
+				    	validate();
 					}
 					else{
 						simulation.cancel(true);

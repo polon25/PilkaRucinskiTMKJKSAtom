@@ -15,7 +15,7 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 	 *                                                   *
 	 *****************************************************/
 	
-	public float energy=0;//J
+	float energy=0;//J
 	public float maxEnergy=0;//J
 	float energyMeV =0;//MeV
 	float maxEnergyMeV=0;//MeV
@@ -276,7 +276,6 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 		while(!isCancelled()){
 			Random rand = new Random();
 			energyMeV=0;
-			energy=0;
 			numberOfCollisions=0;
 			numberOfFission=0;
 			numberOfNeutrons=neutrons.size();
@@ -324,11 +323,6 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 				this.cancel(true);
 			}
 			time++;	
-			
-			Interface.energy.setText(Float.toString(this.energy));
-			Interface.maxEnergy.setText(Float.toString(this.maxEnergy));
-			
-			//Interface.setVisible(true); <- Makes possible to show data in window, but creates new window
 			
 			data.add(time+"\t"+energy);
 		}
