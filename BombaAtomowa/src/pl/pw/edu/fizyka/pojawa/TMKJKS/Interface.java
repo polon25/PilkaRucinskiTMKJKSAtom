@@ -54,8 +54,8 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
 		
-		tabbedPane.addTab("Wykres", chartPanel);
-		tabbedPane.addTab("Tabela", tablePanel);
+		tabbedPane.addTab(resourceBundle.getString("interface.chart"), chartPanel);
+		tabbedPane.addTab(resourceBundle.getString("interface.table"), tablePanel);
 		
 		//add(BorderLayout.CENTER, manePanel);
 		add(BorderLayout.CENTER, tabbedPane);

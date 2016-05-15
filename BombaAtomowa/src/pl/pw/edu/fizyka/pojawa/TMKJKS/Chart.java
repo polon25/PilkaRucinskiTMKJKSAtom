@@ -2,6 +2,8 @@ package pl.pw.edu.fizyka.pojawa.TMKJKS;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.Timer;
 
@@ -14,13 +16,18 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-public class Chart {//by Jacek Pi³ka
+
+public class Chart {//by Jacek Piï¿½ka
+
+	
+	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
+			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
 
 	 ChartPanel chartPanel;
 	 XYSeries series = new XYSeries("Data");
 	 XYSeriesCollection dataset = new XYSeriesCollection(series);
 	 
-	 Chart(Simulation simulation){
+	 Chart(final Simulation simulation){
 		 
 		 new Timer(100, new ActionListener() {
 			 @Override
@@ -30,8 +37,10 @@ public class Chart {//by Jacek Pi³ka
 			    	((Timer)e.getSource()).stop();
 			 }
 		 }).start();
-		 JFreeChart lineGraph = ChartFactory.createXYLineChart("Energia", "Czas [us]",
-				 "Energia [J]", dataset, PlotOrientation.VERTICAL, false, false, false);
+		 JFreeChart lineGraph = ChartFactory.createXYLineChart(resourceBundle.getString("chart.energy"), 
+				 resourceBundle.getString("chart.X"),
+				 resourceBundle.getString("chart.Y"),
+				 dataset, PlotOrientation.VERTICAL, false, false, false);
 	        
 		 final XYPlot plot = lineGraph.getXYPlot();
 		 ValueAxis xaxis = plot.getDomainAxis();
