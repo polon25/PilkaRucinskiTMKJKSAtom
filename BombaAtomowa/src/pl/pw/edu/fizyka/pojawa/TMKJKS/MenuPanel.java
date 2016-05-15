@@ -17,7 +17,7 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski & Jacek Piłka
 			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
 
 	private static final long serialVersionUID = 1L;
-	public static  Options options = new Options();
+	public static  Options options;
 	JMenuItem startStopMenuItem = new JMenuItem("Start / Stop");
 	JMenuItem saveMenuItem = new JMenuItem(resourceBundle.getString("menu.saveMenuItem"));
 	JMenuItem symulationOptionMenuItem = 
@@ -28,6 +28,8 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski & Jacek Piłka
 		JMenuBar menuBar = new JMenuBar();	//building main menu
 		JMenu menu = new JMenu(resourceBundle.getString("menu.mainMenu"));
 		menuBar.add(menu);
+		
+		options = new Options();
 
 		//save menu Item
 		menu.add(saveMenuItem);
