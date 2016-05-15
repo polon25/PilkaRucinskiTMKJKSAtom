@@ -94,42 +94,48 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 		
 		menuPanel.startStopMenuItem.addActionListener(new ActionListener(){//Start simulation
 			public void actionPerformed(ActionEvent e) {
-				if(Options.correctOrNoCorrect==true){
-					if (!simulationStart)
-						simulationStart=true;
-					else
-						simulationStart=false;
-					if (simulationStart){
-						System.out.println("Simulation start");
-						simulation=new Simulation(MenuPanel.options, window);
-						simulation.execute();
-						if(isChart)
-							chartPanel.remove(chart);
-						chart=new Chart(simulation).chartPanel;
-						chartPanel.add(chart);
-						isChart=true;
-						new Timer(100, new ActionListener() {
-							 @Override
-							 public void actionPerformed(ActionEvent e) {
-								 energy.setText(Double.toString(simulation.energy));
-								 maxEnergy.setText(Double.toString(simulation.energy));
-								 if(simulation.isCancelled())
-							    	((Timer)e.getSource()).stop();
-							 }
-						 }).start();
-						
-				    	validate();
-					}
-					else{
-						simulation.cancel(true);
-						System.out.println("Simulation end");
-					}
-				}
-				else if(Options.correctOrNoCorrect==false){
-					ClosingWarning.ClosingWarning();
-				}
+				startSimulation();
 			}
 		});
+	}
+	
+	private void startSimulation(){
+		if(Options.correctOrNoCorrect==true){
+			if (!simulationStart)
+				simulationStart=true;
+			else
+				simulationStart=false;
+			if (simulationStart){
+				System.out.println("Simulation start");
+				simulation=new Simulation(MenuPanel.options, window);
+				simulation.execute();
+				if(isChart)
+					chartPanel.remove(chart);
+				chart=new Chart(simulation).chartPanel;
+				chartPanel.add(chart);
+				isChart=true;
+				new Timer(100, new ActionListener() {
+					 @Override
+					 public void actionPerformed(ActionEvent e) {
+						 if(simulation.isCancelled()){
+						    ((Timer)e.getSource()).stop();
+						    simulationStart=false;
+						 }
+						 energy.setText(Double.toString(simulation.energy));
+						 maxEnergy.setText(Double.toString(simulation.maxEnergy));
+					 }
+				 }).start();
+				
+		    	validate();
+			}
+			else{
+				simulation.cancel(true);
+				System.out.println("Simulation end");
+			}
+		}
+		else if(Options.correctOrNoCorrect==false){
+			ClosingWarning.ClosingWarning();
+		}
 	}
 
 	public static void main(String[] args) {
