@@ -8,13 +8,6 @@ import javax.swing.SwingWorker;
 
 public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
 	
-	/*****************************************************
-	 *                                                   *
-	 * When I Wrote It, Only God and I Knew the Meaning; *
-	 *                  Now God Alone Knows              *
-	 *                                                   *
-	 *****************************************************/
-	
 	float energy=0;//J
 	public float maxEnergy=0;//J
 	float energyMeV =0;//MeV
@@ -135,24 +128,6 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
 	
 	void makeBall(){//In spherical coordinates
 		int nx=0,ny=0,nz=0;
-		
-		/**for(float z=0; z<2*r; z+=distance){
-			nx=0;
-			ny=0;
-			nz++;
-			for(float y=0; y<2*r; y+=distance){
-				if(Math.sqrt(Math.pow(y, 2.0)+Math.pow(z, 2.0))>distance)
-					break;
-				nx=0;
-				ny++;
-				for(float x=0; x<2*r; x+=distance){
-					if(Math.sqrt(Math.pow(x, 2.0)+Math.pow(y, 2.0))>distance)
-						break;
-					nx++;
-					atoms.add(new Particle(x,y,z,0,false));
-				}
-			}
-		}**/
 		
 		for(float r=0; r<this.r; r+=distance){
 			nx++;
