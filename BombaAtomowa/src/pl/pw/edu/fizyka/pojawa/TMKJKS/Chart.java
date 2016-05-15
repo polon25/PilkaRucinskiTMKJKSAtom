@@ -29,12 +29,12 @@ public class Chart {//by Jacek Pi�ka
 	 
 	 int i=0;
 	 
-	 Chart(final Simulation simulation){
+	 Chart(final Simulation simulation, boolean first){
 		 
 		 new Timer(1, new ActionListener() {
 			 @Override
 			 public void actionPerformed(ActionEvent e) {
-				 if(simulation.energies.size()>i){
+				 if(first){
 					 for(int j=0; j<simulation.energies.size(); j++){
 						 series.add(j+1, simulation.energies.get(j));
 					 }

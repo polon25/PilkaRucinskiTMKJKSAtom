@@ -13,6 +13,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.concurrent.ScheduledExecutorService;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -35,9 +36,12 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 	JTextField energy = new JTextField("");
 	
 	ChartPanel chart;
-	JTable table;
+	Table table;
+	
+	int i=0;
 	
 	boolean isChart=false;
+	boolean first=true;
 	
 	JPanel chartPanel = new JPanel(new FlowLayout());
 	JPanel tablePanel = new JPanel(new FlowLayout());
@@ -105,14 +109,22 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 			if (simulationStart){
 				System.out.println("Simulation start");
 				simulation=new Simulation(MenuPanel.options, window);
-				if(isChart)
+				if(isChart){
 					chartPanel.remove(chart);
-				chart=new Chart(simulation).chartPanel;
+					tablePanel.remove(table.table);
+				}
+				chart=new Chart(simulation, first).chartPanel;
+				table = new Table(simulation);
 				chartPanel.add(chart);
-				simulation.execute();
+				tablePanel.add(table.table);
 				isChart=true;
-				tablePanel.add(new Table(simulation).table);
-				new Timer(10, new ActionListener() {
+				
+				JScrollPane scrollPane = new JScrollPane(table.table);
+		        tablePanel.add(scrollPane);
+				
+				simulation.execute();
+				
+				new Timer(100, new ActionListener() {
 					 @Override
 					 public void actionPerformed(ActionEvent e) {
 						 if(simulation.isCancelled()){
@@ -120,6 +132,8 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 						    simulationStart=false;
 						    System.out.println("Simulation end");
 						 }
+						 table.addData(first);
+						 first=false;
 						 energy.setText(Double.toString(simulation.energy));
 						 maxEnergy.setText(Double.toString(simulation.maxEnergy));
 					 }

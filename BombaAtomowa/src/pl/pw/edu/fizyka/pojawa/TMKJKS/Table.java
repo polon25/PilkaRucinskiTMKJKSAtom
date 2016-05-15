@@ -29,19 +29,18 @@ public class Table {//Jacek Piłka
 		dtm = new DefaultTableModel(0,0);
 		dtm.setColumnIdentifiers(header);
 		table.setModel(dtm);
-		addData();
 	}
 	
-	public void addData(){
-		new Timer(100, new ActionListener() {
-			 @Override
-			 public void actionPerformed(ActionEvent e) {
-				 dtm.addRow(new Object[]{simulation.time, simulation.energy, simulation.numberOfAtoms, 
-						 simulation.numberOfNeutrons, simulation.numberOfFission});
-				 if(simulation.isCancelled())
-				    	((Timer)e.getSource()).stop();
-			 }
-		});
+	public void addData(boolean first){
+		if(first){
+			for(int j=0; j<simulation.energies.size(); j++){
+				dtm.addRow(new Object[]{j+1, simulation.energies.get(j), simulation.numbersOfAtoms.get(j), 
+							simulation.numbersOfNeutrons.get(j), simulation.numbersOfFissions.get(j)});
+			}
+		}
+		dtm.addRow(new Object[]{simulation.time, simulation.energy, simulation.numberOfAtoms, 
+			simulation.numberOfNeutrons, simulation.numberOfFission});
+
 	}
 }
 

@@ -34,6 +34,9 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
 	
 	ArrayList<String> data = new ArrayList<String>();
 	ArrayList<Float> energies = new ArrayList<Float>();
+	ArrayList<Double> numbersOfAtoms = new ArrayList<Double>();
+	ArrayList<Double> numbersOfNeutrons = new ArrayList<Double>();
+	ArrayList<Double> numbersOfFissions = new ArrayList<Double>();
 	
 	ArrayList<Particle> atoms = new ArrayList<Particle>();
 	ArrayList<Particle> neutrons = new ArrayList<Particle>();
@@ -285,7 +288,6 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
 			}
 			if(atoms.size()<1){
 				System.out.println("End of atoms!");
-				System.out.println(numberOfAtoms+" "+numberOfNeutrons);
 				this.cancel(true);
 				break;
 			}
@@ -296,6 +298,9 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
 			}
 			time++;
 			energies.add(energy);
+			numbersOfAtoms.add(numberOfAtoms);
+			numbersOfNeutrons.add(numberOfNeutrons*neutronsFactor);
+			numbersOfFissions.add(numberOfFission*neutronsFactor);
 			data.add(time+"\t"+energy);
 		}
 		this.cancel(true);
