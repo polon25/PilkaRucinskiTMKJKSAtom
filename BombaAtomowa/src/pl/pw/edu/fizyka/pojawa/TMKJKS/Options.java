@@ -189,12 +189,10 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 		    	if(shapes.getSelectedItem()==resourceBundle.getString("options.shape1")){
 		    		r = Float.parseFloat(shape.getText());
 		    		V=3.14*r*r;
-		    		System.out.println(V);
 		    	}
 		    	else if(shapes.getSelectedItem()==resourceBundle.getString("options.shape2")){
 		    		a = Float.parseFloat(shape.getText());
 		    		V=a*a*a;
-		    		System.out.println(V);
 		    	}
 		    	if(elements.getSelectedItem()==resourceBundle.getString("options.name1")){
 	    			m=V*densityU;
@@ -220,17 +218,14 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
             public void windowClosing(WindowEvent e)
             {
             	if(correctOrNoCorrect==true){
-                    System.out.println("Options: okienko opcji zamknięto poprawnie");
                     e.getWindow().dispose();
             	}
             	else if(correctOrNoCorrect==false){
-            		ClosingWarning.ClosingWarning();
+            		new ClosingWarning();
             		
             	}
             }
         });
-	
-	
 	}
 	
 	@Override

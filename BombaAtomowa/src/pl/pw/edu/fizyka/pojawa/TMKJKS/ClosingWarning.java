@@ -16,7 +16,7 @@ public class ClosingWarning { //by Antoni Rucinski
 	
 	
 	
-	public static void ClosingWarning() throws HeadlessException {
+	public ClosingWarning() throws HeadlessException {
 	
 		  Object[] options = { "OK", resourceBundle.getString("cWarning.Correct")};
 		  

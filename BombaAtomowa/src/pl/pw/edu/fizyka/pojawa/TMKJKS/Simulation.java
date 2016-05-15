@@ -48,18 +48,14 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
 		float density=0;
 		a=options.a;
 		r=options.r;
-		System.out.println("Wartosc a: "+a);
-		System.out.println("Wartosc r: "+r);
 		
 		//Setting element
 		if(options.element.equals(resourceBundle.getString("options.name1"))){
-			System.out.println("Wybrano Uran");
 			molMass=uranMolMass;
 			density=19050;
 		}
 		else if(options.element.equals(resourceBundle.getString("options.name2"))){
 			molMass=plutonMolMass;
-			System.out.println("Wybrano Pluton");
 			density=19816;
 		}
 		
@@ -75,77 +71,54 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
 		
 		//Setting number of Atoms
 		mol=(float)(options.m*1000)/molMass;
-		System.out.println("Liczba moli: "+mol);
 		numberOfAtoms=(mol*6.02*Math.pow(10.0,5.0));//<- Simplification
 		double trueNumberOfAtoms=mol*6.02*Math.pow(10.0,23.0);//How many atoms are in real?
 		atomsFactor=trueNumberOfAtoms/numberOfAtoms;
 		neutronsFactor=atomsFactor;
-		System.out.println("Number of atoms: "+numberOfAtoms);
 		elementMass=(float) (molMass/(6.02*Math.pow(10.0,23.0)));
 		
 		float elementV=(float) ((elementMass/density)*atomsFactor);
-		System.out.println("Objêtosæ atomu: "+elementV);
 		
 		//Adding atomic net
 		if (shape.equals("Cube")){
 			System.out.println("Simulate cube");
-			//distance=a/Math.pow(numberOfAtoms, 1.0/3.0);
-			distance=2*(Math.pow(elementV*3/(3.14*4),1.0/3.0)); //<- It should work, but it doesn't
+			distance=2*(Math.pow(elementV*3/(3.14*4),1.0/3.0));
 			makeCube();
 		}
 		else if (shape.equals("Ball")){
-			System.out.println("Simulate ball");
-			//distance=r/(numberOfAtoms/(2*3.14*3.14));
-			distance=2*(Math.pow(elementV*3/(3.14*4),1.0/3.0)); //<- It should work, but it doesn't
+			distance=2*(Math.pow(elementV*3/(3.14*4),1.0/3.0));
 			makeBall();
 		}
-		System.out.println("Distance between atoms: "+distance);
 		atomsFactor=trueNumberOfAtoms/atoms.size();
 		Random r = new Random();
 		Particle startAtom = atoms.get(r.nextInt(atoms.size()));
 		neutrons.add(new Particle(startAtom.x,startAtom.y,startAtom.z,0,true));
 		numberOfNeutrons++;
-		System.out.println("Stworzylem neutron");
 	}
 	
 	//Making net functions
 	
 	void makeCube(){
-		int nx=0,ny=0,nz=0;
 		for(float z=(float) (-a/2); z<=a/2; z+=distance){
-			nz++;
-			nx=0;
-			ny=0;
 			for(float y=(float) (-a/2); y<=a/2; y+=distance){
-				ny++;
-				nx=0;
 				for(float x=(float) (-a/2); x<=a/2; x+=distance){
-					nx++;
 					atoms.add(new Particle(x,y,z,0,false));
 				}
 			}
 		}
-		System.out.println("Szescian ma wymiary: "+nx+" "+ny+" "+nz);
 	}
 	
 	void makeBall(){//In spherical coordinates
-		int nx=0,ny=0,nz=0;
+		int nx=0;
 		
 		for(float r=0; r<this.r; r+=distance){
 			nx++;
-			ny=0;
-			nz=0;
 			for(float phi=0; phi<=2*3.14; phi+=(3.14/(3.0*nx))){
-				ny++;
-				nz=0;
 				for(float theta=0; theta<=2*3.14; theta+=(3.14/(3.0*nx))){
-					nz++;
 					atoms.add(new Particle(r,phi,theta,0,false));
 				}
 			}
 		}
-		
-		System.out.println("Kula ma wymiary: "+nx+" "+ny+" "+nz);
 	}
 	
 	void moveNeutron(Particle neutron){
@@ -176,7 +149,7 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
 			neutron.z-=distanceZ;
 			break;
 		default:
-			System.out.println("Neutron direction ERROR: "+neutron.direction);
+			System.out.println("Direction ERROR: "+neutron.direction);
 			break;
 		}
 	}
@@ -230,7 +203,6 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
 			maxEnergyMeV=energyMeV;
 			maxEnergy=(float) (maxEnergyMeV*1.602*Math.pow(10,-13));
 		}
-		System.out.println("E("+time+"us): "+energy+"J, "+energyMeV+"MeV, Maximum: "+maxEnergy+"J");
 	}
 	
 	void fission(Random rand, int i, int j){
@@ -278,9 +250,6 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
 			numberOfFission=0;
 			numberOfNeutrons=neutrons.size();
 		
-			System.out.println("Number of atoms: "+atoms.size()*atomsFactor);
-			System.out.println("Number of neutrons: "+numberOfNeutrons*neutronsFactor);
-		
 			//For every neutron
 		
 			for(int i=0; i<numberOfNeutrons; i++){//every neutron
@@ -306,9 +275,6 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
 			
 				collisionAtom(i, rand);
 			}
-		
-			System.out.println("Number of collisions: "+numberOfCollisions*neutronsFactor);
-			System.out.println("Number of fissions: "+numberOfFission*neutronsFactor);
 			
 			//Energy
 			calculateEnergy();

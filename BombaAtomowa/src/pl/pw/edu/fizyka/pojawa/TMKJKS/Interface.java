@@ -86,17 +86,20 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 			}
 		});
 		
-		menuPanel.symulationOptionMenuItem.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				menuPanel.startStopMenuItem.setEnabled(true);
-			}
-		});
-		
 		menuPanel.startStopMenuItem.addActionListener(new ActionListener(){//Start simulation
 			public void actionPerformed(ActionEvent e) {
-				startSimulation();
+					startSimulation();
 			}
 		});
+		new Timer(10, new ActionListener() {
+			 @Override
+			 public void actionPerformed(ActionEvent e) {
+				 if(Options.correctOrNoCorrect==true){
+					 menuPanel.startStopMenuItem.setEnabled(true);
+					 ((Timer)e.getSource()).stop();
+				 }
+			 }
+		 }).start();
 	}
 	
 	private void startSimulation(){
@@ -120,12 +123,12 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 						 if(simulation.isCancelled()){
 						    ((Timer)e.getSource()).stop();
 						    simulationStart=false;
+						    System.out.println("Simulation end");
 						 }
 						 energy.setText(Double.toString(simulation.energy));
 						 maxEnergy.setText(Double.toString(simulation.maxEnergy));
 					 }
 				 }).start();
-				
 		    	validate();
 			}
 			else{
@@ -134,7 +137,7 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 			}
 		}
 		else if(Options.correctOrNoCorrect==false){
-			ClosingWarning.ClosingWarning();
+			new ClosingWarning();
 		}
 	}
 

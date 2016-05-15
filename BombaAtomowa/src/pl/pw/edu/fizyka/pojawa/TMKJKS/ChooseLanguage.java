@@ -22,7 +22,6 @@ public class ChooseLanguage { //by Antoni Rucinski
 		  JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
 		  null, options, options[0]);
 		  
-		  System.out.println(l);
 		  if(l==0){
 			  local="pl";
 		  }
