@@ -1,6 +1,6 @@
 package pl.pw.edu.fizyka.pojawa.TMKJKS;
 
-public class Particle {//by Jacek Pi≥ka
+public class Particle {//by Jacek Pi≈Çka
 	public float x;
 	public float y;
 	public float z;
@@ -14,8 +14,9 @@ public class Particle {//by Jacek Pi≥ka
 		direction=D;
 		first=First;
 	}
-	public void interact(Particle particle, int r){//0-nothing, 1-fission of atom, 2-atom takes neutron
-		if (this.x==particle.x&&this.y==particle.y&&this.z==particle.z){
+	public void interact(Particle particle, int r, double distanceX, double distanceY, double distanceZ){//0-nothing, 1-fission of atom, 2-atom takes neutron
+		if (Math.abs(this.x-particle.x)<distanceX&&Math.abs(this.y-particle.y)<distanceY&&
+				Math.abs(this.z-particle.z)<distanceZ){
 			if(r<85||first)
 				change=1;
 			else

@@ -11,7 +11,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class MenuPanel extends JFrame { //by Antoni Rucinski
+public class MenuPanel extends JFrame { //by Antoni Rucinski & Jacek Piłka
 
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
 			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));

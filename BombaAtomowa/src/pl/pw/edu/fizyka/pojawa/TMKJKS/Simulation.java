@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import javax.swing.SwingWorker;
 
-public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
+public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
 	
 	/*****************************************************
 	 *                                                   *
@@ -105,11 +105,6 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 			makeBall();
 		}
 		System.out.println("Distance between atoms: "+distance);
-		for(int i=0; i<atoms.size()-1; i++){
-			if(atoms.get(i).x==atoms.get(i+1).x){
-				System.out.println("B³¹d!");
-			}
-		}
 		atomsFactor=trueNumberOfAtoms/atoms.size();
 		Random r = new Random();
 		Particle startAtom = atoms.get(r.nextInt(atoms.size()));
@@ -140,19 +135,39 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 	
 	void makeBall(){//In spherical coordinates
 		int nx=0,ny=0,nz=0;
-		for(float theta=0; theta<=3.14; theta+=3.14/3.0){
-			nz++;
+		
+		/**for(float z=0; z<2*r; z+=distance){
 			nx=0;
 			ny=0;
-			for(float phi=0; phi<=2*3.14; phi+=3.14/3.0){//Co Pi/3
-				ny++;
+			nz++;
+			for(float y=0; y<2*r; y+=distance){
+				if(Math.sqrt(Math.pow(y, 2.0)+Math.pow(z, 2.0))>distance)
+					break;
 				nx=0;
-				for(float r=0; r<this.r; r+=distance){
+				ny++;
+				for(float x=0; x<2*r; x+=distance){
+					if(Math.sqrt(Math.pow(x, 2.0)+Math.pow(y, 2.0))>distance)
+						break;
 					nx++;
+					atoms.add(new Particle(x,y,z,0,false));
+				}
+			}
+		}**/
+		
+		for(float r=0; r<this.r; r+=distance){
+			nx++;
+			ny=0;
+			nz=0;
+			for(float phi=0; phi<=2*3.14; phi+=(3.14/(3.0*nx))){
+				ny++;
+				nz=0;
+				for(float theta=0; theta<=2*3.14; theta+=(3.14/(3.0*nx))){
+					nz++;
 					atoms.add(new Particle(r,phi,theta,0,false));
 				}
 			}
 		}
+		
 		System.out.println("Kula ma wymiary: "+nx+" "+ny+" "+nz);
 	}
 	
@@ -162,7 +177,7 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 			distanceX=distance; distanceY=distance; distanceZ=distance;
 		}
 		else if(shape.equals("Ball")){
-			distanceX=distance; distanceY=3.14/3.0; distanceZ=3.14/3.0;
+			distanceX=distance; distanceY=3.14/(3.0*(neutron.x/distance)); distanceZ=3.14/(3.0*(neutron.x/distance));
 		}	
 		switch(neutron.direction){//direction of neutron
 		case 1:
@@ -250,9 +265,15 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 	}
 	
 	void collisionAtom(int i, Random rand){
+		double distanceX=0, distanceY=0, distanceZ=0;
+		if (shape.equals("Cube")){
+			distanceX=distance; distanceY=distance; distanceZ=distance;
+		}
+		else{
+			distanceX=distance; distanceY=3.14/(3.0*(neutrons.get(i).x/distance)); distanceZ=3.14/(3.0*(neutrons.get(i).x/distance));
+		}
 		for (int j=0; j<atoms.size(); j++){
-			//int j=rand.nextInt(atoms.size()-1);//<- Simplification - every neutron collides with atom
-			neutrons.get(i).interact(atoms.get(j), rand.nextInt(100));
+			neutrons.get(i).interact(atoms.get(j), rand.nextInt(100), distanceX, distanceY, distanceZ);
 			if(neutrons.get(i).change==1){
 				fission(rand, i, j);
 				numberOfAtoms--;
@@ -317,15 +338,24 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Pilka
 			if(neutrons.size()<1){
 				System.out.println("Lack of neutrons!");
 				this.cancel(true);
+				break;
 			}
-			if(neutrons.size()>atoms.size()){
+			if(atoms.size()<1){
 				System.out.println("End of atoms!");
+				System.out.println(numberOfAtoms+" "+numberOfNeutrons);
 				this.cancel(true);
+				break;
+			}
+			if(numberOfCollisions==0){
+				System.out.println("No Collisions!");
+				this.cancel(true);
+				break;
 			}
 			time++;	
 			
 			data.add(time+"\t"+energy);
 		}
+		this.cancel(true);
 		Interface.energy.validate();
 		return null;
 	}

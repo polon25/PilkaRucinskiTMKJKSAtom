@@ -14,7 +14,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-public class Chart {
+public class Chart {//by Jacek Pi³ka
 
 	 ChartPanel chartPanel;
 	 XYSeries series = new XYSeries("Data");

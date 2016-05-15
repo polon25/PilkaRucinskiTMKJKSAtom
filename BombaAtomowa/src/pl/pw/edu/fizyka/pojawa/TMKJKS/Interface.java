@@ -19,7 +19,7 @@ import javax.swing.Timer;
 
 import org.jfree.chart.ChartPanel;
 
-public class Interface extends JFrame { //by Antoni Rucinski & Jacek Pilka
+public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 	
 	private static final long serialVersionUID = 185723979423401295L;
 	Random rand = new Random();
