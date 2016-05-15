@@ -27,14 +27,22 @@ public class Chart {//by Jacek Pi�ka
 	 XYSeries series = new XYSeries("Data");
 	 XYSeriesCollection dataset = new XYSeriesCollection(series);
 	 
+	 int i=0;
+	 
 	 Chart(final Simulation simulation){
 		 
-		 new Timer(100, new ActionListener() {
+		 new Timer(1, new ActionListener() {
 			 @Override
 			 public void actionPerformed(ActionEvent e) {
+				 if(simulation.energies.size()>i){
+					 for(int j=0; j<simulation.energies.size(); j++){
+						 series.add(j+1, simulation.energies.get(j));
+					 }
+				 }
 				 series.add(simulation.time, simulation.energy);
 				 if(simulation.isCancelled())
 			    	((Timer)e.getSource()).stop();
+				 i++;
 			 }
 		 }).start();
 		 JFreeChart lineGraph = ChartFactory.createXYLineChart(resourceBundle.getString("chart.energy"), 

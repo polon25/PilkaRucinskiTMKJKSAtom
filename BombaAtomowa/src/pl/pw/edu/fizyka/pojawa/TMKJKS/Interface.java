@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.ScheduledExecutorService;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
@@ -34,6 +35,7 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 	JTextField energy = new JTextField("");
 	
 	ChartPanel chart;
+	JTable table;
 	
 	boolean isChart=false;
 	
@@ -48,8 +50,6 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 		setLayout(new BorderLayout());
 		setTitle(resourceBundle.getString("interface.title"));
 		
-		
-		JPanel manePanel = new JPanel();
 		JPanel bottomPanel = new JPanel();
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
@@ -57,16 +57,10 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 		tabbedPane.addTab(resourceBundle.getString("interface.chart"), chartPanel);
 		tabbedPane.addTab(resourceBundle.getString("interface.table"), tablePanel);
 		
-		//add(BorderLayout.CENTER, manePanel);
 		add(BorderLayout.CENTER, tabbedPane);
 		add(BorderLayout.SOUTH, bottomPanel);
 		
-		manePanel.setLayout(new GridLayout(1,1));
 		bottomPanel.setLayout(new GridLayout(1, 5));
-		
-		//podzial na kolumny
-		manePanel.add(new Mock("Wykres zmian energii od czasu"));
-		//manePanel.add(new Mock("Wykres zmian energii od czasu"));
 		
 		bottomPanel.add(new JLabel(resourceBundle.getString("interface.maxEnergy")));
 		bottomPanel.add(maxEnergy);
@@ -91,7 +85,7 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 					startSimulation();
 			}
 		});
-		new Timer(10, new ActionListener() {
+		new Timer(100, new ActionListener() {
 			 @Override
 			 public void actionPerformed(ActionEvent e) {
 				 if(Options.correctOrNoCorrect==true){
@@ -111,13 +105,14 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 			if (simulationStart){
 				System.out.println("Simulation start");
 				simulation=new Simulation(MenuPanel.options, window);
-				simulation.execute();
 				if(isChart)
 					chartPanel.remove(chart);
 				chart=new Chart(simulation).chartPanel;
 				chartPanel.add(chart);
+				simulation.execute();
 				isChart=true;
-				new Timer(100, new ActionListener() {
+				tablePanel.add(new Table(simulation).table);
+				new Timer(10, new ActionListener() {
 					 @Override
 					 public void actionPerformed(ActionEvent e) {
 						 if(simulation.isCancelled()){

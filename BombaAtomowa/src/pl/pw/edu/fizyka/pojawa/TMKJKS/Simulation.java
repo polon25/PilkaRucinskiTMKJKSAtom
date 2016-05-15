@@ -33,6 +33,7 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
 	double neutronsFactor=1;
 	
 	ArrayList<String> data = new ArrayList<String>();
+	ArrayList<Float> energies = new ArrayList<Float>();
 	
 	ArrayList<Particle> atoms = new ArrayList<Particle>();
 	ArrayList<Particle> neutrons = new ArrayList<Particle>();
@@ -97,7 +98,7 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
 	}
 	
 	//Making net functions
-	
+
 	void makeCube(){
 		for(float z=(float) (-a/2); z<=a/2; z+=distance){
 			for(float y=(float) (-a/2); y<=a/2; y+=distance){
@@ -275,7 +276,6 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
 			
 				collisionAtom(i, rand);
 			}
-			
 			//Energy
 			calculateEnergy();
 			if(neutrons.size()<1){
@@ -294,8 +294,8 @@ public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
 				this.cancel(true);
 				break;
 			}
-			time++;	
-			
+			time++;
+			energies.add(energy);
 			data.add(time+"\t"+energy);
 		}
 		this.cancel(true);
