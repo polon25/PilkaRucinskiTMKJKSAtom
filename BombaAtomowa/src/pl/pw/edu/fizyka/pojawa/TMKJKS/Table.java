@@ -1,14 +1,19 @@
 package pl.pw.edu.fizyka.pojawa.TMKJKS;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.JTable;
-import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 
-public class Table {//Jacek Piłka
+/**
+ * 
+ * @author Jacek Piłka
+ *
+ *	Dynamic table
+ *
+ */
+
+public class Table {
 
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
 			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));

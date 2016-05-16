@@ -1,6 +1,14 @@
 package pl.pw.edu.fizyka.pojawa.TMKJKS;
 
-public class Particle {//by Jacek Piłka
+/**
+ * 
+ * @author Jacek Piłka
+ *
+ *	Particle - atom or neutron
+ *
+ */
+
+public class Particle {
 	public float x;
 	public float y;
 	public float z;

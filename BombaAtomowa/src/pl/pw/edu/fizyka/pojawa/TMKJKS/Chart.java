@@ -16,8 +16,15 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+/**
+ * 
+ * @author Jacek Piłka
+ * 
+ * Dynamic chart
+ *
+ */
 
-public class Chart {//by Jacek Pi�ka
+public class Chart {
 
 	
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle(

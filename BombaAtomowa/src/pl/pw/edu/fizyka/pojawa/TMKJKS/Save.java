@@ -8,6 +8,14 @@ import java.util.ResourceBundle;
 
 import javax.swing.JFileChooser;
 
+/**
+ * 
+ * @author Jacek Pi³ka
+ * 
+ * Saving data to text file
+ *
+ */
+
 public class Save {
 	
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle(

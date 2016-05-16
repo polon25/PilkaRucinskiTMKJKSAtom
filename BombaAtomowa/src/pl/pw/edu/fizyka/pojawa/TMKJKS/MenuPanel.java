@@ -11,6 +11,14 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+/**
+ * 
+ * @authors Jacek Piłka & Antoni Ruciński
+ *
+ *	Menu panel
+ *
+ */
+
 public class MenuPanel extends JFrame { //by Antoni Rucinski & Jacek Piłka
 
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle(

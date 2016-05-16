@@ -18,7 +18,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Options extends JFrame implements FocusListener { // by Jacek Piłka & Antoni Ruciński 
+/**
+ * 
+ * @author Jacek Piłka
+ * 
+ * Option window
+ *
+ */
+
+public class Options extends JFrame implements FocusListener {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -163,11 +171,9 @@ public class Options extends JFrame implements FocusListener { // by Jacek Piłk
 		    public void actionPerformed(ActionEvent e) {
 		    	if(materials.getSelectedItem()==resourceBundle.getString("options.no")){
 		    		reflectMaterial=false;
-		    		System.out.print("\n Materiał otaczający: nie");
 		    	}
 		    	else if(materials.getSelectedItem()==resourceBundle.getString("options.yes")){
 		    		reflectMaterial=true;
-		    		System.out.print("\n Materiał otaczający: tak");
 		    	}
 		    }
 		});

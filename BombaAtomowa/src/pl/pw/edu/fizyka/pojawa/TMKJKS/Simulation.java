@@ -6,7 +6,15 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import javax.swing.SwingWorker;
 
-public class Simulation extends SwingWorker<Void, Void>{//by Jacek Piłka
+/**
+ * 
+ * @author Jacek Piłka
+ *
+ *	Numerical simulation of fission
+ *
+ */
+
+public class Simulation extends SwingWorker<Void, Void>{
 	
 	float energy=0;//J
 	public float maxEnergy=0;//J

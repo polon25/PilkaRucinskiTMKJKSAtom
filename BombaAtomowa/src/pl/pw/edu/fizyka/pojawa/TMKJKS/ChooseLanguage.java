@@ -1,8 +1,12 @@
 package pl.pw.edu.fizyka.pojawa.TMKJKS;
 
-
-
-
+/**
+ * 
+ * @author Antoni Ruciñski
+ * 
+ * Choosing language window
+ * 
+ */
 
 import java.awt.HeadlessException;
 

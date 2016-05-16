@@ -15,38 +15,44 @@ import java.util.concurrent.ScheduledExecutorService;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import org.jfree.chart.ChartPanel;
 
-public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
+/**
+ * 
+ * @authors Jacek Piłka & Antoni Ruciński
+ * 
+ * Main window
+ *
+ */
+
+public class Interface extends JFrame {
 	
 	private static final long serialVersionUID = 185723979423401295L;
-	Random rand = new Random();
-	static Interface window = new Interface();
+	
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
 			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
-	ScheduledExecutorService exec;
-	boolean simulationStart=false;
-	Simulation simulation;
 	
-	JTextField maxEnergy = new JTextField("");
-	JTextField energy = new JTextField("");
+	static Interface window = new Interface();
+	Random rand = new Random();
+	Simulation simulation;
+	ScheduledExecutorService exec;
 	
 	ChartPanel chart;
 	Table table;
 	
-	int i=0;
-	
-	boolean isChart=false;
-	boolean first=true;
+	boolean simulationStart=false;//if simulation work -> stop, else start
+	boolean isChart=false;//if there's chart -> automatically remove when new simulation starts
+	boolean first=true;//if it's first iteration -> update previous data in chart and table
 	
 	JPanel chartPanel = new JPanel(new FlowLayout());
 	JPanel tablePanel = new JPanel(new FlowLayout());
+	
+	JTextField maxEnergy = new JTextField("");
+	JTextField energy = new JTextField("");
 
-//interface constructor: creating main frame with a menu
 	public Interface() throws HeadlessException {
 		
 		setSize(800,600);
@@ -89,6 +95,7 @@ public class Interface extends JFrame { //by Antoni Ruciński & Jacek Piłka
 					startSimulation();
 			}
 		});
+		
 		new Timer(100, new ActionListener() {
 			 @Override
 			 public void actionPerformed(ActionEvent e) {
