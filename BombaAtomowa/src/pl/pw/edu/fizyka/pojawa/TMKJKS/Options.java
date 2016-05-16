@@ -59,8 +59,8 @@ public class Options extends JFrame implements FocusListener {
 	final JComboBox elements = new JComboBox(stringElements);
 	String stringShapes[]={resourceBundle.getString("options.shape1"), resourceBundle.getString("options.shape2")};
 	final JComboBox shapes = new JComboBox(stringShapes);
-	String stringmaterials[]={resourceBundle.getString("options.yes"), resourceBundle.getString("options.no")};
-	final JComboBox materials = new JComboBox(stringmaterials);
+	String stringSMaterials[]={resourceBundle.getString("options.yes"), resourceBundle.getString("options.no")};
+	final JComboBox sMaterials = new JComboBox(stringSMaterials);
 	
 	
 	public Options(){
@@ -107,7 +107,7 @@ public class Options extends JFrame implements FocusListener {
 		leftPanel.add(shapes);
 		leftPanel.add(radiusLabel);
 		rightPanel.add(new JLabel());
-		rightPanel.add(materials);
+		rightPanel.add(sMaterials);
 		rightPanel.add(mass);
 		rightPanelA.add(shape);
 		rightPanel.add(new JLabel());
@@ -117,7 +117,7 @@ public class Options extends JFrame implements FocusListener {
 		shape.setToolTipText(resourceBundle.getString("options.tip.shape"));
 		elements.setToolTipText(resourceBundle.getString("options.tip.elements"));
 		shapes.setToolTipText(resourceBundle.getString("options.tip.shapes"));
-		materials.setToolTipText(resourceBundle.getString("options.tip.material"));
+		sMaterials.setToolTipText(resourceBundle.getString("options.tip.material"));
 
 		/**
 		 * 
@@ -167,12 +167,12 @@ public class Options extends JFrame implements FocusListener {
 		    }
 		});
 
-		materials.addActionListener(new ActionListener() {
+		sMaterials.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		    	if(materials.getSelectedItem()==resourceBundle.getString("options.no")){
+		    	if(sMaterials.getSelectedItem()==resourceBundle.getString("options.no")){
 		    		reflectMaterial=false;
 		    	}
-		    	else if(materials.getSelectedItem()==resourceBundle.getString("options.yes")){
+		    	else if(sMaterials.getSelectedItem()==resourceBundle.getString("options.yes")){
 		    		reflectMaterial=true;
 		    	}
 		    }
@@ -222,7 +222,7 @@ public class Options extends JFrame implements FocusListener {
 		mass.addFocusListener(this);
 		shape.addFocusListener(this);
 		shapes.addFocusListener(this);
-		materials.addFocusListener(this);
+		sMaterials.addFocusListener(this);
 		
 	    addWindowListener(new WindowAdapter()
         {

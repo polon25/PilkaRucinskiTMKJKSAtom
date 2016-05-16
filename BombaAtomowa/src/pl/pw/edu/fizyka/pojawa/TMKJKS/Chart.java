@@ -41,7 +41,7 @@ public class Chart {
 		 new Timer(1, new ActionListener() {
 			 @Override
 			 public void actionPerformed(ActionEvent e) {
-				 if(first){
+				 if(first){//Synchronize old data
 					 for(int j=0; j<simulation.energies.size(); j++){
 						 series.add(j+1, simulation.energies.get(j));
 					 }

@@ -37,7 +37,7 @@ public class ClosingWarning {
 		  if(l==0){
 			  local=0;
 		  }
-		  //Popraw dane
+		  //Revision of data
 		  else if(l==1){
 				MenuPanel.options.setVisible(true);
 				MenuPanel.options.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

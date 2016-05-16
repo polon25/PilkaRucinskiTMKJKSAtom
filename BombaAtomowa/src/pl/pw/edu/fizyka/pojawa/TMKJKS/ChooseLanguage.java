@@ -13,7 +13,7 @@ import java.awt.HeadlessException;
 
 import javax.swing.JOptionPane;
 
-public class ChooseLanguage { //by Antoni Rucinski
+public class ChooseLanguage {
 	
 	static int l;
 	public static String local="pl";

@@ -83,7 +83,7 @@ public class Interface extends JFrame {
 		
 		menuPanel.startStopMenuItem.setEnabled(false);
 		
-		menuPanel.saveMenuItem.addActionListener(new ActionListener(){
+		menuPanel.saveMenuItem.addActionListener(new ActionListener(){//Save data
 			public void actionPerformed(ActionEvent e){
 				Save save=new Save(simulation, MenuPanel.options);
 				save.save();
@@ -96,7 +96,7 @@ public class Interface extends JFrame {
 			}
 		});
 		
-		new Timer(100, new ActionListener() {
+		new Timer(100, new ActionListener() {//if values in options right - enable starting simulation
 			 @Override
 			 public void actionPerformed(ActionEvent e) {
 				 if(Options.correctOrNoCorrect==true){
@@ -109,17 +109,17 @@ public class Interface extends JFrame {
 	
 	private void startSimulation(){
 		if(Options.correctOrNoCorrect==true){
-			if (!simulationStart)
+			if (!simulationStart)//What do user want - start or stop?
 				simulationStart=true;
 			else
 				simulationStart=false;
-			if (simulationStart){
+			if (simulationStart){//Starting simulation
 				System.out.println("Simulation start");
 				simulation=new Simulation(MenuPanel.options, window);
-				if(isChart){
+				if(isChart){//Remove old chart & table
 					chartPanel.remove(chart);
 					tablePanel.remove(table.table);
-				}
+				}//Add new chart & table
 				chart=new Chart(simulation, first).chartPanel;
 				table = new Table(simulation);
 				chartPanel.add(chart);
@@ -131,12 +131,12 @@ public class Interface extends JFrame {
 				
 				simulation.execute();
 				
-				new Timer(100, new ActionListener() {
+				new Timer(100, new ActionListener() {//Adding data to TextFields and Tables
 					 @Override
 					 public void actionPerformed(ActionEvent e) {
-						 if(simulation.isCancelled()){
+						 if(simulation.isCancelled()){//End that timer
 						    ((Timer)e.getSource()).stop();
-						    simulationStart=false;
+						    simulationStart=false;//Now simulations officially end
 						    System.out.println("Simulation end");
 						 }
 						 table.addData(first);
@@ -147,12 +147,12 @@ public class Interface extends JFrame {
 				 }).start();
 		    	validate();
 			}
-			else{
+			else{//Stopping simulation
 				simulation.cancel(true);
 				System.out.println("Simulation end");
 			}
 		}
-		else if(Options.correctOrNoCorrect==false){
+		else if(Options.correctOrNoCorrect==false){//If values in option aren't right
 			new ClosingWarning();
 		}
 	}

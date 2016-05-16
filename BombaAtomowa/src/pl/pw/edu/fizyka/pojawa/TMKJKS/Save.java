@@ -30,10 +30,10 @@ public class Save {
 	}
 	
 	public File fileChooser(){
-		JFileChooser chooser = new JFileChooser(); // Stworzenie klasy
-        chooser.setDialogTitle(resourceBundle.getString("save.title")); // Ustawienie tytu³u okienka
-        int result = chooser.showDialog(null, resourceBundle.getString("save.button")); //Otwarcie okienka. Metoda ta blokuje siê do czasu wybrania pliku lub zamkniêcia okna
-        if (JFileChooser.APPROVE_OPTION == result){ //Jeœli u¿tytkownik wybra³ plik
+		JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle(resourceBundle.getString("save.title"));
+        int result = chooser.showDialog(null, resourceBundle.getString("save.button"));
+        if (JFileChooser.APPROVE_OPTION == result){
         	return chooser.getSelectedFile();
         }
         else {
