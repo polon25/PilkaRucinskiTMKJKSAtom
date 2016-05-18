@@ -20,7 +20,7 @@ import javax.swing.JTextField;
 
 /**
  * 
- * @author Jacek Piłka
+ * @author Jacek Piłka & Antoni Ruciński
  * 
  * Option window
  *
