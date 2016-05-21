@@ -37,15 +37,11 @@ public class Table {
 	}
 	
 	public void addData(boolean first){
-		if(first){
-			for(int j=0; j<simulation.energies.size(); j++){
-				dtm.addRow(new Object[]{j+1, simulation.energies.get(j), simulation.numbersOfAtoms.get(j), 
-							simulation.numbersOfNeutrons.get(j), simulation.numbersOfFissions.get(j)});
-			}
+		dtm.setRowCount(0);
+		for(int j=0; j<simulation.energies.size(); j++){
+			dtm.addRow(new Object[]{j+1, simulation.energies.get(j), simulation.numbersOfAtoms.get(j), 
+						simulation.numbersOfNeutrons.get(j), simulation.numbersOfFissions.get(j)});
 		}
-		dtm.addRow(new Object[]{simulation.time, simulation.energy, simulation.numberOfAtoms, 
-			simulation.numberOfNeutrons, simulation.numberOfFission});
-
 	}
 }
 

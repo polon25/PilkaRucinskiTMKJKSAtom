@@ -139,7 +139,12 @@ public class Interface extends JFrame {
 						    simulationStart=false;//Now simulations officially end
 						    System.out.println("Simulation end");
 						 }
+						 tablePanel.remove(tablePanel.getComponent(0));
 						 table.addData(first);
+						 tablePanel.add(table.table);
+						 JScrollPane scrollPane = new JScrollPane(table.table);
+					     tablePanel.add(scrollPane);
+					     validate();
 						 first=false;
 						 energy.setText(Double.toString(simulation.energy));
 						 maxEnergy.setText(Double.toString(simulation.maxEnergy));
