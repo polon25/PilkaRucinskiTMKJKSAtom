@@ -2,14 +2,14 @@ package pl.pw.edu.fizyka.pojawa.TMKJKS;
 
 /**
  * 
- * @author Antoni Ruciński
+ * @author Antoni Ruciński & Jacek Piłka
  * 
  * Choosing language window
  * 
  */
 
 import java.awt.HeadlessException;
-
+import java.util.Locale;
 
 import javax.swing.JOptionPane;
 
@@ -28,9 +28,11 @@ public class ChooseLanguage {
 		  
 		  if(l==0){
 			  local="pl";
+			  Locale.setDefault(new Locale("pl", "PL"));
 		  }
 		  else if(l==1){
 			  local="en";
+			  Locale.setDefault(new Locale("en", "GB"));
 		  }
 	}
 	

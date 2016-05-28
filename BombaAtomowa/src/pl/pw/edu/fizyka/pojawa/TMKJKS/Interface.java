@@ -143,14 +143,14 @@ public class Interface extends JFrame {
 			if (simulationStart){//Starting simulation
 				System.out.println("Simulation start");
 				menuPanel.saveMenuItem.setEnabled(false);
+				menuPanel.simulationOptionMenuItem.setEnabled(false);
 				simulation=new Simulation(MenuPanel.options, window);
 				if(isChart){//Remove old chart & table
 					removeChartAndTable();
 				}//Add new chart & table
 				addChartAndTable();
-				
 				simulation.execute();
-				
+				first=false;
 				timer();
 		    	validate();
 			}
@@ -194,7 +194,6 @@ public class Interface extends JFrame {
 			 @Override
 			 public void actionPerformed(ActionEvent e) {
 				 if(simulation.isCancelled()){//End that timer
-				    ((Timer)e.getSource()).stop();
 				    simulationStart=false;//Now simulations officially end
 				    System.out.println("Simulation end");
 				    JOptionPane.showMessageDialog(
@@ -202,19 +201,20 @@ public class Interface extends JFrame {
 	                        resourceBundle.getString("interface.endSimulationDialogTitle"),
 	                        JOptionPane.INFORMATION_MESSAGE);
 				    menuPanel.saveMenuItem.setEnabled(true);
+				    menuPanel.simulationOptionMenuItem.setEnabled(true);
 				    first=true;
+				    ((Timer)e.getSource()).stop();
 				 }
 				 tablePanel.remove(tablePanel.getComponent(0));
 				 table.addData(first);
 				 tablePanel.add(BorderLayout.CENTER, table.table);
 				 JScrollPane scrollPane = new JScrollPane(table.table);
 			     tablePanel.add(scrollPane);
-			     validate();
-				 first=false;
 				 energy.setText(prefixes.format(simulation.energy));
 				 maxEnergy.setText(prefixes.format(simulation.maxEnergy));
 				 energykTNT.setText(String.format("%.2f", simulation.energykTNT));
 				 maxEnergykTNT.setText(String.format("%.2f", simulation.maxEnergykTNT));
+				 validate();
 			 }
 		 }).start();
 	}

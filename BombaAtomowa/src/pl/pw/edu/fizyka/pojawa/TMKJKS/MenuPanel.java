@@ -25,10 +25,10 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski & Jacek Piłka
 			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
 
 	private static final long serialVersionUID = 1L;
-	public static  Options options;
+	public static Options options;
 	JMenuItem startStopMenuItem = new JMenuItem("Start / Stop");
 	JMenuItem saveMenuItem = new JMenuItem(resourceBundle.getString("menu.saveMenuItem"));
-	JMenuItem symulationOptionMenuItem = 
+	JMenuItem simulationOptionMenuItem = 
 			new JMenuItem(resourceBundle.getString("menu.symulationOptionsMenuItem"));
 
 	public JMenuBar createMenu(){
@@ -55,7 +55,7 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski & Jacek Piłka
 		menu.addSeparator();
 	
 		//simulation options menu item
-		menu.add(symulationOptionMenuItem);
+		menu.add(simulationOptionMenuItem);
 
 		menuBar.add(menu);
 
@@ -67,7 +67,7 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski & Jacek Piłka
 					System.out.println("Closing Program");
 		            System.exit(1);
 				}
-				else if(e.getSource()==symulationOptionMenuItem){
+				else if(e.getSource()==simulationOptionMenuItem){
 					options.setVisible(true);
 				}
 			}
@@ -75,7 +75,7 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski & Jacek Piłka
 		
 		closeMenuItem.addActionListener(menuListener);
 	
-		symulationOptionMenuItem.addActionListener(menuListener);
+		simulationOptionMenuItem.addActionListener(menuListener);
 
 		return menuBar;
 	}
