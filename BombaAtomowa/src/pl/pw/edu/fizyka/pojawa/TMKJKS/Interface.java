@@ -225,6 +225,3 @@ public class Interface extends JFrame {
 		f.setVisible(true);
 	}
 }
-
-
-

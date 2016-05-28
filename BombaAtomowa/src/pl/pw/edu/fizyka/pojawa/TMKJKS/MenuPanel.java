@@ -61,7 +61,6 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski & Jacek Piłka
 
 //Listeners
 		ActionListener menuListener=new ActionListener(){
-			
 			public void actionPerformed(ActionEvent e){
 				if(e.getSource()==closeMenuItem){
 					System.out.println("Closing Program");

@@ -293,6 +293,4 @@ public class Options extends JFrame implements FocusListener {
     		mass.setText(String.valueOf(m));
     	}
 	}
-	
-
 }
