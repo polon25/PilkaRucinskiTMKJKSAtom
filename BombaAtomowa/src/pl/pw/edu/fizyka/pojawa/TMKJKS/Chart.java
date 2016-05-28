@@ -41,7 +41,7 @@ public class Chart {
 	 Chart(final Simulation simulation, ArrayList<Double> dataList, boolean first){
 		 
 		 if(dataList==simulation.energies){
-			 chartTitle=resourceBundle.getString("table.energy");
+			 chartTitle=resourceBundle.getString("chart.energy");
 			 chartY=resourceBundle.getString("chart.Yenergy");
 		 }
 		 else if(dataList==simulation.numbersOfAtoms){

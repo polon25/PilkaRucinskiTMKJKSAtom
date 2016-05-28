@@ -19,7 +19,7 @@ public class Table {
 			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
 	
 	private String[] header = {resourceBundle.getString("table.time"),
-		resourceBundle.getString("table.energy"),
+		resourceBundle.getString("table.energykTNT"),
 		resourceBundle.getString("table.numberOfAtoms"),
 		resourceBundle.getString("table.numberOfNeutrons"),
 		resourceBundle.getString("table.numberOfFissions")};

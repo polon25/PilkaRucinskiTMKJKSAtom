@@ -16,10 +16,14 @@ import javax.swing.SwingWorker;
 
 public class Simulation extends SwingWorker<Void, Void>{
 	
+	Random rand = new Random();
+	
 	float energy=0;//J
 	public float maxEnergy=0;//J
 	float energyMeV =0;//MeV
 	float maxEnergyMeV=0;//MeV
+	double energykTNT=0;
+	double maxEnergykTNT=0;
 	double distance=0;
 	float mol=0;
 	float uranMolMass=238; //g/mol
@@ -140,7 +144,8 @@ public class Simulation extends SwingWorker<Void, Void>{
 			distanceX=distance; distanceY=distance; distanceZ=distance;
 		}
 		else if(shape.equals("Ball")){
-			distanceX=distance; distanceY=3.14/(3.0*(neutron.x/distance)); distanceZ=3.14/(3.0*(neutron.x/distance));
+			distanceX=distance; distanceY=3.14/(3.0*(neutron.x/distance)); 
+			distanceZ=3.14/(3.0*(neutron.x/distance));
 		}	
 		switch(neutron.direction){//direction of neutron
 		case 1:
@@ -212,9 +217,11 @@ public class Simulation extends SwingWorker<Void, Void>{
 	
 	void calculateEnergy(){
 		energy=(float) (energyMeV*1.602*Math.pow(10,-13));
+		energykTNT=energy*Math.pow(10.0, -9.0)/4184;
 		if(energyMeV>maxEnergyMeV){
 			maxEnergyMeV=energyMeV;
 			maxEnergy=(float) (maxEnergyMeV*1.602*Math.pow(10,-13));
+			maxEnergykTNT=maxEnergy*Math.pow(10.0, -9.0)/4184;
 		}
 	}
 	
@@ -232,7 +239,8 @@ public class Simulation extends SwingWorker<Void, Void>{
 			distanceX=distance; distanceY=distance; distanceZ=distance;
 		}
 		else{
-			distanceX=distance; distanceY=3.14/(3.0*(neutrons.get(i).x/distance)); distanceZ=3.14/(3.0*(neutrons.get(i).x/distance));
+			distanceX=distance; distanceY=3.14/(3.0*(neutrons.get(i).x/distance)); 
+			distanceZ=3.14/(3.0*(neutrons.get(i).x/distance));
 		}
 		for (int j=0; j<atoms.size(); j++){
 			neutrons.get(i).interact(atoms.get(j), rand.nextInt(100), distanceX, distanceY, distanceZ);
@@ -255,9 +263,29 @@ public class Simulation extends SwingWorker<Void, Void>{
 		}
 	}
 	
+	boolean endSimulation(){
+		if(neutrons.size()<1){
+			System.out.println("Lack of neutrons!");
+			this.cancel(true);
+			return true;
+		}
+		else if(atoms.size()<1){
+			System.out.println("End of atoms!");
+			this.cancel(true);
+			return true;
+		}
+		else if(numberOfCollisions==0){
+			System.out.println("No Collisions!");
+			this.cancel(true);
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
 	public Void doInBackground(){
 		while(!isCancelled()){
-			Random rand = new Random();
 			energyMeV=0;
 			numberOfCollisions=0;
 			numberOfFission=0;
@@ -285,43 +313,25 @@ public class Simulation extends SwingWorker<Void, Void>{
 				}
 			
 				//Searching for neutrons hitting atom
-			
 				collisionAtom(i, rand);
 			}
 			//Energy
 			calculateEnergy();
-			if(endSimulation())
-				break;
+			
 			time++;
-			energies.add((double)energy);
+			energies.add(energykTNT);
 			numbersOfAtoms.add(numberOfAtoms*atomsFactor);
 			numbersOfNeutrons.add(numberOfNeutrons*neutronsFactor);
 			numbersOfFissions.add(numberOfFission*neutronsFactor);
-			data.add(time+"\t"+energy);
+			data.add(time+"\t"+energy+"\t"+numberOfAtoms*atomsFactor
+					+"\t"+numberOfNeutrons*neutronsFactor+"\t"
+					+numberOfFission*neutronsFactor);
+			
+			if(endSimulation())
+				break;
 		}
 		this.cancel(true);
 		Interface.energy.validate();
 		return null;
-	}
-	
-	private boolean endSimulation(){
-		if(neutrons.size()<1){
-			System.out.println("Lack of neutrons!");
-			this.cancel(true);
-			return true;
-		}
-		else if(atoms.size()<1){
-			System.out.println("End of atoms!");
-			this.cancel(true);
-			return true;
-		}
-		else if(numberOfCollisions==0){
-			System.out.println("No Collisions!");
-			this.cancel(true);
-			return true;
-		}
-		else{
-			return false;
-		}
 	}
 }

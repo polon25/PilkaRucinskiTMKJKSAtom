@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -182,6 +184,10 @@ public class Interface extends JFrame {
 				    ((Timer)e.getSource()).stop();
 				    simulationStart=false;//Now simulations officially end
 				    System.out.println("Simulation end");
+				    JOptionPane.showMessageDialog(
+	                        window, resourceBundle.getString("interface.endSimulationDialogMessage"),
+	                        resourceBundle.getString("interface.endSimulationDialogTitle"),
+	                        JOptionPane.INFORMATION_MESSAGE);
 				 }
 				 tablePanel.remove(tablePanel.getComponent(0));
 				 table.addData(first);

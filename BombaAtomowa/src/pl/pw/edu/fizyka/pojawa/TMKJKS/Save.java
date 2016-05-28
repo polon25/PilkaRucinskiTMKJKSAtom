@@ -53,7 +53,7 @@ public class Save {
 				out.println("Shape: "+simulation.shape+"\t a: "+simulation.a);
 			else if(simulation.shape.equals("Ball"))
 				out.println("Shape: "+simulation.shape+"\t r: "+simulation.r);
-			out.println("Time [us] \t Energy [J]");
+			out.println("Time [us] \t Energy [J] \t Atoms \t Neutrons \t Fissions");
 			for(int i=0; i<simulation.data.size();i++)
 				out.println(simulation.data.get(i));
 		    out.close();
