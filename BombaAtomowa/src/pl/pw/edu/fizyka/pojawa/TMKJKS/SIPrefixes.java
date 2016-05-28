@@ -4,6 +4,12 @@ import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
+/**
+ * 
+ * @author Jacek Pi³ka
+ *
+ */
+
 public class SIPrefixes {
 	private static final NavigableMap<Double, String> suffixes = new TreeMap<> ();
 	static {
