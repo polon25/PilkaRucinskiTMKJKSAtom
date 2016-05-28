@@ -130,45 +130,13 @@ public class Interface extends JFrame {
 				System.out.println("Simulation start");
 				simulation=new Simulation(MenuPanel.options, window);
 				if(isChart){//Remove old chart & table
-					chartPanel.remove(chartOfEnergy);
-					tablePanel.remove(table.table);
+					removeChartAndTable();
 				}//Add new chart & table
-				chartOfEnergy=new Chart(simulation, simulation.energies, first).chartPanel;
-				chartOfAtoms=new Chart(simulation, simulation.numbersOfAtoms, first).chartPanel;
-				chartOfNeutrons=new Chart(simulation, simulation.numbersOfNeutrons, first).chartPanel;
-				chartOfFissions=new Chart(simulation, simulation.numbersOfFissions, first).chartPanel;
-				table = new Table(simulation);
-				chartPanelEnergy.add(chartOfEnergy);
-				chartPanelAtoms.add(chartOfAtoms);
-				chartPanelNeutrons.add(chartOfNeutrons);
-				chartPanelFissions.add(chartOfFissions);
-				tablePanel.add(table.table);
-				isChart=true;
-				
-				JScrollPane scrollPane = new JScrollPane(table.table);
-		        tablePanel.add(scrollPane);
+				addChartAndTable();
 				
 				simulation.execute();
 				
-				new Timer(100, new ActionListener() {//Adding data to TextFields and Tables
-					 @Override
-					 public void actionPerformed(ActionEvent e) {
-						 if(simulation.isCancelled()){//End that timer
-						    ((Timer)e.getSource()).stop();
-						    simulationStart=false;//Now simulations officially end
-						    System.out.println("Simulation end");
-						 }
-						 tablePanel.remove(tablePanel.getComponent(0));
-						 table.addData(first);
-						 tablePanel.add(BorderLayout.CENTER, table.table);
-						 JScrollPane scrollPane = new JScrollPane(table.table);
-					     tablePanel.add(scrollPane);
-					     validate();
-						 first=false;
-						 energy.setText(Double.toString(simulation.energy));
-						 maxEnergy.setText(Double.toString(simulation.maxEnergy));
-					 }
-				 }).start();
+				timer();
 		    	validate();
 			}
 			else{//Stopping simulation
@@ -179,6 +147,53 @@ public class Interface extends JFrame {
 		else if(Options.correctOrNoCorrect==false){//If values in option aren't right
 			new ClosingWarning();
 		}
+	}
+	
+	private void addChartAndTable(){
+		chartOfEnergy=new Chart(simulation, simulation.energies, first).chartPanel;
+		chartOfAtoms=new Chart(simulation, simulation.numbersOfAtoms, first).chartPanel;
+		chartOfNeutrons=new Chart(simulation, simulation.numbersOfNeutrons, first).chartPanel;
+		chartOfFissions=new Chart(simulation, simulation.numbersOfFissions, first).chartPanel;
+		
+		chartPanelEnergy.add(chartOfEnergy);
+		chartPanelAtoms.add(chartOfAtoms);
+		chartPanelNeutrons.add(chartOfNeutrons);
+		chartPanelFissions.add(chartOfFissions);
+		
+		table = new Table(simulation);
+		tablePanel.add(table.table);
+		
+		isChart=true;
+	}
+	
+	private void removeChartAndTable(){
+		chartPanelEnergy.remove(chartOfEnergy);
+		chartPanelAtoms.remove(chartOfAtoms);
+		chartPanelNeutrons.remove(chartOfNeutrons);
+		chartPanelFissions.remove(chartOfFissions);
+		tablePanel.remove(table.table);
+	}
+	
+	private void timer(){
+		new Timer(100, new ActionListener() {//Adding data to TextFields and Tables
+			 @Override
+			 public void actionPerformed(ActionEvent e) {
+				 if(simulation.isCancelled()){//End that timer
+				    ((Timer)e.getSource()).stop();
+				    simulationStart=false;//Now simulations officially end
+				    System.out.println("Simulation end");
+				 }
+				 tablePanel.remove(tablePanel.getComponent(0));
+				 table.addData(first);
+				 tablePanel.add(BorderLayout.CENTER, table.table);
+				 JScrollPane scrollPane = new JScrollPane(table.table);
+			     tablePanel.add(scrollPane);
+			     validate();
+				 first=false;
+				 energy.setText(Double.toString(simulation.energy));
+				 maxEnergy.setText(Double.toString(simulation.maxEnergy));
+			 }
+		 }).start();
 	}
 
 	public static void main(String[] args) {

@@ -290,21 +290,8 @@ public class Simulation extends SwingWorker<Void, Void>{
 			}
 			//Energy
 			calculateEnergy();
-			if(neutrons.size()<1){
-				System.out.println("Lack of neutrons!");
-				this.cancel(true);
+			if(endSimulation())
 				break;
-			}
-			if(atoms.size()<1){
-				System.out.println("End of atoms!");
-				this.cancel(true);
-				break;
-			}
-			if(numberOfCollisions==0){
-				System.out.println("No Collisions!");
-				this.cancel(true);
-				break;
-			}
 			time++;
 			energies.add((double)energy);
 			numbersOfAtoms.add(numberOfAtoms*atomsFactor);
@@ -315,5 +302,26 @@ public class Simulation extends SwingWorker<Void, Void>{
 		this.cancel(true);
 		Interface.energy.validate();
 		return null;
+	}
+	
+	private boolean endSimulation(){
+		if(neutrons.size()<1){
+			System.out.println("Lack of neutrons!");
+			this.cancel(true);
+			return true;
+		}
+		else if(atoms.size()<1){
+			System.out.println("End of atoms!");
+			this.cancel(true);
+			return true;
+		}
+		else if(numberOfCollisions==0){
+			System.out.println("No Collisions!");
+			this.cancel(true);
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 }
