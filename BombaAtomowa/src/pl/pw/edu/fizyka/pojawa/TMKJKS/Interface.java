@@ -59,6 +59,8 @@ public class Interface extends JFrame {
 	
 	JTextField maxEnergy = new JTextField("");
 	JTextField energy = new JTextField("");
+	JTextField maxEnergykTNT = new JTextField("");
+	JTextField energykTNT = new JTextField("");
 
 	public Interface() throws HeadlessException {
 		
@@ -85,13 +87,19 @@ public class Interface extends JFrame {
 		add(BorderLayout.CENTER, tabbedPane);
 		add(BorderLayout.SOUTH, bottomPanel);
 		
-		bottomPanel.setLayout(new GridLayout(1, 5));
+		bottomPanel.setLayout(new GridLayout(2, 5));
 		
 		bottomPanel.add(new JLabel(resourceBundle.getString("interface.maxEnergy")));
 		bottomPanel.add(maxEnergy);
 		bottomPanel.add(new JLabel());
 		bottomPanel.add(new JLabel(resourceBundle.getString("interface.currentEnergy")));
 		bottomPanel.add(energy);
+		
+		bottomPanel.add(new JLabel(resourceBundle.getString("interface.maxEnergykTNT")));
+		bottomPanel.add(maxEnergykTNT);
+		bottomPanel.add(new JLabel());
+		bottomPanel.add(new JLabel(resourceBundle.getString("interface.currentEnergykTNT")));
+		bottomPanel.add(energykTNT);
 		
 		final MenuPanel menuPanel = new MenuPanel();
 		setJMenuBar(menuPanel.createMenu());
@@ -198,6 +206,8 @@ public class Interface extends JFrame {
 				 first=false;
 				 energy.setText(Double.toString(simulation.energy));
 				 maxEnergy.setText(Double.toString(simulation.maxEnergy));
+				 energykTNT.setText(String.format("%.2f", simulation.energykTNT));
+				 maxEnergykTNT.setText(String.format("%.2f", simulation.maxEnergykTNT));
 			 }
 		 }).start();
 	}
