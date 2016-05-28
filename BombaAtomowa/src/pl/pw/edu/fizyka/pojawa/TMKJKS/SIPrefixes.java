@@ -7,6 +7,8 @@ import java.util.TreeMap;
 /**
  * 
  * @author Jacek Pi³ka
+ * 
+ * Changing E notation to SI prefixes and *10^x for bigger ones
  *
  */
 
