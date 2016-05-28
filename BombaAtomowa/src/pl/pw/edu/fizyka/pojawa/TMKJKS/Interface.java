@@ -202,6 +202,7 @@ public class Interface extends JFrame {
 	                        resourceBundle.getString("interface.endSimulationDialogTitle"),
 	                        JOptionPane.INFORMATION_MESSAGE);
 				    menuPanel.saveMenuItem.setEnabled(true);
+				    first=true;
 				 }
 				 tablePanel.remove(tablePanel.getComponent(0));
 				 table.addData(first);

@@ -1,7 +1,6 @@
 package pl.pw.edu.fizyka.pojawa.TMKJKS;
 
 import java.util.Map.Entry;
-import java.text.DecimalFormat;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 

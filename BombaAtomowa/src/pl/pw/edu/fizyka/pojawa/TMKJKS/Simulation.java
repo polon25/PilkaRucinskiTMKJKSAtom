@@ -44,6 +44,8 @@ public class Simulation extends SwingWorker<Void, Void>{
 	double atomsFactor=1;//atoms in real=k*atoms in simulation
 	double neutronsFactor=1;
 	
+	int endSimulationCountdown=2;
+	
 	ArrayList<String> data = new ArrayList<String>();
 	ArrayList<Double> energies = new ArrayList<Double>();
 	ArrayList<Double> numbersOfAtoms = new ArrayList<Double>();
@@ -212,6 +214,13 @@ public class Simulation extends SwingWorker<Void, Void>{
 		else if(neutron.z<0){
 			neutron.z=(float) 3.14;
 		}
+		else{
+			return false;
+		}
+		if(rand.nextBoolean())
+			neutron.x+=distance;
+		else
+			neutron.x-=distance;
 		return false;
 	}
 	
@@ -275,11 +284,16 @@ public class Simulation extends SwingWorker<Void, Void>{
 			return true;
 		}
 		else if(numberOfCollisions==0){
+			if(endSimulationCountdown!=0){
+				endSimulationCountdown--;
+				return false;
+			}
 			System.out.println("No Collisions!");
 			this.cancel(true);
 			return true;
 		}
 		else{
+			endSimulationCountdown=2;
 			return false;
 		}
 	}

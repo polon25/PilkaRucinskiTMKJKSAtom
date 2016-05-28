@@ -2,7 +2,7 @@ package pl.pw.edu.fizyka.pojawa.TMKJKS;
 
 /**
  * 
- * @author Antoni Ruci�ski
+ * @author Antoni Ruciński
  * 
  * Choosing language window
  * 
@@ -22,7 +22,7 @@ public class ChooseLanguage {
 	
 		  Object[] options = { "Polski", "English" };
 		  
-		  l = JOptionPane.showOptionDialog(null, "Wybierz Język / Choose your language", "Język",
+		  l = JOptionPane.showOptionDialog(null, "Wybierz język / Choose your language", "Język / Language",
 		  JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
 		  null, options, options[0]);
 		  
