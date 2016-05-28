@@ -29,6 +29,8 @@ public class Table {
 	DefaultTableModel dtm;
 	Simulation simulation;
 	
+	SIPrefixes prefixes=new SIPrefixes();
+	
 	Table(Simulation simulation){
 		this.simulation=simulation;
 		table = new JTable();
@@ -40,8 +42,10 @@ public class Table {
 	public void addData(boolean first){
 		dtm.setRowCount(0);
 		for(int j=0; j<simulation.energies.size(); j++){
-			dtm.addRow(new Object[]{j+1, new DecimalFormat("##.##").format(simulation.energies.get(j)), simulation.numbersOfAtoms.get(j), 
-						simulation.numbersOfNeutrons.get(j), simulation.numbersOfFissions.get(j)});
+			dtm.addRow(new Object[]{j+1, new DecimalFormat("##.##").format(simulation.energies.get(j)), 
+					prefixes.format(simulation.numbersOfAtoms.get(j)), 
+					prefixes.format(simulation.numbersOfNeutrons.get(j)), 
+					prefixes.format(simulation.numbersOfFissions.get(j))});
 		}
 	}
 }

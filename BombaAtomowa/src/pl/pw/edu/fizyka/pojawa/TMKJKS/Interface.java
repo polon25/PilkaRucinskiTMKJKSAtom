@@ -42,6 +42,8 @@ public class Interface extends JFrame {
 	Simulation simulation;
 	ScheduledExecutorService exec;
 	
+	SIPrefixes prefixes=new SIPrefixes();
+	
 	ChartPanel chartOfEnergy, chartOfAtoms, chartOfNeutrons, chartOfFissions;
 	Table table;
 	
@@ -61,6 +63,8 @@ public class Interface extends JFrame {
 	JTextField energy = new JTextField("");
 	JTextField maxEnergykTNT = new JTextField("");
 	JTextField energykTNT = new JTextField("");
+	
+	MenuPanel menuPanel = new MenuPanel();
 
 	public Interface() throws HeadlessException {
 		
@@ -101,10 +105,10 @@ public class Interface extends JFrame {
 		bottomPanel.add(new JLabel(resourceBundle.getString("interface.currentEnergykTNT")));
 		bottomPanel.add(energykTNT);
 		
-		final MenuPanel menuPanel = new MenuPanel();
 		setJMenuBar(menuPanel.createMenu());
 		
 		menuPanel.startStopMenuItem.setEnabled(false);
+		menuPanel.saveMenuItem.setEnabled(false);
 		
 		menuPanel.saveMenuItem.addActionListener(new ActionListener(){//Save data
 			public void actionPerformed(ActionEvent e){
@@ -138,6 +142,7 @@ public class Interface extends JFrame {
 				simulationStart=false;
 			if (simulationStart){//Starting simulation
 				System.out.println("Simulation start");
+				menuPanel.saveMenuItem.setEnabled(false);
 				simulation=new Simulation(MenuPanel.options, window);
 				if(isChart){//Remove old chart & table
 					removeChartAndTable();
@@ -196,6 +201,7 @@ public class Interface extends JFrame {
 	                        window, resourceBundle.getString("interface.endSimulationDialogMessage"),
 	                        resourceBundle.getString("interface.endSimulationDialogTitle"),
 	                        JOptionPane.INFORMATION_MESSAGE);
+				    menuPanel.saveMenuItem.setEnabled(true);
 				 }
 				 tablePanel.remove(tablePanel.getComponent(0));
 				 table.addData(first);
@@ -204,8 +210,8 @@ public class Interface extends JFrame {
 			     tablePanel.add(scrollPane);
 			     validate();
 				 first=false;
-				 energy.setText(Double.toString(simulation.energy));
-				 maxEnergy.setText(Double.toString(simulation.maxEnergy));
+				 energy.setText(prefixes.format(simulation.energy));
+				 maxEnergy.setText(prefixes.format(simulation.maxEnergy));
 				 energykTNT.setText(String.format("%.2f", simulation.energykTNT));
 				 maxEnergykTNT.setText(String.format("%.2f", simulation.maxEnergykTNT));
 			 }
