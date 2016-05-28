@@ -40,15 +40,20 @@ public class Interface extends JFrame {
 	Simulation simulation;
 	ScheduledExecutorService exec;
 	
-	ChartPanel chart;
+	ChartPanel chartOfEnergy, chartOfAtoms, chartOfNeutrons, chartOfFissions;
 	Table table;
 	
 	boolean simulationStart=false;//if simulation work -> stop, else start
 	boolean isChart=false;//if there's chart -> automatically remove when new simulation starts
 	boolean first=true;//if it's first iteration -> update previous data in chart and table
 	
-	JPanel chartPanel = new JPanel(new FlowLayout());
-	JPanel tablePanel = new JPanel(new FlowLayout());
+	JPanel chartPanel = new JPanel(new BorderLayout());
+	JPanel tablePanel = new JPanel(new BorderLayout());
+	
+	JPanel chartPanelEnergy = new JPanel(new FlowLayout());
+	JPanel chartPanelAtoms = new JPanel(new FlowLayout());
+	JPanel chartPanelNeutrons = new JPanel(new FlowLayout());
+	JPanel chartPanelFissions = new JPanel(new FlowLayout());
 	
 	JTextField maxEnergy = new JTextField("");
 	JTextField energy = new JTextField("");
@@ -66,6 +71,14 @@ public class Interface extends JFrame {
 		
 		tabbedPane.addTab(resourceBundle.getString("interface.chart"), chartPanel);
 		tabbedPane.addTab(resourceBundle.getString("interface.table"), tablePanel);
+		
+		JTabbedPane tabbedPaneChart = new JTabbedPane();
+		tabbedPaneChart.addTab(resourceBundle.getString("interface.chartEnergy"), chartPanelEnergy);
+		tabbedPaneChart.addTab(resourceBundle.getString("interface.chartAtoms"), chartPanelAtoms);
+		tabbedPaneChart.addTab(resourceBundle.getString("interface.chartNeutrons"), chartPanelNeutrons);
+		tabbedPaneChart.addTab(resourceBundle.getString("interface.chartFissions"), chartPanelFissions);
+		
+		chartPanel.add(BorderLayout.CENTER, tabbedPaneChart);
 		
 		add(BorderLayout.CENTER, tabbedPane);
 		add(BorderLayout.SOUTH, bottomPanel);
@@ -117,12 +130,18 @@ public class Interface extends JFrame {
 				System.out.println("Simulation start");
 				simulation=new Simulation(MenuPanel.options, window);
 				if(isChart){//Remove old chart & table
-					chartPanel.remove(chart);
+					chartPanel.remove(chartOfEnergy);
 					tablePanel.remove(table.table);
 				}//Add new chart & table
-				chart=new Chart(simulation, simulation.energies, first).chartPanel;
+				chartOfEnergy=new Chart(simulation, simulation.energies, first).chartPanel;
+				chartOfAtoms=new Chart(simulation, simulation.numbersOfAtoms, first).chartPanel;
+				chartOfNeutrons=new Chart(simulation, simulation.numbersOfNeutrons, first).chartPanel;
+				chartOfFissions=new Chart(simulation, simulation.numbersOfFissions, first).chartPanel;
 				table = new Table(simulation);
-				chartPanel.add(chart);
+				chartPanelEnergy.add(chartOfEnergy);
+				chartPanelAtoms.add(chartOfAtoms);
+				chartPanelNeutrons.add(chartOfNeutrons);
+				chartPanelFissions.add(chartOfFissions);
 				tablePanel.add(table.table);
 				isChart=true;
 				
@@ -141,7 +160,7 @@ public class Interface extends JFrame {
 						 }
 						 tablePanel.remove(tablePanel.getComponent(0));
 						 table.addData(first);
-						 tablePanel.add(table.table);
+						 tablePanel.add(BorderLayout.CENTER, table.table);
 						 JScrollPane scrollPane = new JScrollPane(table.table);
 					     tablePanel.add(scrollPane);
 					     validate();
