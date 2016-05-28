@@ -120,7 +120,7 @@ public class Interface extends JFrame {
 					chartPanel.remove(chart);
 					tablePanel.remove(table.table);
 				}//Add new chart & table
-				chart=new Chart(simulation, first).chartPanel;
+				chart=new Chart(simulation, simulation.energies, first).chartPanel;
 				table = new Table(simulation);
 				chartPanel.add(chart);
 				tablePanel.add(table.table);

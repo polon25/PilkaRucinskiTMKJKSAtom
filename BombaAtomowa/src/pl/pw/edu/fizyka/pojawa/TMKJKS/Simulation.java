@@ -41,7 +41,7 @@ public class Simulation extends SwingWorker<Void, Void>{
 	double neutronsFactor=1;
 	
 	ArrayList<String> data = new ArrayList<String>();
-	ArrayList<Float> energies = new ArrayList<Float>();
+	ArrayList<Double> energies = new ArrayList<Double>();
 	ArrayList<Double> numbersOfAtoms = new ArrayList<Double>();
 	ArrayList<Double> numbersOfNeutrons = new ArrayList<Double>();
 	ArrayList<Double> numbersOfFissions = new ArrayList<Double>();
@@ -101,7 +101,8 @@ public class Simulation extends SwingWorker<Void, Void>{
 			distance=2*(Math.pow(elementV*3/(3.14*4),1.0/3.0));
 			makeBall();
 		}
-		atomsFactor=trueNumberOfAtoms/atoms.size();
+		numberOfAtoms=atoms.size();
+		atomsFactor=trueNumberOfAtoms/numberOfAtoms;
 		Random r = new Random();
 		Particle startAtom = atoms.get(r.nextInt(atoms.size()));
 		neutrons.add(new Particle(startAtom.x,startAtom.y,startAtom.z,0,true));
@@ -305,8 +306,8 @@ public class Simulation extends SwingWorker<Void, Void>{
 				break;
 			}
 			time++;
-			energies.add(energy);
-			numbersOfAtoms.add(numberOfAtoms);
+			energies.add((double)energy);
+			numbersOfAtoms.add(numberOfAtoms*atomsFactor);
 			numbersOfNeutrons.add(numberOfNeutrons*neutronsFactor);
 			numbersOfFissions.add(numberOfFission*neutronsFactor);
 			data.add(time+"\t"+energy);
