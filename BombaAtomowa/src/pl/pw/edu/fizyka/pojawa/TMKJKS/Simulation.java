@@ -69,11 +69,11 @@ public class Simulation extends SwingWorker<Void, Void>{
 		r=options.r;
 		
 		//Setting element
-		if(options.element.equals(resourceBundle.getString("options.name1"))){
+		if(options.element.equals(resourceBundle.getString("options.element1"))){
 			molMass=uranMolMass;
 			density=19050;
 		}
-		else if(options.element.equals(resourceBundle.getString("options.name2"))){
+		else if(options.element.equals(resourceBundle.getString("options.element2"))){
 			molMass=plutonMolMass;
 			density=19816;
 		}
@@ -90,7 +90,7 @@ public class Simulation extends SwingWorker<Void, Void>{
 		
 		//Setting number of Atoms
 		mol=(float)(options.m*1000)/molMass;
-		numberOfAtoms=(mol*6.02*Math.pow(10.0,5.0));//<- Simplification
+		numberOfAtoms=(mol*6.02*Math.pow(10.0,options.accuracyFactor));//<- Simplification
 		double trueNumberOfAtoms=mol*6.02*Math.pow(10.0,23.0);//How many atoms are in real?
 		atomsFactor=trueNumberOfAtoms/numberOfAtoms;
 		neutronsFactor=atomsFactor;
@@ -114,6 +114,7 @@ public class Simulation extends SwingWorker<Void, Void>{
 		Particle startAtom = atoms.get(r.nextInt(atoms.size()));
 		neutrons.add(new Particle(startAtom.x,startAtom.y,startAtom.z,0,true));
 		numberOfNeutrons++;
+		System.out.println("Atoms size: "+atoms.size());
 	}
 	
 	//Making net functions
