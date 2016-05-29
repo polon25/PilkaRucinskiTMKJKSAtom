@@ -19,7 +19,7 @@ import javax.swing.JMenuItem;
  *
  */
 
-public class MenuPanel extends JFrame { //by Antoni Rucinski & Jacek Piłka
+public class MenuPanel extends JFrame {
 
 	private ResourceBundle resourceBundle = ResourceBundle.getBundle(
 			"pl/pw/edu/fizyka/pojawa/TMKJKS/labels",new Locale(ChooseLanguage.getLocal()));
@@ -30,6 +30,7 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski & Jacek Piłka
 	JMenuItem saveMenuItem = new JMenuItem(resourceBundle.getString("menu.saveMenuItem"));
 	JMenuItem simulationOptionMenuItem = 
 			new JMenuItem(resourceBundle.getString("menu.symulationOptionsMenuItem"));
+	JMenuItem closeMenuItem = new JMenuItem(resourceBundle.getString("menu.closeMenuItem"));
 
 	public JMenuBar createMenu(){
 			
@@ -44,7 +45,6 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski & Jacek Piłka
 		menu.addSeparator();
 		
 		//close menu item
-		final JMenuItem closeMenuItem = new JMenuItem(resourceBundle.getString("menu.closeMenuItem"));
 		menu.add(closeMenuItem);
 		
 		//simulation menu
@@ -59,22 +59,19 @@ public class MenuPanel extends JFrame { //by Antoni Rucinski & Jacek Piłka
 
 		menuBar.add(menu);
 
-//Listeners
-		ActionListener menuListener=new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				if(e.getSource()==closeMenuItem){
-					System.out.println("Closing Program");
-		            System.exit(1);
-				}
-				else if(e.getSource()==simulationOptionMenuItem){
-					options.setVisible(true);
-				}
-			}
-		};
+		//Listeners
 		
-		closeMenuItem.addActionListener(menuListener);
-	
-		simulationOptionMenuItem.addActionListener(menuListener);
+		closeMenuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				System.out.println("Closing Program");
+		        System.exit(1);
+			}
+		});
+		simulationOptionMenuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				options.setVisible(true);
+			}
+		});
 
 		return menuBar;
 	}
