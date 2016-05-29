@@ -40,6 +40,7 @@ public class Simulation extends SwingWorker<Void, Void>{
 	int numberOfFission=0;
 	
 	Interface Interface;
+	SIPrefixes prefixes = new SIPrefixes();
 	
 	double atomsFactor=1;//atoms in real=k*atoms in simulation
 	double neutronsFactor=1;
@@ -337,9 +338,9 @@ public class Simulation extends SwingWorker<Void, Void>{
 			numbersOfAtoms.add(numberOfAtoms*atomsFactor);
 			numbersOfNeutrons.add(numberOfNeutrons*neutronsFactor);
 			numbersOfFissions.add(numberOfFission*neutronsFactor);
-			data.add(time+"\t"+energy+"\t"+numberOfAtoms*atomsFactor
-					+"\t"+numberOfNeutrons*neutronsFactor+"\t"
-					+numberOfFission*neutronsFactor);
+			data.add(time+"\t"+prefixes.format(energy)+"\t"+prefixes.format(numberOfAtoms*atomsFactor)
+					+"\t"+prefixes.format(numberOfNeutrons*neutronsFactor)+"\t"
+					+prefixes.format(numberOfFission*neutronsFactor));
 			
 			if(endSimulation())
 				break;
