@@ -338,9 +338,9 @@ public class Simulation extends SwingWorker<Void, Void>{
 			numbersOfAtoms.add(numberOfAtoms*atomsFactor);
 			numbersOfNeutrons.add(numberOfNeutrons*neutronsFactor);
 			numbersOfFissions.add(numberOfFission*neutronsFactor);
-			data.add(time+"\t"+prefixes.format(energy)+"\t"+prefixes.format(numberOfAtoms*atomsFactor)
-					+"\t"+prefixes.format(numberOfNeutrons*neutronsFactor)+"\t"
-					+prefixes.format(numberOfFission*neutronsFactor));
+			data.add(time+"\t"+energy+"\t"+numberOfAtoms*atomsFactor
+					+"\t"+numberOfNeutrons*neutronsFactor+"\t"
+					+numberOfFission*neutronsFactor);
 			
 			if(endSimulation())
 				break;

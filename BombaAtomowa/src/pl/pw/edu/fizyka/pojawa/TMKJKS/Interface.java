@@ -8,7 +8,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.Locale;
 import java.util.Random;
@@ -54,10 +53,10 @@ public class Interface extends JFrame {
 	JPanel chartPanel = new JPanel(new BorderLayout());
 	JPanel tablePanel = new JPanel(new BorderLayout());
 	
-	JPanel chartPanelEnergy = new JPanel(new FlowLayout());
-	JPanel chartPanelAtoms = new JPanel(new FlowLayout());
-	JPanel chartPanelNeutrons = new JPanel(new FlowLayout());
-	JPanel chartPanelFissions = new JPanel(new FlowLayout());
+	JPanel chartPanelEnergy = new JPanel(new BorderLayout());
+	JPanel chartPanelAtoms = new JPanel(new BorderLayout());
+	JPanel chartPanelNeutrons = new JPanel(new BorderLayout());
+	JPanel chartPanelFissions = new JPanel(new BorderLayout());
 	
 	JTextField maxEnergy = new JTextField("");
 	JTextField energy = new JTextField("");
@@ -68,7 +67,7 @@ public class Interface extends JFrame {
 
 	public Interface() throws HeadlessException {
 		
-		setSize(800,600);
+		setSize(850,600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		setTitle(resourceBundle.getString("interface.title"));
@@ -170,10 +169,10 @@ public class Interface extends JFrame {
 		chartOfNeutrons=new Chart(simulation, simulation.numbersOfNeutrons, first).chartPanel;
 		chartOfFissions=new Chart(simulation, simulation.numbersOfFissions, first).chartPanel;
 		
-		chartPanelEnergy.add(chartOfEnergy);
-		chartPanelAtoms.add(chartOfAtoms);
-		chartPanelNeutrons.add(chartOfNeutrons);
-		chartPanelFissions.add(chartOfFissions);
+		chartPanelEnergy.add(BorderLayout.CENTER, chartOfEnergy);
+		chartPanelAtoms.add(BorderLayout.CENTER, chartOfAtoms);
+		chartPanelNeutrons.add(BorderLayout.CENTER, chartOfNeutrons);
+		chartPanelFissions.add(BorderLayout.CENTER, chartOfFissions);
 		
 		table = new Table(simulation);
 		tablePanel.add(table.table);
@@ -212,8 +211,8 @@ public class Interface extends JFrame {
 			     tablePanel.add(scrollPane);
 				 energy.setText(prefixes.format(simulation.energy));
 				 maxEnergy.setText(prefixes.format(simulation.maxEnergy));
-				 energykTNT.setText(String.format("%.2f", simulation.energykTNT));
-				 maxEnergykTNT.setText(String.format("%.2f", simulation.maxEnergykTNT));
+				 energykTNT.setText(prefixes.format(simulation.energykTNT));
+				 maxEnergykTNT.setText(prefixes.format(simulation.maxEnergykTNT));
 				 validate();
 			 }
 		 }).start();
