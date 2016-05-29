@@ -126,6 +126,7 @@ public class Options extends JFrame implements FocusListener {
 		elements.setToolTipText(resourceBundle.getString("options.tip.elements"));
 		shapes.setToolTipText(resourceBundle.getString("options.tip.shapes"));
 		sMaterials.setToolTipText(resourceBundle.getString("options.tip.material"));
+		simulationType.setToolTipText(resourceBundle.getString("options.tip.type"));
 
 		/**
 		 * 
