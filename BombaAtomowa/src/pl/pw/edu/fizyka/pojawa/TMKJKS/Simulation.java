@@ -43,7 +43,6 @@ public class Simulation extends SwingWorker<Void, Void>{
 	SIPrefixes prefixes = new SIPrefixes();
 	
 	double atomsFactor=1;//atoms in real=k*atoms in simulation
-	double neutronsFactor=1;
 	
 	int endSimulationCountdown=2;
 	
@@ -93,7 +92,6 @@ public class Simulation extends SwingWorker<Void, Void>{
 		numberOfAtoms=(mol*6.02*Math.pow(10.0,options.accuracyFactor));//<- Simplification
 		double trueNumberOfAtoms=mol*6.02*Math.pow(10.0,23.0);//How many atoms are in real?
 		atomsFactor=trueNumberOfAtoms/numberOfAtoms;
-		neutronsFactor=atomsFactor;
 		elementMass=(float) (molMass/(6.02*Math.pow(10.0,23.0)));
 		
 		float elementV=(float) ((elementMass/density)*atomsFactor);
@@ -238,7 +236,8 @@ public class Simulation extends SwingWorker<Void, Void>{
 	
 	void fission(Random rand, int i, int j){
 		energyMeV+=200*atomsFactor;
-		for(int k=0; k<2;k++)//Add 2 neutrons
+		int newNeutrons = rand.nextInt(1)+2;
+		for(int k=0; k<newNeutrons;k++)//Add 2-3 neutrons
 			neutrons.add(new Particle(atoms.get(j).x, atoms.get(j).y, atoms.get(j).z, rand.nextInt(6)+1, false));
 		atoms.remove(j);//remove atom
 		neutrons.remove(i);
@@ -337,11 +336,11 @@ public class Simulation extends SwingWorker<Void, Void>{
 			time++;
 			energies.add(energykTNT);
 			numbersOfAtoms.add(numberOfAtoms*atomsFactor);
-			numbersOfNeutrons.add(numberOfNeutrons*neutronsFactor);
-			numbersOfFissions.add(numberOfFission*neutronsFactor);
+			numbersOfNeutrons.add(numberOfNeutrons*atomsFactor);
+			numbersOfFissions.add(numberOfFission*atomsFactor);
 			data.add(time+"\t"+energy+"\t"+numberOfAtoms*atomsFactor
-					+"\t"+numberOfNeutrons*neutronsFactor+"\t"
-					+numberOfFission*neutronsFactor);
+					+"\t"+numberOfNeutrons*atomsFactor+"\t"
+					+numberOfFission*atomsFactor);
 			
 			if(endSimulation())
 				break;

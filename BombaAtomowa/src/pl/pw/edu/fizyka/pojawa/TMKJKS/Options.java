@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -254,7 +255,7 @@ public class Options extends JFrame implements FocusListener {
 	 */
 	
 	void checkMass(){
-		if(m>0){
+		if(m>0&&m<500){
 			correctOrNoCorrect=true;
 			weightLabel.setForeground(Color.GREEN);
 			radiusLabel.setForeground(Color.GREEN);
@@ -263,6 +264,12 @@ public class Options extends JFrame implements FocusListener {
 			correctOrNoCorrect=false;
 			weightLabel.setForeground(Color.RED);
 			radiusLabel.setForeground(Color.RED);
+			if(m>500){
+				JOptionPane.showMessageDialog(
+                        window, resourceBundle.getString("options.massError"),
+                        resourceBundle.getString("options.massErrorTitle"),
+                        JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 	
