@@ -44,8 +44,6 @@ public class Simulation extends SwingWorker<Void, Void>{
 	
 	double atomsFactor=1;//atoms in real=k*atoms in simulation
 	
-	int endSimulationCountdown=2;
-	
 	ArrayList<String> data = new ArrayList<String>();
 	ArrayList<Double> energies = new ArrayList<Double>();
 	ArrayList<Double> numbersOfAtoms = new ArrayList<Double>();
@@ -193,12 +191,16 @@ public class Simulation extends SwingWorker<Void, Void>{
 	boolean boundaryProblemBall(Particle neutron){
 		if(neutron.x>r||neutron.x<0){
 			if(reflectMaterial){
-				if(neutron.direction%2==0)
-					neutron.direction-=1;
-				else{
+				if(neutron.direction==1){
 					neutron.direction+=1;
 					neutron.y+=3.14;
 				}
+				else if(neutron.direction==2)
+					neutron.direction-=1;
+				else if (neutron.x>r)
+					neutron.x=(float) distance;
+				else
+					neutron.x=0;
 			}
 			else{
 				return true;
@@ -216,6 +218,15 @@ public class Simulation extends SwingWorker<Void, Void>{
 		else if(neutron.z<0){
 			neutron.z=(float) 3.14;
 		}
+		else{
+			return false;
+		}
+		
+		if(rand.nextBoolean())
+			neutron.x+=distance;
+		else
+			neutron.x-=distance;
+		
 		return false;
 	}
 	
@@ -244,8 +255,8 @@ public class Simulation extends SwingWorker<Void, Void>{
 			distanceX=distance; distanceY=distance; distanceZ=distance;
 		}
 		else{
-			distanceX=distance; distanceY=3.14/(3.0*(neutrons.get(i).x/distance)); 
-			distanceZ=3.14/(3.0*(neutrons.get(i).x/distance));
+			distanceX=distance; distanceY=3.14/(3.0*Math.round((float)(neutrons.get(i).x/distance))); 
+			distanceZ=3.14/(3.0*Math.round((float)(neutrons.get(i).x/distance)));
 		}
 		for (int j=0; j<atoms.size(); j++){
 			neutrons.get(i).interact(atoms.get(j), rand.nextInt(100), distanceX, distanceY, distanceZ);
@@ -279,19 +290,12 @@ public class Simulation extends SwingWorker<Void, Void>{
 			this.cancel(true);
 			return true;
 		}
-		else if(numberOfCollisions==0){
-			if(endSimulationCountdown!=0){
-				endSimulationCountdown--;
-				return false;
-			}
-			System.out.println("No Collisions!");
+		else if(time>1000){
+			System.out.println("End of time!");
 			this.cancel(true);
 			return true;
 		}
-		else{
-			endSimulationCountdown=2;
-			return false;
-		}
+		return false;
 	}
 	
 	public Void doInBackground(){
@@ -312,15 +316,17 @@ public class Simulation extends SwingWorker<Void, Void>{
 				if(shape.equals("Cube")){
 					if(boundaryProblemCube(neutrons.get(i))){
 						neutrons.remove(i);
+						i--;
 						numberOfNeutrons--;
-						break;
+						continue;
 					}
 				}
 				else if(shape.equals("Ball")){
 					if(boundaryProblemBall(neutrons.get(i))){
 						neutrons.remove(i);
+						i--;
 						numberOfNeutrons--;
-						break;
+						continue;
 					}
 				}
 			
