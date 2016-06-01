@@ -191,13 +191,15 @@ public class Simulation extends SwingWorker<Void, Void>{
 	}
 	
 	boolean boundaryProblemBall(Particle neutron){
-		if(neutron.x>r||neutron.x<-r){
+		if(neutron.x>r||neutron.x<0){
 			if(reflectMaterial){
 				if(neutron.direction%2==0)
 					neutron.direction-=1;
-				else
+				else{
 					neutron.direction+=1;
+					neutron.y+=3.14;
 				}
+			}
 			else{
 				return true;
 			}
@@ -214,13 +216,6 @@ public class Simulation extends SwingWorker<Void, Void>{
 		else if(neutron.z<0){
 			neutron.z=(float) 3.14;
 		}
-		else{
-			return false;
-		}
-		if(rand.nextBoolean())
-			neutron.x+=distance;
-		else
-			neutron.x-=distance;
 		return false;
 	}
 	
@@ -317,12 +312,14 @@ public class Simulation extends SwingWorker<Void, Void>{
 				if(shape.equals("Cube")){
 					if(boundaryProblemCube(neutrons.get(i))){
 						neutrons.remove(i);
+						numberOfNeutrons--;
 						break;
 					}
 				}
 				else if(shape.equals("Ball")){
 					if(boundaryProblemBall(neutrons.get(i))){
 						neutrons.remove(i);
+						numberOfNeutrons--;
 						break;
 					}
 				}
