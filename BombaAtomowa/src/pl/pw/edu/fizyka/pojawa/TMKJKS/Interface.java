@@ -105,10 +105,10 @@ public class Interface extends JFrame {
 		bottomPanel.add(energykTNT);
 		
 		setJMenuBar(menuPanel.createMenu());
-		
+
 		menuPanel.startStopMenuItem.setEnabled(false);
 		menuPanel.saveMenuItem.setEnabled(false);
-		
+
 		menuPanel.saveMenuItem.addActionListener(new ActionListener(){//Save data
 			public void actionPerformed(ActionEvent e){
 				Save save=new Save(simulation, MenuPanel.options);
