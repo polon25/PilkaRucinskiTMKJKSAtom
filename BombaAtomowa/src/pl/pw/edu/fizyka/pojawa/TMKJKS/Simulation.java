@@ -129,12 +129,12 @@ public class Simulation extends SwingWorker<Void, Void>{
 		int nx=0;
 		
 		for(float r=0; r<this.r; r+=distance){
-			nx++;
-			for(float phi=0; phi<=2*3.14; phi+=(3.14/(3.0*nx))){
-				for(float theta=0; theta<=2*3.14; theta+=(3.14/(3.0*nx))){
+			for(float phi=0; phi<2*3.14; phi+=(3.14/(3.0*nx))){
+				for(float theta=0; theta<3.14; theta+=(3.14/(3.0*nx))){
 					atoms.add(new Particle(r,phi,theta,0,false));
 				}
 			}
+			nx++;
 		}
 	}
 	
@@ -206,13 +206,13 @@ public class Simulation extends SwingWorker<Void, Void>{
 				return true;
 			}
 		}
-		else if(neutron.y>2.0*3.14){
+		else if(neutron.y>=2.0*3.14){
 			neutron.y=0;
 		}
 		else if(neutron.y<0){
 			neutron.y=(float) (2*3.14);
 		}
-		else if(neutron.z>3.14){
+		else if(neutron.z>=3.14){
 			neutron.z=0;
 		}
 		else if(neutron.z<0){
@@ -290,7 +290,7 @@ public class Simulation extends SwingWorker<Void, Void>{
 			this.cancel(true);
 			return true;
 		}
-		else if(time>1000){
+		if(time>1000){
 			System.out.println("End of time!");
 			this.cancel(true);
 			return true;
