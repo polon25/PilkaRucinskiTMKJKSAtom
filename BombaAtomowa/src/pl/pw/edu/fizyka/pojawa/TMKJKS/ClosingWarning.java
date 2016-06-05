@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 /**
  * 
- * @author Antoni Ruciñski
+ * @author Antoni RuciÅ„ski
  * 
  * Alerting window - if values in options aren't right
  *
