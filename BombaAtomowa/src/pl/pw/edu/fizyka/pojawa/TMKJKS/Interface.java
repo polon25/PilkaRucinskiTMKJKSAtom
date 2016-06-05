@@ -222,5 +222,6 @@ public class Interface extends JFrame {
 		new ChooseLanguage();
 		JFrame f = new Interface();
 		f.setVisible(true);
+		f.setLocationRelativeTo(null);
 	}
 }
