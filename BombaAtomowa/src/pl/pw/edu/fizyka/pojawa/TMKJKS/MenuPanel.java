@@ -26,17 +26,24 @@ public class MenuPanel extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	public static Options options;
+	public static EduFrame eduFrame;
 	JMenuItem startStopMenuItem = new JMenuItem("Start / Stop");
 	JMenuItem saveMenuItem = new JMenuItem(resourceBundle.getString("menu.saveMenuItem"));
 	JMenuItem simulationOptionMenuItem = 
 			new JMenuItem(resourceBundle.getString("menu.symulationOptionsMenuItem"));
 	JMenuItem closeMenuItem = new JMenuItem(resourceBundle.getString("menu.closeMenuItem"));
+	JMenuItem helpMenuItem = new JMenuItem(resourceBundle.getString("menu.help"));
 
 	public JMenuBar createMenu(){
 			
 		JMenuBar menuBar = new JMenuBar();	//building main menu
+		
 		JMenu menu = new JMenu(resourceBundle.getString("menu.mainMenu"));
 		menuBar.add(menu);
+		
+		JMenu helpMenu = new JMenu(resourceBundle.getString("menu.help"));
+		helpMenu.add(helpMenuItem);
+		menuBar.add(helpMenu);
 		
 		options = new Options();
 
@@ -58,7 +65,7 @@ public class MenuPanel extends JFrame {
 		menu.add(simulationOptionMenuItem);
 
 		menuBar.add(menu);
-
+		
 		//Listeners
 		
 		closeMenuItem.addActionListener(new ActionListener(){
@@ -72,6 +79,13 @@ public class MenuPanel extends JFrame {
 				options.setVisible(true);
 			}
 		});
+		helpMenuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				System.out.println("Edu help open");
+		        new EduFrame();
+			}
+		});
+
 
 		return menuBar;
 	}
