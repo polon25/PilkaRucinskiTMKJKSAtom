@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -72,10 +73,13 @@ public class Options extends JFrame implements FocusListener {
 			resourceBundle.getString("options.no")};
 	final JComboBox sMaterials = new JComboBox(stringSMaterials);
 	
+	JButton okButton=new JButton("OK");
+	
 	
 	public Options(){
 		
 		setSize(500,300);
+		setLocationRelativeTo(null);
 		setTitle(resourceBundle.getString("options.title"));
 		setLayout(new BorderLayout());
 		
@@ -86,7 +90,7 @@ public class Options extends JFrame implements FocusListener {
 		manePanel.setLayout(new GridLayout(1,4));
 		
 		JPanel leftPanelA = new JPanel();
-		leftPanelA.setLayout(new GridLayout(4,1));
+		leftPanelA.setLayout(new GridLayout(5,1));
 		leftPanelA.add(new JLabel());
 		leftPanelA.add(elementLabel);
 		leftPanelA.add(shapeLabel);
@@ -94,7 +98,7 @@ public class Options extends JFrame implements FocusListener {
 		manePanel.add(leftPanelA);
 		
 		JPanel leftPanel = new JPanel();
-		leftPanel.setLayout(new GridLayout(4,1));
+		leftPanel.setLayout(new GridLayout(5,1));
 		leftPanel.add(new JLabel());
 		leftPanel.add(elements);
 		leftPanel.add(shapes);
@@ -102,7 +106,7 @@ public class Options extends JFrame implements FocusListener {
 		manePanel.add(leftPanel);
 		
 		JPanel rightPanelA = new JPanel();
-		rightPanelA.setLayout(new GridLayout(4,1));
+		rightPanelA.setLayout(new GridLayout(5,1));
 		rightPanelA.add(new JLabel());
 		rightPanelA.add(sMaterialLabel);
 		rightPanelA.add(simulationTypeLabel);
@@ -110,11 +114,12 @@ public class Options extends JFrame implements FocusListener {
 		manePanel.add(rightPanelA);
 		
 		JPanel rightPanel = new JPanel();
-		rightPanel.setLayout(new GridLayout(4,1));
+		rightPanel.setLayout(new GridLayout(5,1));
 		rightPanel.add(new JLabel());
 		rightPanel.add(sMaterials);
 		rightPanel.add(simulationType);
 		rightPanel.add(mass);
+		rightPanel.add(okButton);
 		manePanel.add(rightPanel);
 		
 		weightLabel.setForeground(Color.RED);
@@ -213,9 +218,21 @@ public class Options extends JFrame implements FocusListener {
 		    	setDimension();
 		    }
 		});
+		
+		okButton.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		       	if(correctOrNoCorrect==true){
+                   dispose();
+            	}
+            	else if(correctOrNoCorrect==false){
+            		new ClosingWarning();
+            	}
+		    }
+		});
 
 		mass.addFocusListener(this);
 		shape.addFocusListener(this);
+		okButton.addFocusListener(this);
 		
 	    addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e)
