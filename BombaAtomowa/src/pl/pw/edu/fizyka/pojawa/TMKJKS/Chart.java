@@ -38,7 +38,7 @@ public class Chart {
 	 
 	 int i=0;
 	 
-	 Chart(final Simulation simulation, ArrayList<Double> dataList, boolean first){
+	 Chart(final Simulation simulation, final ArrayList<Double> dataList, final boolean first){
 		 
 		 if(dataList==simulation.energies){
 			 chartTitle=resourceBundle.getString("chart.energy");
