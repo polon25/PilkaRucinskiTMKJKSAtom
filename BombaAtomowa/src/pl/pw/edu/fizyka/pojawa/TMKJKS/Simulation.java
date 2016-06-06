@@ -167,7 +167,6 @@ public class Simulation extends SwingWorker<Void, Void>{
 			neutron.z-=distanceZ;
 			break;
 		default:
-			System.out.println("Direction ERROR: "+neutron.direction);
 			break;
 		}
 	}

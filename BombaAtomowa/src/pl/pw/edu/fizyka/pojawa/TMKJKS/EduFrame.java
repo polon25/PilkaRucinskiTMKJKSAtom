@@ -57,7 +57,6 @@ public class EduFrame {
 		 */
 	   	ActionListener buttonAListener = new ActionListener() {
 	   	public void actionPerformed(ActionEvent e) {
-	   		System.out.println("Edu: buttonA - broń jadrowa");
 	   		ta.setText(null);
 	   		ta.append(content);	
 	   		}
@@ -66,7 +65,6 @@ public class EduFrame {
 	   	ActionListener buttonBListener = new ActionListener() {
 	   	//instrukcja po wciśnięciu przycisku
 	   	public void actionPerformed(ActionEvent e) {
-	   		System.out.println("Edu: buttonB - masa krytyczna");
 	   		ta.setText(null);
 	   		ta.append(content2);
 	   		
@@ -75,7 +73,6 @@ public class EduFrame {
 	   	
 	   	ActionListener buttonCListener = new ActionListener() {
 	   	public void actionPerformed(ActionEvent e) {
-	   		System.out.println("Edu: buttonC - reakcja łańcuchowa");
 	   		ta.setText(null);
 	   		ta.append(content3);
 	   		

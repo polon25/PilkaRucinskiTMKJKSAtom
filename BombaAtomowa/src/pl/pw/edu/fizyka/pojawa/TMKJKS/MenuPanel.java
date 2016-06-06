@@ -81,7 +81,6 @@ public class MenuPanel extends JFrame {
 		});
 		helpMenuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				System.out.println("Edu help open");
 		        new EduFrame();
 			}
 		});
