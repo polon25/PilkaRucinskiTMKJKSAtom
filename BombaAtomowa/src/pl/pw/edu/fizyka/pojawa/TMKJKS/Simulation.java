@@ -108,7 +108,7 @@ public class Simulation extends SwingWorker<Void, Void>{
 		atomsFactor=trueNumberOfAtoms/numberOfAtoms;
 		Random r = new Random();
 		Particle startAtom = atoms.get(r.nextInt(atoms.size()));
-		neutrons.add(new Particle(startAtom.x,startAtom.y,startAtom.z,0,true));
+		neutrons.add(new Particle(startAtom.x,startAtom.y,startAtom.z,0,0,0,true));
 		numberOfNeutrons++;
 		System.out.println("Atoms size: "+atoms.size());
 	}
@@ -119,7 +119,7 @@ public class Simulation extends SwingWorker<Void, Void>{
 		for(float z=(float) (-a/2); z<=a/2; z+=distance){
 			for(float y=(float) (-a/2); y<=a/2; y+=distance){
 				for(float x=(float) (-a/2); x<=a/2; x+=distance){
-					atoms.add(new Particle(x,y,z,0,false));
+					atoms.add(new Particle(x,y,z,0,0,0,false));
 				}
 			}
 		}
@@ -131,7 +131,7 @@ public class Simulation extends SwingWorker<Void, Void>{
 		for(float r=0; r<this.r; r+=distance){
 			for(float phi=0; phi<2*3.14; phi+=(3.14/(3.0*nx))){
 				for(float theta=0; theta<3.14; theta+=(3.14/(3.0*nx))){
-					atoms.add(new Particle(r,phi,theta,0,false));
+					atoms.add(new Particle(r,phi,theta,0,0,0,false));
 				}
 			}
 			nx++;
@@ -139,46 +139,22 @@ public class Simulation extends SwingWorker<Void, Void>{
 	}
 	
 	void moveNeutron(Particle neutron){
-		double distanceX=0, distanceY=0, distanceZ=0;
-		if (shape.equals("Cube")){
-			distanceX=distance; distanceY=distance; distanceZ=distance;
-		}
-		else if(shape.equals("Ball")){
-			distanceX=distance; distanceY=3.14/(3.0*(neutron.x/distance)); 
-			distanceZ=3.14/(3.0*(neutron.x/distance));
-		}	
-		switch(neutron.direction){//direction of neutron
-		case 1:
-			neutron.x+=distanceX;
-			break;
-		case 2:
-			neutron.x-=distanceX;
-			break;
-		case 3:
-			neutron.y+=distanceY;
-			break;
-		case 4:
-			neutron.y-=distanceY;
-			break;
-		case 5:
-			neutron.z+=distanceZ;
-			break;
-		case 6:
-			neutron.z-=distanceZ;
-			break;
-		default:
-			break;
-		}
+		neutron.x+=neutron.dx;
+		neutron.y+=neutron.dy;
+		neutron.z+=neutron.dz;
+		
 	}
 	
 	boolean boundaryProblemCube(Particle neutron){
 		if(neutron.x>a/2||neutron.x<-a/2||neutron.y>a/2
 				||neutron.y<-a/2||neutron.z>a/2||neutron.z<-a/2){
 			if(reflectMaterial){
-				if(neutron.direction%2==0)
-					neutron.direction-=1;
+				if(neutron.x>a/2||neutron.x<-a/2)
+					neutron.dx*=-1;
+				else if(neutron.y>a/2||neutron.y<-a/2)
+					neutron.dy*=-1;
 				else
-					neutron.direction+=1;
+					neutron.dz*=-1;
 			}
 			else{
 				return true;
@@ -190,16 +166,9 @@ public class Simulation extends SwingWorker<Void, Void>{
 	boolean boundaryProblemBall(Particle neutron){
 		if(neutron.x>r||neutron.x<0){
 			if(reflectMaterial){
-				if(neutron.direction==1){
-					neutron.direction+=1;
+				neutron.dx*=-1;
+				if (neutron.x<0)
 					neutron.y+=3.14;
-				}
-				else if(neutron.direction==2)
-					neutron.direction-=1;
-				else if (neutron.x>r)
-					neutron.x=(float) distance;
-				else
-					neutron.x=0;
 			}
 			else{
 				return true;
@@ -222,9 +191,9 @@ public class Simulation extends SwingWorker<Void, Void>{
 		}
 		
 		if(rand.nextBoolean())
-			neutron.x+=distance;
+			neutron.x+=neutron.dx;
 		else
-			neutron.x-=distance;
+			neutron.x-=neutron.dx;
 		
 		return false;
 	}
@@ -242,8 +211,26 @@ public class Simulation extends SwingWorker<Void, Void>{
 	void fission(Random rand, int i, int j){
 		energyMeV+=200*atomsFactor;
 		int newNeutrons = rand.nextInt(1)+2;
-		for(int k=0; k<newNeutrons;k++)//Add 2-3 neutrons
-			neutrons.add(new Particle(atoms.get(j).x, atoms.get(j).y, atoms.get(j).z, rand.nextInt(6)+1, false));
+		
+		for(int k=0; k<newNeutrons;k++){//Add 2-3 neutrons
+			float dx=0;
+			float dy=0;
+			float dz=0;
+			if (shape.equals("Cube")){
+				dx=(float)(Math.pow(-1, rand.nextInt(1))*distance*rand.nextFloat());
+				dy=(float) (Math.pow(-1, rand.nextInt(1))*Math.sqrt(Math.pow(distance,2)-Math.pow(dx,2))*rand.nextFloat());
+				dz=(float) (Math.pow(-1, rand.nextInt(1))*Math.sqrt(Math.pow(distance,2)-Math.pow(dx,2)-Math.pow(dy,2)));
+			}
+			else if(shape.equals("Ball")){
+				dx=(float)(Math.pow(-1, rand.nextInt(1))*distance*rand.nextFloat());
+				float dxx=(float) Math.abs(dx*rand.nextFloat());
+				float dxy=(float) (Math.sqrt(Math.pow(dx,2)-Math.pow(dxx,2))*rand.nextFloat());
+				float dxz=(float) Math.sqrt(Math.pow(dx,2)-Math.pow(dxx,2)-Math.pow(dxy,2));
+				dy=(float) (Math.pow(-1, rand.nextInt(1))*Math.acos(dxz/dx));
+				dz=(float) (Math.pow(-1, rand.nextInt(1))*Math.atan(dxy/dxx));
+			}
+			neutrons.add(new Particle(atoms.get(j).x, atoms.get(j).y, atoms.get(j).z, dx, dy, dz, false));
+		}
 		atoms.remove(j);//remove atom
 		neutrons.remove(i);
 	}
@@ -345,7 +332,7 @@ public class Simulation extends SwingWorker<Void, Void>{
 					+numberOfFission*atomsFactor);
 			
 			if(endSimulation())
-				break;
+				break;	
 		}
 		this.cancel(true);
 		Interface.energy.validate();
