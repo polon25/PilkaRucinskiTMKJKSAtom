@@ -28,6 +28,8 @@ public class Simulation extends SwingWorker<Void, Void>{
 	float mol=0;
 	float uranMolMass=238; //g/mol
 	float plutonMolMass=244; //g/mol
+	double uranRadius=186*Math.pow(10, -12);//m
+	double plutonRadius=187*Math.pow(10, -12);//m
 	double numberOfAtoms=0;
 	int numberOfNeutrons=0;
 	int time=0;//us
@@ -43,6 +45,7 @@ public class Simulation extends SwingWorker<Void, Void>{
 	SIPrefixes prefixes = new SIPrefixes();
 	
 	double atomsFactor=1;//atoms in real=k*atoms in simulation
+	double atomRadius=0;
 	
 	ArrayList<String> data = new ArrayList<String>();
 	ArrayList<Double> energies = new ArrayList<Double>();
@@ -92,7 +95,15 @@ public class Simulation extends SwingWorker<Void, Void>{
 		atomsFactor=trueNumberOfAtoms/numberOfAtoms;
 		elementMass=(float) (molMass/(6.02*Math.pow(10.0,23.0)));
 		
+		float trueElementV=elementMass/density;
+		double trueElementRadius=Math.pow(trueElementV*3/(3.14*4),1.0/3.0);
 		float elementV=(float) ((elementMass/density)*atomsFactor);
+		double elementRadiusFactor=10*Math.pow(elementV*3/(3.14*4),1.0/3.0)/trueElementRadius;
+		
+		if(options.element.equals(resourceBundle.getString("options.element1")))
+			atomRadius=uranRadius*elementRadiusFactor;
+		else if(options.element.equals(resourceBundle.getString("options.element2")))
+			atomRadius=plutonRadius*elementRadiusFactor;
 		
 		//Adding atomic net
 		if (shape.equals("Cube")){
@@ -106,8 +117,7 @@ public class Simulation extends SwingWorker<Void, Void>{
 		}
 		numberOfAtoms=atoms.size();
 		atomsFactor=trueNumberOfAtoms/numberOfAtoms;
-		Random r = new Random();
-		Particle startAtom = atoms.get(r.nextInt(atoms.size()));
+		Particle startAtom = atoms.get(0);
 		neutrons.add(new Particle(startAtom.x,startAtom.y,startAtom.z,0,0,0,true));
 		numberOfNeutrons++;
 		System.out.println("Atoms size: "+atoms.size());
@@ -142,7 +152,6 @@ public class Simulation extends SwingWorker<Void, Void>{
 		neutron.x+=neutron.dx;
 		neutron.y+=neutron.dy;
 		neutron.z+=neutron.dz;
-		
 	}
 	
 	boolean boundaryProblemCube(Particle neutron){
@@ -218,11 +227,11 @@ public class Simulation extends SwingWorker<Void, Void>{
 			float dz=0;
 			if (shape.equals("Cube")){
 				dx=(float)(Math.pow(-1, rand.nextInt(1))*distance*rand.nextFloat());
-				dy=(float) (Math.pow(-1, rand.nextInt(1))*Math.sqrt(Math.pow(distance,2)-Math.pow(dx,2))*rand.nextFloat());
-				dz=(float) (Math.pow(-1, rand.nextInt(1))*Math.sqrt(Math.pow(distance,2)-Math.pow(dx,2)-Math.pow(dy,2)));
+				dy=(float)(Math.pow(-1, rand.nextInt(1))*Math.sqrt(Math.pow(distance,2)-Math.pow(dx,2))*rand.nextFloat());
+				dz=(float)(Math.pow(-1, rand.nextInt(1))*Math.sqrt(Math.pow(distance,2)-Math.pow(dx,2)-Math.pow(dy,2)));
 			}
 			else if(shape.equals("Ball")){
-				dx=(float)(Math.pow(-1, rand.nextInt(1))*distance*rand.nextFloat());
+				dx=(float) (Math.pow(-1, rand.nextInt(1))*distance);
 				float dxx=(float) Math.abs(dx*rand.nextFloat());
 				float dxy=(float) (Math.sqrt(Math.pow(dx,2)-Math.pow(dxx,2))*rand.nextFloat());
 				float dxz=(float) Math.sqrt(Math.pow(dx,2)-Math.pow(dxx,2)-Math.pow(dxy,2));
@@ -238,10 +247,11 @@ public class Simulation extends SwingWorker<Void, Void>{
 	void collisionAtom(int i, Random rand){
 		double distanceX=0, distanceY=0, distanceZ=0;
 		if (shape.equals("Cube")){
-			distanceX=distance; distanceY=distance; distanceZ=distance;
+			distanceX=atomRadius; distanceY=atomRadius;
+			distanceZ=atomRadius;
 		}
 		else{
-			distanceX=distance; distanceY=3.14/(3.0*Math.round((float)(neutrons.get(i).x/distance))); 
+			distanceX=atomRadius; distanceY=3.14/(3.0*Math.round((float)(neutrons.get(i).x/distance))); 
 			distanceZ=3.14/(3.0*Math.round((float)(neutrons.get(i).x/distance)));
 		}
 		for (int j=0; j<atoms.size(); j++){
