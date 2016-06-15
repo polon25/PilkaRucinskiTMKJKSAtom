@@ -98,7 +98,11 @@ public class Simulation extends SwingWorker<Void, Void>{
 		float trueElementV=elementMass/density;
 		double trueElementRadius=Math.pow(trueElementV*3/(3.14*4),1.0/3.0);
 		float elementV=(float) ((elementMass/density)*atomsFactor);
-		double elementRadiusFactor=10*Math.pow(elementV*3/(3.14*4),1.0/3.0)/trueElementRadius;
+		double elementRadiusFactor=Math.pow(elementV*3/(3.14*4),1.0/3.0)/trueElementRadius;
+		
+		if(shape.equals("Cube"))
+			elementRadiusFactor*=1+9*options.m*heavisideFunction(100.01-options.m)/100
+				+10*heavisideFunction(options.m-100);
 		
 		if(options.element.equals(resourceBundle.getString("options.element1")))
 			atomRadius=uranRadius*elementRadiusFactor;
@@ -347,5 +351,12 @@ public class Simulation extends SwingWorker<Void, Void>{
 		this.cancel(true);
 		Interface.energy.validate();
 		return null;
+	}
+	
+	int heavisideFunction(double x){
+		if(x>0)
+			return 1;
+		else
+			return 0;
 	}
 }
