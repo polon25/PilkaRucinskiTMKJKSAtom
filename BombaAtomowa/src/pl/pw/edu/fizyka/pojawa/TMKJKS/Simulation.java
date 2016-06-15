@@ -69,7 +69,7 @@ public class Simulation extends SwingWorker<Void, Void>{
 		float density=0;
 		a=options.a;
 		r=options.r;
-		massProbabilityAdd=(int)(math.heavisideFunction(15-options.m)*(15-options.m));
+		massProbabilityAdd=(int)(math.heavisideFunction(20-options.m)*(20-options.m));
 		
 		//Setting element
 		if(options.element.equals(resourceBundle.getString("options.element1"))){
@@ -106,6 +106,8 @@ public class Simulation extends SwingWorker<Void, Void>{
 		if(shape.equals("Cube"))
 			elementRadiusFactor*=1+5.3*options.m*math.heavisideFunction(100.01-options.m)/100
 				+5.3*math.heavisideFunction(options.m-100);
+		else
+			elementRadiusFactor*=1-math.heavisideFunction(15-options.m)*(15-options.m)/15;
 		
 		if(options.element.equals(resourceBundle.getString("options.element1")))
 			atomRadius=uranRadius*elementRadiusFactor;

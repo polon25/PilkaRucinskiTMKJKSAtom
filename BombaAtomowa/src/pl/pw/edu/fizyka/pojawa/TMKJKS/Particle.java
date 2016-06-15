@@ -33,9 +33,8 @@ public class Particle {
 				Math.abs(this.z-particle.z)<distanceZ){
 			if(r<85||first)
 				change=1;
-			else if (r>99){
+			else if (r>99)
 				change=3;
-			}
 			else
 				change=2;
 		}
