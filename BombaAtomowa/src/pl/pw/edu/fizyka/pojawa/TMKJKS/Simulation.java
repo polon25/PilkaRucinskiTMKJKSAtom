@@ -104,8 +104,8 @@ public class Simulation extends SwingWorker<Void, Void>{
 		double elementRadiusFactor=Math.pow(elementV*3/(3.14*4),1.0/3.0)/trueElementRadius;
 		
 		if(shape.equals("Cube"))
-			elementRadiusFactor*=1+5.3*options.m*math.heavisideFunction(100.01-options.m)/100
-				+5.3*math.heavisideFunction(options.m-100);
+			elementRadiusFactor*=1+7.5*(options.m*math.heavisideFunction(100.01-options.m)/100
+				+math.heavisideFunction(options.m-100));
 		else
 			elementRadiusFactor*=1-math.heavisideFunction(15-options.m)*(15-options.m)/15;
 		
