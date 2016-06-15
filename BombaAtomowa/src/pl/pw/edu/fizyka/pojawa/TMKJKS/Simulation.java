@@ -69,8 +69,6 @@ public class Simulation extends SwingWorker<Void, Void>{
 		float density=0;
 		a=options.a;
 		r=options.r;
-		
-		
 		massProbabilityAdd=(int)(math.heavisideFunction(15-options.m)*(15-options.m));
 		
 		//Setting element
