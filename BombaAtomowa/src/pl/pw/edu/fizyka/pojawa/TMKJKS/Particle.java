@@ -35,7 +35,6 @@ public class Particle {
 				change=1;
 			else if (r>99){
 				change=3;
-				System.out.println("Elastic collision");
 			}
 			else
 				change=2;
