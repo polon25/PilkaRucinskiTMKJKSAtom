@@ -27,11 +27,16 @@ public class Particle {
 		dz=DZ;
 		first=First;
 	}
-	public void interact(Particle particle, int r, double distanceX, double distanceY, double distanceZ){//0-nothing, 1-fission of atom, 2-atom takes neutron
+	public void interact(Particle particle, int r, double distanceX, double distanceY, double distanceZ){
+		//0-nothing, 1-fission of atom, 2-atom takes neutron, 3-elastic collision
 		if (Math.abs(this.x-particle.x)<distanceX&&Math.abs(this.y-particle.y)<distanceY&&
 				Math.abs(this.z-particle.z)<distanceZ){
 			if(r<85||first)
 				change=1;
+			else if (r>99){
+				change=3;
+				System.out.println("Elastic collision");
+			}
 			else
 				change=2;
 		}

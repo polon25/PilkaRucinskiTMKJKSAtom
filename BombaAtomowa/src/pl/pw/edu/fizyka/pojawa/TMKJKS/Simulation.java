@@ -40,9 +40,11 @@ public class Simulation extends SwingWorker<Void, Void>{
 	boolean reflectMaterial = false;
 	int numberOfCollisions=0;
 	int numberOfFission=0;
+	int massProbabilityAdd=0;
 	
 	Interface Interface;
 	SIPrefixes prefixes = new SIPrefixes();
+	MathFunctions math = new MathFunctions();
 	
 	double atomsFactor=1;//atoms in real=k*atoms in simulation
 	double atomRadius=0;
@@ -67,6 +69,9 @@ public class Simulation extends SwingWorker<Void, Void>{
 		float density=0;
 		a=options.a;
 		r=options.r;
+		
+		
+		massProbabilityAdd=(int)(math.heavisideFunction(15-options.m)*(15-options.m));
 		
 		//Setting element
 		if(options.element.equals(resourceBundle.getString("options.element1"))){
@@ -101,8 +106,8 @@ public class Simulation extends SwingWorker<Void, Void>{
 		double elementRadiusFactor=Math.pow(elementV*3/(3.14*4),1.0/3.0)/trueElementRadius;
 		
 		if(shape.equals("Cube"))
-			elementRadiusFactor*=1+9*options.m*heavisideFunction(100.01-options.m)/100
-				+10*heavisideFunction(options.m-100);
+			elementRadiusFactor*=1+5.3*options.m*math.heavisideFunction(100.01-options.m)/100
+				+5.3*math.heavisideFunction(options.m-100);
 		
 		if(options.element.equals(resourceBundle.getString("options.element1")))
 			atomRadius=uranRadius*elementRadiusFactor;
@@ -259,7 +264,8 @@ public class Simulation extends SwingWorker<Void, Void>{
 			distanceZ=3.14/(3.0*Math.round((float)(neutrons.get(i).x/distance)));
 		}
 		for (int j=0; j<atoms.size(); j++){
-			neutrons.get(i).interact(atoms.get(j), rand.nextInt(100), distanceX, distanceY, distanceZ);
+			neutrons.get(i).interact(atoms.get(j), rand.nextInt(100+massProbabilityAdd), 
+					distanceX, distanceY, distanceZ);
 			if(neutrons.get(i).change==1){
 				fission(rand, i, j);
 				numberOfAtoms--;
@@ -274,6 +280,13 @@ public class Simulation extends SwingWorker<Void, Void>{
 				numberOfCollisions++;
 				numberOfNeutrons--;
 				i--;
+				break;
+			}
+			else if(neutrons.get(i).change==3){
+				neutrons.get(i).dx*=-1;
+				neutrons.get(i).dy*=-1;
+				neutrons.get(i).dz*=-1;
+				numberOfCollisions++;
 				break;
 			}
 		}
@@ -351,12 +364,5 @@ public class Simulation extends SwingWorker<Void, Void>{
 		this.cancel(true);
 		Interface.energy.validate();
 		return null;
-	}
-	
-	int heavisideFunction(double x){
-		if(x>0)
-			return 1;
-		else
-			return 0;
 	}
 }
