@@ -62,16 +62,16 @@ public class Options extends JFrame implements FocusListener {
 	String stringSimulationType[]={resourceBundle.getString("options.accuracy1"), 
 			resourceBundle.getString("options.accuracy2"), 
 			resourceBundle.getString("options.accuracy3")};
-	final JComboBox simulationType = new JComboBox(stringSimulationType);
+	final JComboBox<String> simulationType = new JComboBox<String>(stringSimulationType);
 	String stringElements[]={resourceBundle.getString("options.element1"),
 			resourceBundle.getString("options.element2")};
-	final JComboBox elements = new JComboBox(stringElements);
+	final JComboBox<String> elements = new JComboBox<String>(stringElements);
 	String stringShapes[]={resourceBundle.getString("options.shape1"), 
 			resourceBundle.getString("options.shape2")};
-	final JComboBox shapes = new JComboBox(stringShapes);
+	final JComboBox<String> shapes = new JComboBox<String>(stringShapes);
 	String stringSMaterials[]={resourceBundle.getString("options.yes"), 
 			resourceBundle.getString("options.no")};
-	final JComboBox sMaterials = new JComboBox(stringSMaterials);
+	final JComboBox<String> sMaterials = new JComboBox<String>(stringSMaterials);
 	
 	JButton okButton=new JButton("OK");
 	
